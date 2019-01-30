@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.example.cs4500sp19s3jga.models.User;
+import com.example.cs4500_sp19_noideainc.models.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 	@Query(value="SELECT user FROM User user")
