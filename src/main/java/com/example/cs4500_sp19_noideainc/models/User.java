@@ -1,13 +1,15 @@
 package com.example.cs4500_sp19_noideainc.models;
+import com.example.cs4500_sp19_noideainc.repositories.ServiceRepository;
+
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.ManyToMany;
 
 @Entity
-@Table(name="users")
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -17,10 +19,14 @@ public class User {
     private String firstName;
     private String lastName;
     private String role;
+    @ManyToMany(mappedBy="providers")
+    private List<Service> services;
     public User() {}
-    public User(Integer i, String username, String firstName, String lastName) {
-        this.id = i;
+    public User(Integer id, String username, String password, String firstName, String lastName) {
+        super();
+        this.id = id;
         this.username = username;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -59,5 +65,14 @@ public class User {
     }
     public void setRole(String role) {
         this.role = role;
+    }
+    public List<Service> getServices() {
+        return services;
+    }
+    public Service getServiceById(Integer id) {
+        return services.get(id);
+    }
+    public void setServices(List<Service> services) {
+        this.services = services;
     }
 }
