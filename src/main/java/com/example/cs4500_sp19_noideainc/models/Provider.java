@@ -8,29 +8,35 @@ import javax.persistence.OneToMany;
 
 
 @Entity
-@Table(name="providers")
+@Table(name = "providers")
 public class Provider extends User {
     private String description;
     @OneToMany(mappedBy = "provider")
     private List<ServiceProviderAssociation> services;
 
-    public Provider() {super();}
+    public Provider() {
+        super();
+    }
+
     public Provider(Integer i, String username, String firstName, String lastName, String description, List<ServiceProviderAssociation> services) {
         super(i, username, firstName, lastName);
         this.description = description;
         this.services = services;
     }
-    
+
     public String getDescription() {
         return this.description;
     }
+
     public void setDescription(String description) {
-        this.description = description;   
+        this.description = description;
     }
-    public List<ServiceProviderAssociation> getservices() {
+
+    public List<ServiceProviderAssociation> getServices() {
         return this.services;
     }
-    public void setservices(List<ServiceProviderAssociation> services) {
+
+    public void setServices(List<ServiceProviderAssociation> services) {
         this.services = services;
     }
 }
