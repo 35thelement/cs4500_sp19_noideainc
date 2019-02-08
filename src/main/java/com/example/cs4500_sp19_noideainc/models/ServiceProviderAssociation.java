@@ -28,5 +28,4 @@ public class ServiceProviderAssociation {
         this.service = service;
         this.id = new ServiceProviderId(provider.getId(), service.getId());
     }
-
 }
