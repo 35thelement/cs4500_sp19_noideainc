@@ -20,4 +20,17 @@ public class Provider extends User {
         this.description = description;
         this.services = services;
     }
+    
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;   
+    }
+    public List<ServiceProviderAssociation> getservices() {
+        return this.services;
+    }
+    public void setservices(List<ServiceProviderAssociation> services) {
+        this.services = services;
+    }
 }
