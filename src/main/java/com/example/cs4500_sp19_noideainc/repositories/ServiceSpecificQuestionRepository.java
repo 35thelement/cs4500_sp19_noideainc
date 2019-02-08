@@ -14,6 +14,4 @@ public interface ServiceSpecificQuestionRepository extends CrudRepository<Servic
 	public List<ServiceSpecificQuestion> findAllServiceSpecificQuestions();
 	@Query(value="SELECT serviceSpecificQuestion FROM ServiceSpecificQuestion serviceSpecificQuestion WHERE serviceSpecificQuestion.id=:id")
 	public ServiceSpecificQuestion findServiceSpecificQuestionById(@Param("id") Integer id);
-	//@Query(value="SELECT serviceSpecificQuestion FROM ServiceSpecificQuestion serviceSpecificQuestion WHERE serviceSpecificQuestion.service.id=:serviceId")
-	//public List<ServiceSpecificQuestion> findServiceSpecificQuestionsByService(@Param("serviceid") Integer serviceId);
 }

@@ -52,4 +52,3 @@ public class ServiceSpecificQuestion {
 		this.type = type;
 	}
 }
-
