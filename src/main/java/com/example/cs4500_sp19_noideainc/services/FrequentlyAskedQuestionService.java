@@ -17,19 +17,23 @@ import com.example.cs4500_sp19_noideainc.repositories.FrequentlyAskedQuestionRep
 public class FrequentlyAskedQuestionService {
 	@Autowired
 	FrequentlyAskedQuestionRepository faqRepository;
+	
 	@GetMapping("/api/faqs")
 	public List<FrequentlyAskedQuestion> findAllFrequentlyAskedQuestion() {
 		return faqRepository.findAllFrequentlyAskedQuestions();
 	}
+	
 	@GetMapping("/api/faqs/{faqId}")
 	public FrequentlyAskedQuestion findFrequentlyAskedQuestionById(
 			@PathVariable("faqId") Integer id) {
 		return faqRepository.findFrequentlyAskedQuestionById(id);
 	}
+	
 	@PostMapping("/api/faqs")
 	public FrequentlyAskedQuestion createFrequentlyAskedQuestion(@RequestBody FrequentlyAskedQuestion faq) {
 		return faqRepository.save(faq);
 	}
+	
 	@PutMapping("/api/faqs/{faqId}")
 	public FrequentlyAskedQuestion updateFrequentlyAskedQuestion(
 			@PathVariable("faqId") Integer id,
@@ -38,11 +42,13 @@ public class FrequentlyAskedQuestionService {
 		faq.setQuestion(faqUpdates.getQuestion());
 		return faqRepository.save(faq);
 	}
+	
 	@DeleteMapping("/api/faqs/{faqId}")
 	public void deleteFrequentlyAskedQuestion(
 			@PathVariable("faqId") Integer id) {
 		faqRepository.deleteById(id);
 	}
+	
 	@GetMapping("/api/faqs/{faqId}/answers")
 	public List<FrequentlyAskedAnswer> findAllFrequentlyAskedAnswersByFAQId(
 			@PathVariable("faqId") Integer id) {
