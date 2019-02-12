@@ -15,18 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.cs4500_sp19_noideainc.models.ServiceAnswer;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceAnswerRepository;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 @RestController
+@CrossOrigin(origins="*")
 public class ServiceAnswerService {
 	@Autowired
-	ServiceAnswerRepository serviceAnswerRepository;
-	@GetMapping("/api/answers")
-	public List<ServiceAnswer> findAllServiceAnswer() {
-		return serviceAnswerRepository.findAllServiceAnswer();
+	ServiceAnswerRepository repository;
+	@GetMapping("/api/service-answers")
+	public List<ServiceAnswer> findAllServiceAnswers() {
+		return repository.findAllServiceAnswer();
 	}
-	@GetMapping("/api/answers/{serviceAnswerId}")
+	@GetMapping("/api/service-answers/{id}")
 	public ServiceAnswer findServiceAnswerById(
-			@PathVariable("serviceAnswerId") Integer id) {
-		return serviceAnswerRepository.findServiceAnswerById(id);
+			@PathVariable("id") Integer id) {
+		return repository.findServiceAnswerById(id);
 	}
-
 }
