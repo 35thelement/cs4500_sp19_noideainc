@@ -36,7 +36,7 @@ public class ServiceService {
 			@PathVariable("serviceId") Integer id,
 			@RequestBody Service serviceUpdates) {
 		Service service = serviceRepository.findServiceById(id);
-		service.setServiceName(serviceUpdates.getServiceName());
+		service.setTitle(serviceUpdates.getTitle());
 		return serviceRepository.save(service);
 	}
 	@DeleteMapping("/api/services/{serviceId}")

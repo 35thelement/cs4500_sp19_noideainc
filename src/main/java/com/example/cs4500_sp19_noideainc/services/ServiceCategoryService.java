@@ -36,7 +36,7 @@ public class ServiceCategoryService {
 			@PathVariable("serviceCategoryId") Integer id,
 			@RequestBody ServiceCategory serviceUpdates) {
 		ServiceCategory serviceCategory = serviceRepository.findServiceCategoryById(id);
-		serviceCategory.setServiceCategoryName(serviceUpdates.getServiceCategoryName());
+		serviceCategory.setTitle(serviceUpdates.getTitle());
 		return serviceRepository.save(serviceCategory);
 	}
 	@DeleteMapping("/api/categories/{serviceCategoryId}")

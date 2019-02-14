@@ -34,7 +34,7 @@ public class UserService {
     @PutMapping("/api/users/{userId}")
     public User updateUser(@PathVariable("userId") Integer id, @RequestBody User userUpdates) {
         User user = userRepository.findUserById(id);
-        user.setRole(userUpdates.getRole());
+        user.setUsername(userUpdates.getUsername());
         return userRepository.save(user);
     }
 
