@@ -1,0 +1,1 @@
+INSERT INTO service_answers (id, true_false_answer, max_range, min_range, choice) VALUES (555, 'True', '1', '0', '1');
