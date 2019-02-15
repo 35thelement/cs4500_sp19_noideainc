@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.cs4500_sp19_noideainc.models.ServiceAnswer;
 import com.example.cs4500_sp19_noideainc.models.ServiceSpecificQuestion;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceAnswerRepository;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceSpecificQuestionRepository;
 
 @RestController
+@CrossOrigin(origins="*")
 public class ServiceSpecificQuestionService {
 	@Autowired
 	ServiceSpecificQuestionRepository serviceSpecificQuestionRepository;
