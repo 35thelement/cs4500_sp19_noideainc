@@ -11,7 +11,7 @@ import com.example.cs4500_sp19_noideainc.models.FrequentlyAskedQuestion;
 
 // This is the repository for FrequentlyAskedQuestion (FAQ) class, which 
 // will implement all database operations related the FrequentlyAskedQuestion Data Model
-public interface FrequentlyAskedQuestionRepository extends CrudRepository<FrequentlyAskedQuestion, Integer> {
+public interface FAQRepository extends CrudRepository<FrequentlyAskedQuestion, Integer> {
 	
 	// find all FAQs in the table
 	@Query(value="SELECT frequentlyAskedQuestion FROM FrequentlyAskedQuestion frequentlyAskedQuestion")
