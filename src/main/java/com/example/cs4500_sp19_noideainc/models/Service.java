@@ -14,42 +14,50 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="services")
+@Table(name = "services")
 public class Service {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
     @ManyToMany
     @JsonIgnore
     @JoinTable(
-            name="PROVIDERS_SERVICES",
-            joinColumns=@JoinColumn(name="SERVICE_ID", referencedColumnName="ID"),
-            inverseJoinColumns=@JoinColumn(name="USER_ID", referencedColumnName="ID"))
+            name = "PROVIDERS_SERVICES",
+            joinColumns = @JoinColumn(name = "SERVICE_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
     private List<User> providers;
-    @ManyToMany(mappedBy="services")
+    @ManyToMany(mappedBy = "services")
     private List<ServiceCategory> serviceCategories;
+
     public List<ServiceCategory> getServiceCategories() {
         return serviceCategories;
     }
+
     public void setServiceCategories(List<ServiceCategory> serviceCategories) {
         this.serviceCategories = serviceCategories;
     }
+
     public List<User> getProviders() {
         return providers;
     }
+
     public void setProviders(List<User> providers) {
         this.providers = providers;
     }
+
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
