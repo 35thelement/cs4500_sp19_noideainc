@@ -28,8 +28,8 @@ public class User {
     @JsonIgnore
     @JoinTable(
             name = "PROVIDERS_SERVICES",
-            joinColumns = @JoinColumn(name = "SERVICE_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
+            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "SERVICE_ID", referencedColumnName = "ID"))
     private List<Service> services;
 
     public List<Service> getServices() {
