@@ -18,7 +18,7 @@ import com.example.cs4500_sp19_noideainc.repositories.ServiceAnswerRepository;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceSpecificQuestionRepository;
 
 @RestController
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 public class ServiceSpecificQuestionService {
 	@Autowired
 	ServiceSpecificQuestionRepository serviceSpecificQuestionRepository;
