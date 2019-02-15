@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cs4500_sp19_noideainc.models.Service;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceRepository;
+import com.example.cs4500_sp19_noideainc.repositories.UserRepository;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class ServiceService {
 	@Autowired
 	ServiceRepository serviceRepository;
+	@Autowired
+	UserRepository userRepository;
 	@GetMapping("/api/services")
 	public List<Service> findAllService() {
 		return serviceRepository.findAllServices();
