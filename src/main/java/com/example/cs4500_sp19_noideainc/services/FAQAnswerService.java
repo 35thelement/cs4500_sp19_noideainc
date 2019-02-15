@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cs4500_sp19_noideainc.models.FrequentlyAskedAnswer;
@@ -25,5 +29,22 @@ public class FAQAnswerService {
 	public FrequentlyAskedAnswer findFrequentlyAskedQuestionById(
 			@PathVariable("id") Integer id) {
 		return repository.findFrequentlyAskedAnswerById(id);
+	}
+	@PostMapping("/api/faq-answers")
+	public FrequentlyAskedAnswer createFrequentlyAskedAnswer(@RequestBody FrequentlyAskedAnswer answer) {
+		return repository.save(answer);
+	}
+	@PutMapping("/api/faq-answers/{answerId}")
+	public FrequentlyAskedAnswer updateFrequentlyAskedAnswer(
+			@PathVariable("answerId") Integer id,
+			@RequestBody FrequentlyAskedAnswer frequentlyAskedAnswerUpdates) {
+		FrequentlyAskedAnswer answer = repository.findFrequentlyAskedAnswerById(id);
+		answer.setAnswer(frequentlyAskedAnswerUpdates.getAnswer());
+		return repository.save(answer);
+	}
+	@DeleteMapping("/api/faq-answers/{answerId}")
+	public void deleteFrequentlyAskedAnswer(
+			@PathVariable("answerId") Integer id) {
+		repository.deleteById(id);
 	}
 }
