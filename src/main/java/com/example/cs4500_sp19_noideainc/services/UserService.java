@@ -61,4 +61,15 @@ public class UserService {
     public void deleteUser(@PathVariable("userId") Integer id) {
         userRepository.deleteById(id);
     }
+
+    @DeleteMapping("/api/users/{userId}/services/{serviceId}")
+    public User deleteServiceFromUser(@PathVariable("userId") Integer userId,
+                                     @PathVariable("serviceId") Integer serviceId) {
+        Service service = serviceRepository.findServiceById(serviceId);
+        User user = userRepository.findUserById(userId);
+        List<Service> services = user.getServices();
+        services.remove(service);
+        user.setServices(services);
+        return userRepository.save(user);
+    }
 }
