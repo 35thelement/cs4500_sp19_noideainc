@@ -46,4 +46,9 @@ public class ServiceService {
 			@PathVariable("serviceId") Integer id) {
 		serviceRepository.deleteById(id);
 	}
+	@GetMapping("/api/users/{userId}/services")
+    public List<Service> findAllServicesForUser(
+            @PathVariable("userId") Integer userId) {
+        return userRepository.findUserById(userId).getServices();
+    }
 }
