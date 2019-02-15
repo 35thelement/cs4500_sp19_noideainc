@@ -11,6 +11,7 @@ import com.example.cs4500_sp19_noideainc.models.User;
 import com.example.cs4500_sp19_noideainc.repositories.UserRepository;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UserService {
     @Autowired
     UserRepository userRepository;
