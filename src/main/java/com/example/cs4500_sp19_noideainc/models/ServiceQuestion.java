@@ -17,8 +17,9 @@ public class ServiceQuestion {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
+  private String title;
   private String question;
-  private String type;
+  private QuestionType type;
   private String choices;
   @OneToMany(mappedBy="serviceQuestion")
   private List<ServiceAnswer> serviceAnswers;
@@ -28,16 +29,22 @@ public class ServiceQuestion {
   public void setId(Integer id) {
     this.id = id;
   }
+  public String getTitle() {
+	return title;
+  }
+  public void setTitle(String title) {
+	this.title = title;
+  }
   public String getQuestion() {
     return question;
   }
   public void setQuestion(String question) {
     this.question = question;
   }
-  public String getType() {
+  public QuestionType getType() {
     return type;
   }
-  public void setType(String type) {
+  public void setType(QuestionType type) {
     this.type = type;
   }
   public String getChoices() {
