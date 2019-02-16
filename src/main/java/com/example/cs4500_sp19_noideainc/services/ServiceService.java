@@ -2,6 +2,7 @@ package com.example.cs4500_sp19_noideainc.services;
 
 import java.util.List;
 
+import com.example.cs4500_sp19_noideainc.models.ServiceCategory;
 import com.example.cs4500_sp19_noideainc.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,6 +40,11 @@ public class ServiceService {
     @GetMapping("/api/services/{serviceId}/users")
     public List<User> findAllUsersForService(@PathVariable("serviceId") Integer serviceId) {
         return serviceRepository.findServiceById(serviceId).getProviders();
+    }
+
+    @GetMapping("/api/services/{serviceId}/categories")
+    public List<ServiceCategory> findAllCategoriesForService(@PathVariable("serviceId") Integer serviceId) {
+        return serviceRepository.findServiceById(serviceId).getServiceCategories();
     }
 
     @PostMapping("/api/services")
