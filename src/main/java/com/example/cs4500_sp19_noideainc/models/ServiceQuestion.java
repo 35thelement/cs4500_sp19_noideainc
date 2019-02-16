@@ -19,7 +19,7 @@ public class ServiceQuestion {
   private Integer id;
   private String title;
   private String question;
-  private String type;
+  private QuestionType type;
   private String choices;
   @OneToMany(mappedBy="serviceQuestion")
   private List<ServiceAnswer> serviceAnswers;
@@ -41,10 +41,10 @@ public class ServiceQuestion {
   public void setQuestion(String question) {
     this.question = question;
   }
-  public String getType() {
+  public QuestionType getType() {
     return type;
   }
-  public void setType(String type) {
+  public void setType(QuestionType type) {
     this.type = type;
   }
   public String getChoices() {
