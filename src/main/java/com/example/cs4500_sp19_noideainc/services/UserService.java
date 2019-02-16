@@ -16,19 +16,37 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ServiceRepository serviceRepository;
+
     @GetMapping("/api/users")
     public List<User> findAllUser() {
         return userRepository.findAllUsers();
     }
 
     @GetMapping("/api/users/{userId}")
-    public User findUserById(
-            @PathVariable("userId") Integer id) {
+    public User findUserById(@PathVariable("userId") Integer id) {
         return userRepository.findUserById(id);
+    }
+
+    @GetMapping("/api/users/{userId}/services")
+    public List<Service> findAllServicesForUser(@PathVariable("userId") Integer userId) {
+        return userRepository.findUserById(userId).getServices();
     }
 
     @PostMapping("/api/users")
     public User createUser(@RequestBody User user) {
+        return userRepository.save(user);
+    }
+
+    @PostMapping("/api/users/{userId}/services/{serviceId}")
+    public User createServiceForUser(@PathVariable("userId") Integer userId,
+                                     @PathVariable("serviceId") Integer serviceId) {
+        Service service = serviceRepository.findServiceById(serviceId);
+        User user = userRepository.findUserById(userId);
+        List<Service> services = user.getServices();
+        services.add(service);
+        user.setServices(services);
         return userRepository.save(user);
     }
 
@@ -42,5 +60,16 @@ public class UserService {
     @DeleteMapping("/api/users/{userId}")
     public void deleteUser(@PathVariable("userId") Integer id) {
         userRepository.deleteById(id);
+    }
+
+    @DeleteMapping("/api/users/{userId}/services/{serviceId}")
+    public User deleteServiceFromUser(@PathVariable("userId") Integer userId,
+                                     @PathVariable("serviceId") Integer serviceId) {
+        Service service = serviceRepository.findServiceById(serviceId);
+        User user = userRepository.findUserById(userId);
+        List<Service> services = user.getServices();
+        services.remove(service);
+        user.setServices(services);
+        return userRepository.save(user);
     }
 }

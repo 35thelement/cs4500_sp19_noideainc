@@ -18,32 +18,37 @@ import com.example.cs4500_sp19_noideainc.repositories.ServiceCategoryRepository;
 @RestController
 @CrossOrigin(origins = "*")
 public class ServiceCategoryService {
-	@Autowired
-	ServiceCategoryRepository serviceRepository;
-	@GetMapping("/api/categories")
-	public List<ServiceCategory> findAllServiceCategories() {
-		return serviceRepository.findAllServiceCategories();
-	}
-	@GetMapping("/api/categories/{serviceCategoryId}")
-	public ServiceCategory findServiceCategoryById(
-			@PathVariable("serviceCategoryId") Integer id) {
-		return serviceRepository.findServiceCategoryById(id);
-	}
-	@PostMapping("/api/categories")
-	public ServiceCategory createServiceCategory(@RequestBody ServiceCategory serviceCategory) {
-		return serviceRepository.save(serviceCategory);
-	}
-	@PutMapping("/api/categories/{serviceCategoryId}")
-	public ServiceCategory updateServiceCategory(
-			@PathVariable("serviceCategoryId") Integer id,
-			@RequestBody ServiceCategory serviceUpdates) {
-		ServiceCategory serviceCategory = serviceRepository.findServiceCategoryById(id);
-		serviceCategory.setTitle(serviceUpdates.getTitle());
-		return serviceRepository.save(serviceCategory);
-	}
-	@DeleteMapping("/api/categories/{serviceCategoryId}")
-	public void deleteServiceCategory(
-			@PathVariable("serviceCategoryId") Integer id) {
-		serviceRepository.deleteById(id);
-	}
+    @Autowired
+    ServiceCategoryRepository serviceCategoryRepository;
+
+    @GetMapping("/api/categories")
+    public List<ServiceCategory> findAllServiceCategories() {
+        return serviceCategoryRepository.findAllServiceCategories();
+    }
+
+    @GetMapping("/api/categories/{serviceCategoryId}")
+    public ServiceCategory findServiceCategoryById(
+            @PathVariable("serviceCategoryId") Integer id) {
+        return serviceCategoryRepository.findServiceCategoryById(id);
+    }
+
+    @PostMapping("/api/categories")
+    public ServiceCategory createServiceCategory(@RequestBody ServiceCategory serviceCategory) {
+        return serviceCategoryRepository.save(serviceCategory);
+    }
+
+    @PutMapping("/api/categories/{serviceCategoryId}")
+    public ServiceCategory updateServiceCategory(
+            @PathVariable("serviceCategoryId") Integer id,
+            @RequestBody ServiceCategory serviceUpdates) {
+        ServiceCategory serviceCategory = serviceCategoryRepository.findServiceCategoryById(id);
+        serviceCategory.setTitle(serviceUpdates.getTitle());
+        return serviceCategoryRepository.save(serviceCategory);
+    }
+
+    @DeleteMapping("/api/categories/{serviceCategoryId}")
+    public void deleteServiceCategory(
+            @PathVariable("serviceCategoryId") Integer id) {
+        serviceCategoryRepository.deleteById(id);
+    }
 }
