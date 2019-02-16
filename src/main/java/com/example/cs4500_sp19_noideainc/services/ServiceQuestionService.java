@@ -3,10 +3,7 @@ package com.example.cs4500_sp19_noideainc.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.cs4500_sp19_noideainc.models.ServiceQuestion;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceQuestionRepository;
@@ -15,14 +12,38 @@ import com.example.cs4500_sp19_noideainc.repositories.ServiceQuestionRepository;
 @CrossOrigin(origins="*")
 public class ServiceQuestionService {
   @Autowired
-  ServiceQuestionRepository repository;
+  ServiceQuestionRepository questionRepository;
+  
   @GetMapping("/api/service-questions")
   public List<ServiceQuestion> findAllServiceQuestions() {
-    return repository.findAllServiceQuestions();
+    return questionRepository.findAllServiceQuestions();
   }
-  @GetMapping("/api/service-questions/{id}")
+  
+  @GetMapping("/api/service-questions/{questionId}")
   public ServiceQuestion findServiceQuestionById(
-          @PathVariable("id") Integer id) {
-    return repository.findServiceQuestionById(id);
+          @PathVariable("questionId") Integer questionId) {
+    return questionRepository.findServiceQuestionById(questionId);
   }
+  
+  @PostMapping("/api/service-questions")
+  public ServiceQuestion createServiceQuestion(@RequestBody ServiceQuestion serviceQuestion) {
+	  return questionRepository.save(serviceQuestion);
+  }
+  
+  @PutMapping("api/service-questions/{questionId}")
+  public ServiceQuestion updateServiceQuestion(@PathVariable("questionId") Integer id, @RequestBody ServiceQuestion questionUpdates) {
+	  ServiceQuestion serviceQuestion = questionRepository.findServiceQuestionById(id);
+	  serviceQuestion.setTitle(questionUpdates.getTitle());
+	  serviceQuestion.setQuestion(questionUpdates.getQuestion());
+	  serviceQuestion.setType(questionUpdates.getType());
+	  serviceQuestion.setChoices(questionUpdates.getChoices());
+	  
+	  return questionRepository.save(serviceQuestion);
+  }
+  
+  @DeleteMapping("api/service-questions/{questionId}")
+  public void deleteQuestion(@PathVariable("questionId") Integer id) {
+	  questionRepository.deleteById(id);
+  }
+  
 }
