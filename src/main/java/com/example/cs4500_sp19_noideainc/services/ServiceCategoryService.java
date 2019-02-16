@@ -43,6 +43,7 @@ public class ServiceCategoryService {
             @RequestBody ServiceCategory serviceUpdates) {
         ServiceCategory serviceCategory = serviceCategoryRepository.findServiceCategoryById(id);
         serviceCategory.setTitle(serviceUpdates.getTitle());
+        serviceCategory.setServices(serviceUpdates.getServices());
         return serviceCategoryRepository.save(serviceCategory);
     }
 
