@@ -54,6 +54,11 @@ public class UserService {
     public User updateUser(@PathVariable("userId") Integer id, @RequestBody User userUpdates) {
         User user = userRepository.findUserById(id);
         user.setUsername(userUpdates.getUsername());
+        user.setFirstName(userUpdates.getFirstName());
+        user.setLastName(userUpdates.getLastName());
+        user.setPassword(userUpdates.getPassword());
+        user.setServices(userUpdates.getServices());
+        user.setFrequentlyAskedAnswers(user.getFrequentlyAskedAnswers());
         return userRepository.save(user);
     }
 

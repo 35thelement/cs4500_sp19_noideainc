@@ -48,7 +48,7 @@ public class ServiceService {
 
     @PostMapping("/api/services/{serviceId}/users/{userId}")
     public Service createServiceForUser(@PathVariable("userId") Integer userId,
-                                     @PathVariable("serviceId") Integer serviceId) {
+                                        @PathVariable("serviceId") Integer serviceId) {
         Service service = serviceRepository.findServiceById(serviceId);
         User user = userRepository.findUserById(userId);
         List<User> providers = service.getProviders();
@@ -63,6 +63,8 @@ public class ServiceService {
             @RequestBody Service serviceUpdates) {
         Service service = serviceRepository.findServiceById(id);
         service.setTitle(serviceUpdates.getTitle());
+        service.setProviders(serviceUpdates.getProviders());
+        service.setServiceCategories(serviceUpdates.getServiceCategories());
         return serviceRepository.save(service);
     }
 
@@ -74,7 +76,7 @@ public class ServiceService {
 
     @DeleteMapping("/api/services/{serviceId}/users/{userId}")
     public Service deleteUserFromService(@PathVariable("userId") Integer userId,
-                                        @PathVariable("serviceId") Integer serviceId) {
+                                         @PathVariable("serviceId") Integer serviceId) {
         Service service = serviceRepository.findServiceById(serviceId);
         User user = userRepository.findUserById(userId);
         List<User> providers = service.getProviders();
