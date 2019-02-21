@@ -14,9 +14,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name="deliveryFee")
 public class DeliveryFee {
+
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
+	
+	// the constructor of DeliveryFee by given parameters
+	public DeliveryFee(float fee, Frequency frequency, boolean flat) {
+		super();
+		this.fee = fee;
+		this.frequency = frequency;
+		this.flat = flat;
+	}
 	
 	// all attributes of the delivery fee
 	private float fee;

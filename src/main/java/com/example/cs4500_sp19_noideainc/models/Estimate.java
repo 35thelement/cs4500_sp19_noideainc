@@ -76,7 +76,7 @@ public class Estimate {
     	if (getBaseFrequencyFee.isFlat()) {
     		finalEstimate = finalEstimate + getBaseFrequencyFee.getFee();
     	} else {
-    		finalEstimate = finalEstimate * ( 1 + getBaseFrequencyFee.getFee());
+    		finalEstimate = finalEstimate + this.basePrice * getBaseFrequencyFee.getFee();
     	}
     	
     	// consider the the discount frequency 
@@ -85,7 +85,7 @@ public class Estimate {
         	if (getSubscriptionFrequencyFee.isFlat()) {
         		finalEstimate = finalEstimate - getSubscriptionFrequencyFee.getFee();
         	} else {
-        		finalEstimate = finalEstimate * ( 1 - getSubscriptionFrequencyFee.getFee());
+        		finalEstimate = finalEstimate - this.basePrice * getSubscriptionFrequencyFee.getFee();
         	}
     	}
     	
@@ -94,7 +94,7 @@ public class Estimate {
     	if (getDeliveryFee.isFlat()) {
     		finalEstimate = finalEstimate + getDeliveryFee.getFee();
     	} else {
-    		finalEstimate = finalEstimate * ( 1 + getDeliveryFee.getFee());
+    		finalEstimate = finalEstimate + this.basePrice * getDeliveryFee.getFee();
     	}
     	
     	return finalEstimate;
