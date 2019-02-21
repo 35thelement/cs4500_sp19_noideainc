@@ -69,37 +69,19 @@ public class Estimate {
      * @param listDeliveryFree: a list of DeliveryFee information, get related frequency information in this list
      */
     public float getFees(List<DeliveryFee> listDeliveryFree) {
-    	float finalEstimate = this.basePrice;
-    	
-    	// consider base frequency
-    	DeliveryFee getBaseFrequencyFee = this.getFrequencyValue(listDeliveryFree, this.baseFrequency);
-    	if (getBaseFrequencyFee.isFlat()) {
-    		finalEstimate = finalEstimate + getBaseFrequencyFee.getFee();
-    	} else {
-    		finalEstimate = finalEstimate + this.basePrice * getBaseFrequencyFee.getFee();
-    	}
-    	
-    	// consider the the discount frequency 
-    	if (this.subscription) {
-        	DeliveryFee getSubscriptionFrequencyFee = this.getFrequencyValue(listDeliveryFree, this.subscriptionFrequency);
-        	if (getSubscriptionFrequencyFee.isFlat()) {
-        		finalEstimate = finalEstimate - getSubscriptionFrequencyFee.getFee();
-        	} else {
-        		finalEstimate = finalEstimate - this.basePrice * getSubscriptionFrequencyFee.getFee();
-        	}
-    	}
-    	
+    	float finalEstimate = 0;
+
     	// consider the the delivery frequency 
     	DeliveryFee getDeliveryFee = this.getFrequencyValue(listDeliveryFree, this.deliveryFrequency);
     	if (getDeliveryFee.isFlat()) {
-    		finalEstimate = finalEstimate + getDeliveryFee.getFee();
+    		finalEstimate = getDeliveryFee.getFee();
     	} else {
-    		finalEstimate = finalEstimate + this.basePrice * getDeliveryFee.getFee();
+    		finalEstimate = this.basePrice * getDeliveryFee.getFee();
     	}
+    	
     	
     	return finalEstimate;
     }
-    
     
     // find related DeliveryFee base on the given Frequency (Enum) in the list of deliverFees class
     private DeliveryFee getFrequencyValue(List<DeliveryFee> listDeliveryFree, Frequency frequency) {
@@ -113,6 +95,7 @@ public class Estimate {
     }
 
 	public float getEstimate() {
+		// this.estimate = this.basePrice + this.getFees() - this.getDiscount()
 		return estimate;
 	}
 	public void setEstimate(float estimate) {

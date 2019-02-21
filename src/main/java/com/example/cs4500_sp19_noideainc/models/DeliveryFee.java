@@ -21,7 +21,6 @@ public class DeliveryFee {
 	
 	// the constructor of DeliveryFee by given parameters
 	public DeliveryFee(float fee, Frequency frequency, boolean flat) {
-		super();
 		this.fee = fee;
 		this.frequency = frequency;
 		this.flat = flat;

@@ -38,37 +38,15 @@ public class DeliveryFeeEstimateTest {
 		init();
 		Estimate estimate = new Estimate(0f, 750f, Frequency.Weekday, false, Frequency.Weekday, Frequency.Weekday, service, user);
 		// test no frequency are added on the base price
-		assertEquals(750f, estimate.getFees(this.listDeliveryFee1));
-		
-		// test base frequency with fat fee
-		estimate.setBaseFrequency(Frequency.Weekend);
-		assertEquals(825f, estimate.getFees(this.listDeliveryFee1));
-		estimate.setBaseFrequency(Frequency.Holiday);
-		assertEquals(900f, estimate.getFees(this.listDeliveryFee1));
-		estimate.setBaseFrequency(Frequency.Emergency);
-		assertEquals(975f, estimate.getFees(this.listDeliveryFee1));
-		
-		// test for another base estimate
-		estimate.setBasePrice(500f);
-		estimate.setBaseFrequency(Frequency.Weekend);
-		assertEquals(575f, estimate.getFees(this.listDeliveryFee1));
-		
-		// test subscription frequency with fat fee
-		estimate.setSubscription(true);
-		estimate.setBaseFrequency(Frequency.Weekday); // make the base frequency remain 0
-		estimate.setSubscriptionFrequency(Frequency.Holiday);
-		assertEquals(350f, estimate.getFees(this.listDeliveryFee1));
+		assertEquals(0f, estimate.getFees(this.listDeliveryFee1));
 		
 		// test delivery frequency with fat fee
-		estimate.setSubscription(false);
-		estimate.setSubscriptionFrequency(Frequency.Weekday); // make the subscription frequency remain 0
-		estimate.setDeliveryFrequency(Frequency.Emergency);
-		assertEquals(725f, estimate.getFees(this.listDeliveryFee1));
-		
-		// test base frequency with fat fee and delivery frequency with fat fee and
-		estimate.setBaseFrequency(Frequency.Weekend);
 		estimate.setDeliveryFrequency(Frequency.Weekend);
-		assertEquals(650f, estimate.getFees(this.listDeliveryFee1));
+		assertEquals(75f, estimate.getFees(this.listDeliveryFee1));
+		estimate.setDeliveryFrequency(Frequency.Holiday);
+		assertEquals(150f, estimate.getFees(this.listDeliveryFee1));
+		estimate.setDeliveryFrequency(Frequency.Emergency);
+		assertEquals(225f, estimate.getFees(this.listDeliveryFee1));
 		
 	}
 }

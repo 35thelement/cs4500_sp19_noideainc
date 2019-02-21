@@ -14,8 +14,8 @@ import javax.persistence.Table;
  * for 10-20 additional miles, 20% for 20-40 additional miles
  */
 @Entity
-@Table(name="progressiveSubcharge")
-public class ProgressiveSubcharge {
+@Table(name="progressiveSurcharge")
+public class ProgressiveSurcharge {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
