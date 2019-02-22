@@ -111,7 +111,7 @@ public class ServiceSearchTest {
 		prov2.setServiceAnswers(prov2ans);
 		prov3.setServiceAnswers(prov3ans);
 		//does test
-		assertEquals(ServiceSearch.searchForProviders(service, criteria).equals(output), false);
+		assertEquals(ServiceSearch.searchForProviders(service, criteria).equals(output), true);
 		//fail("Not yet implemented");
 
 	}
