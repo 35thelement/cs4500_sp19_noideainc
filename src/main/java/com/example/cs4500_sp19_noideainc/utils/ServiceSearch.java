@@ -17,7 +17,8 @@ public class ServiceSearch {
 
     List<User> users = service.getProviders();
     List<SearchPredicate> preds = criteria.getCriteria();
-    ArrayList<UserToInt> resutlts= new ArrayList<UserToInt>();
+    ArrayList<UserToInt> resutltsToInt= new ArrayList<UserToInt>();
+    ArrayList<User> result = new ArrayList<User>();
 
     for(User u : users) {
       List<ServiceAnswer> answers = u.getServiceAnswers();
@@ -61,7 +62,7 @@ public class ServiceSearch {
               }
               break;
             case MULTIPLE_CHOICE:
-              if (choiceCrit == choiceUser ) {
+              if (choiceCrit == choiceUser) {
                rank++;
                break;
               }
@@ -70,11 +71,11 @@ public class ServiceSearch {
 
       }
       UserToInt addToList = new UserToInt(u, rank);
-      resutlts.add(addToList);
+      resutltsToInt.add(addToList);
     }
 
 
-    return null;
+    return result;
   }
 
   private static boolean findRange(int min1, int min2, int max1, int max2) {
