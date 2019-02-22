@@ -22,7 +22,7 @@ public class ServiceAnswer {
     private Integer choiceAnswer;
     @ManyToOne
     @JsonIgnore
-    private ServiceSpecificQuestion serviceQuestion;
+    private ServiceQuestion serviceQuestion;
     @ManyToOne
     @JsonIgnore
     private User provider;
@@ -56,10 +56,10 @@ public class ServiceAnswer {
     public void setChoiceAnswer(Integer choiceAnswer) {
         this.choiceAnswer = choiceAnswer;
     }
-    public ServiceSpecificQuestion getServiceQuestion() {
+    public ServiceQuestion getServiceQuestion() {
         return serviceQuestion;
     }
-    public void setServiceQuestion(ServiceSpecificQuestion serviceQuestion) {
+    public void setServiceQuestion(ServiceQuestion serviceQuestion) {
         this.serviceQuestion = serviceQuestion;
     }
     public User getProvider() {
