@@ -7,6 +7,7 @@ import com.example.cs4500_sp19_noideainc.models.ServiceQuestion;
 import com.example.cs4500_sp19_noideainc.models.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ServiceSearch {
@@ -72,6 +73,20 @@ public class ServiceSearch {
       }
       UserToInt addToList = new UserToInt(u, rank);
       resutltsToInt.add(addToList);
+    }
+
+    for(UserToInt uI : resutltsToInt) {
+      if (uI.getRank() == 0) {
+        resutltsToInt.remove(uI);
+      }
+    }
+
+    Collections.sort(resutltsToInt, new UserComparator());
+
+    for (int j = 0; j < resutltsToInt.size(); j++) {
+
+      User toAdd = resutltsToInt.get(j).getTheUser();
+      result.add(toAdd);
     }
 
 
