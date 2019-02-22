@@ -27,16 +27,15 @@ public class DeliveryFeeEstimateTest {
 	
 	@Test
 	// Test regular situations for the calculation of different flat fees
-	public void testRegualrFlatFees() throws Exception {
-		// a list of deliveryFees
+	public void testRegularFlatFees() throws Exception {
+		// a list of deliveryFees regular
 		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
 		listDeliveryFee.add(this.weekdayFlat);
 		listDeliveryFee.add(this.weekendFlat);
 		listDeliveryFee.add(this.holidayFlat);
 		listDeliveryFee.add(this.EmergencyFlat);
 		
-		Estimate estimate = new Estimate(0f, 750f, baseFrequency, false, subscriptionFrequency, 
-				Frequency.Weekday, service, user);	
+		Estimate estimate = new Estimate(0f, 750f, baseFrequency, false, subscriptionFrequency, Frequency.Weekday, service, user);	
 		// Test the frequency are added 0 on the base price
 		assertEquals(0f, estimate.getFees(listDeliveryFee));
 		
@@ -58,8 +57,7 @@ public class DeliveryFeeEstimateTest {
 		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
 		DeliveryFee weekdayFlat1 = new DeliveryFee(15f, Frequency.Weekday, true);
 		listDeliveryFee.add(weekdayFlat1);
-		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, 
-				Frequency.Weekday, service, user);
+		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, Frequency.Weekday, service, user);
 		assertEquals(true, estimate.getFees(listDeliveryFee) > 0);
 		assertEquals(false, estimate.getFees(listDeliveryFee) < 0);
 	}
@@ -75,8 +73,7 @@ public class DeliveryFeeEstimateTest {
 		listDeliveryFee.add(weekdayFlat1);
 		listDeliveryFee.add(weekdayFlat2);
 		listDeliveryFee.add(weekdayFlat3);
-		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, 
-				Frequency.Weekday, service, user);
+		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, Frequency.Weekday, service, user);
 		assertEquals(4.555f, estimate.getFees(listDeliveryFee));
 		
 		estimate.setDeliveryFrequency(Frequency.Weekend);
@@ -96,8 +93,7 @@ public class DeliveryFeeEstimateTest {
 		DeliveryFee weekdayFlat3 = new DeliveryFee(1999.8f, Frequency.Holiday, true);
 		listDeliveryFee.add(weekdayFlat2);
 		listDeliveryFee.add(weekdayFlat3);
-		Estimate estimate = new Estimate(0f, 400f, baseFrequency, false, subscriptionFrequency, 
-				Frequency.Weekday, service, user);
+		Estimate estimate = new Estimate(0f, 400f, baseFrequency, false, subscriptionFrequency, Frequency.Weekday, service, user);
 		
 		estimate.setDeliveryFrequency(Frequency.Weekend);
 		assertEquals(2000f, estimate.getFees(listDeliveryFee));
@@ -115,8 +111,7 @@ public class DeliveryFeeEstimateTest {
 		DeliveryFee weekdayFlat2 = new DeliveryFee(0.00001f, Frequency.Weekend, true);
 		listDeliveryFee.add(weekdayFlat1);
 		listDeliveryFee.add(weekdayFlat2);
-		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, 
-				Frequency.Weekday, service, user);
+		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, Frequency.Weekday, service, user);
 		assertEquals(0.555f, estimate.getFees(listDeliveryFee));
 		
 		estimate.setDeliveryFrequency(Frequency.Weekend);
@@ -129,8 +124,7 @@ public class DeliveryFeeEstimateTest {
 		 List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
 		 DeliveryFee weekdayFlat = new DeliveryFee(-30f, Frequency.Weekday, true);
 		 listDeliveryFee.add(weekdayFlat);
-	     Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency,
-	                Frequency.Weekday, service, user);
+	     Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, Frequency.Weekday, service, user);
 	     assertEquals(-30f, estimate.getFees(listDeliveryFee));
 	 }
 	 
@@ -140,8 +134,7 @@ public class DeliveryFeeEstimateTest {
 		 List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
 		 DeliveryFee weekdayFlat = new DeliveryFee(2000.1f, Frequency.Weekday, true);
 		 listDeliveryFee.add(weekdayFlat);
-	     Estimate estimate = new Estimate(0f, 400f, baseFrequency, false, subscriptionFrequency,
-	                Frequency.Weekday, service, user);
+	     Estimate estimate = new Estimate(0f, 400f, baseFrequency, false, subscriptionFrequency, Frequency.Weekday, service, user);
 	     assertEquals(2000.1f, estimate.getFees(listDeliveryFee));
 	 }
 	
