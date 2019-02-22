@@ -24,46 +24,126 @@ public class DeliveryFeeEstimateTest {
 	private final DeliveryFee holidayFlat = new DeliveryFee(150f, Frequency.Holiday, true);
 	private final DeliveryFee EmergencyFlat = new DeliveryFee(225f, Frequency.Emergency, true);
 	
-//	
-//	@Test
-//	// Test regular situations for the calculation of different flat fees
-//	public void testFlatFees() {
-//		// a list of deliveryFees
-//		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
-//		listDeliveryFee.add(this.weekdayFlat);
-//		listDeliveryFee.add(this.weekendFlat);
-//		listDeliveryFee.add(this.holidayFlat);
-//		listDeliveryFee.add(this.EmergencyFlat);
-//		
-//		Estimate estimate = new Estimate(0f, 750f, baseFrequency, false, subscriptionFrequency, 
-//				Frequency.Weekday, service, user);
-//		
-//		// Test no frequency are added on the base price
-//		assertEquals(0f, estimate.getFees(listDeliveryFee));
-//		
-//		// Test delivery frequency with different fat fee
-//		estimate.setDeliveryFrequency(Frequency.Weekend);
-//		assertEquals(75f, estimate.getFees(listDeliveryFee));
-//		
-//		estimate.setDeliveryFrequency(Frequency.Holiday);
-//		assertEquals(150f, estimate.getFees(listDeliveryFee));
-//		
-//		estimate.setDeliveryFrequency(Frequency.Emergency);
-//		assertEquals(225f, estimate.getFees(listDeliveryFee));
-//		
-//	}
-//	
-//	@Test
-//	// Test special situations for the calculation of different flat fees
-//	public void testFlatFees1() {
-//		// a list of deliveryFees
-//		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
-//		DeliveryFee weekdayFlat1 = new DeliveryFee(15, Frequency.Weekday, true);
-//		listDeliveryFee.add(weekdayFlat1);
-//		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, 
-//				Frequency.Weekday, service, user);
-//		assertEquals(true, estimate.getFees(listDeliveryFee) > 0);
-//	}
+	
+	@Test
+	// Test regular situations for the calculation of different flat fees
+	public void testRegualrFlatFees() throws Exception {
+		// a list of deliveryFees
+		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
+		listDeliveryFee.add(this.weekdayFlat);
+		listDeliveryFee.add(this.weekendFlat);
+		listDeliveryFee.add(this.holidayFlat);
+		listDeliveryFee.add(this.EmergencyFlat);
+		
+		Estimate estimate = new Estimate(0f, 750f, baseFrequency, false, subscriptionFrequency, 
+				Frequency.Weekday, service, user);	
+		// Test the frequency are added 0 on the base price
+		assertEquals(0f, estimate.getFees(listDeliveryFee));
+		
+		// Test delivery frequency with different fat fee
+		estimate.setDeliveryFrequency(Frequency.Weekend);
+		assertEquals(75f, estimate.getFees(listDeliveryFee));
+		
+		estimate.setDeliveryFrequency(Frequency.Holiday);
+		assertEquals(150f, estimate.getFees(listDeliveryFee));
+		
+		estimate.setDeliveryFrequency(Frequency.Emergency);
+		assertEquals(225f, estimate.getFees(listDeliveryFee));
+	}
+	
+	@Test
+	// Test positive result of get fees
+	public void testAllFlatFees() throws Exception {
+		// a list of deliveryFees
+		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee weekdayFlat1 = new DeliveryFee(15f, Frequency.Weekday, true);
+		listDeliveryFee.add(weekdayFlat1);
+		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, 
+				Frequency.Weekday, service, user);
+		assertEquals(true, estimate.getFees(listDeliveryFee) > 0);
+		assertEquals(false, estimate.getFees(listDeliveryFee) < 0);
+	}
+	
+	@Test
+	// Test the decimal flat fee from 0 to 1
+	public void testDecimalFlatFees() throws Exception {
+		// a list of deliveryFees
+		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee weekdayFlat1 = new DeliveryFee(4.555f, Frequency.Weekday, true);
+		DeliveryFee weekdayFlat2 = new DeliveryFee(15.7111f, Frequency.Weekend, true);
+		DeliveryFee weekdayFlat3 = new DeliveryFee(1900.8f, Frequency.Holiday, true);
+		listDeliveryFee.add(weekdayFlat1);
+		listDeliveryFee.add(weekdayFlat2);
+		listDeliveryFee.add(weekdayFlat3);
+		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, 
+				Frequency.Weekday, service, user);
+		assertEquals(4.555f, estimate.getFees(listDeliveryFee));
+		
+		estimate.setDeliveryFrequency(Frequency.Weekend);
+		assertEquals(15.7111f, estimate.getFees(listDeliveryFee));
+		
+		estimate.setDeliveryFrequency(Frequency.Holiday);
+		assertEquals(1900.8f, estimate.getFees(listDeliveryFee));
+	}
+	
+	@Test
+	// Test the very big flat fee but does not bigger than the limited value
+	// (five times of the base price)
+	public void testBigFlatFees() throws Exception {
+		// a list of deliveryFees
+		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee weekdayFlat2 = new DeliveryFee(2000f, Frequency.Weekend, true);
+		DeliveryFee weekdayFlat3 = new DeliveryFee(1999.8f, Frequency.Holiday, true);
+		listDeliveryFee.add(weekdayFlat2);
+		listDeliveryFee.add(weekdayFlat3);
+		Estimate estimate = new Estimate(0f, 400f, baseFrequency, false, subscriptionFrequency, 
+				Frequency.Weekday, service, user);
+		
+		estimate.setDeliveryFrequency(Frequency.Weekend);
+		assertEquals(2000f, estimate.getFees(listDeliveryFee));
+		
+		estimate.setDeliveryFrequency(Frequency.Holiday);
+		assertEquals(1999.8f, estimate.getFees(listDeliveryFee));
+	}
+	
+	@Test
+	// Test the very small flat fee from 0 to 1
+	public void testTinyFlatFees() throws Exception {
+		// a list of deliveryFees
+		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee weekdayFlat1 = new DeliveryFee(0.555f, Frequency.Weekday, true);
+		DeliveryFee weekdayFlat2 = new DeliveryFee(0.00001f, Frequency.Weekend, true);
+		listDeliveryFee.add(weekdayFlat1);
+		listDeliveryFee.add(weekdayFlat2);
+		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, 
+				Frequency.Weekday, service, user);
+		assertEquals(0.555f, estimate.getFees(listDeliveryFee));
+		
+		estimate.setDeliveryFrequency(Frequency.Weekend);
+		assertEquals(0.00001f, estimate.getFees(listDeliveryFee));
+	}
+	
+	// Invalid negative flat fee situations	
+	 @Test (expected = IllegalArgumentException.class)
+	 public void negativeFlatFees() throws Exception {
+		 List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
+		 DeliveryFee weekdayFlat = new DeliveryFee(-30f, Frequency.Weekday, true);
+		 listDeliveryFee.add(weekdayFlat);
+	     Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency,
+	                Frequency.Weekday, service, user);
+	     assertEquals(-30f, estimate.getFees(listDeliveryFee));
+	 }
+	 
+	 // Invalid too high flat fee
+	 @Test (expected = IllegalArgumentException.class)
+	 public void tooHighFlatFees() throws Exception {
+		 List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
+		 DeliveryFee weekdayFlat = new DeliveryFee(2000.1f, Frequency.Weekday, true);
+		 listDeliveryFee.add(weekdayFlat);
+	     Estimate estimate = new Estimate(0f, 400f, baseFrequency, false, subscriptionFrequency,
+	                Frequency.Weekday, service, user);
+	     assertEquals(2000.1f, estimate.getFees(listDeliveryFee));
+	 }
 	
 	
 }

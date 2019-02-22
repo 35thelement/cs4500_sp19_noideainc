@@ -67,7 +67,7 @@ public class Estimate {
      * 
      * @param listDeliveryFree: a list of DeliveryFee information, get related frequency information in this list
      */
-    public float getFees(List<DeliveryFee> listDeliveryFree) {
+    public float getFees(List<DeliveryFee> listDeliveryFree) throws Exception {
     	float calculation = 0f;
 
     	// consider the the delivery frequency 
