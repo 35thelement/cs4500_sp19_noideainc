@@ -1,4 +1,4 @@
-package com.example.cs4500_sp19_noideainc.services;
+package com.example.cs4500_sp19_noideainc.utils;
 
 import com.example.cs4500_sp19_noideainc.models.ServiceAnswer;
 import com.example.cs4500_sp19_noideainc.models.ServiceQuestion;
