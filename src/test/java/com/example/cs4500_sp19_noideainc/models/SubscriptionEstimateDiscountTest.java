@@ -6,7 +6,17 @@ import org.junit.Test;
 
 public class SubscriptionEstimateDiscountTest {
 
-    private  SubscriptionDiscount TestServiceSub = new SubscriptionDiscount();
+    private SubscriptionDiscount TestServiceSub = new SubscriptionDiscount();
+
+    @Test(expected = RuntimeException.class)
+    public void testNegativeFlatAmount() {
+        float actual = TestServiceSub.getDiscount(Frequency.Onetime, true, -10, 19.8f);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testNegativeBasePrice() {
+        float actual = TestServiceSub.getDiscount(Frequency.Onetime, true, 10, -19.8f);
+    }
 
     @Test
     public void testFlatDiscount() {
