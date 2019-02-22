@@ -22,20 +22,14 @@ public class DeliveryFeeEstimateTest {
 	
 	private List<DeliveryFee> listDeliveryFee1 = new ArrayList<DeliveryFee>();
 	
-	/*
-	 * Initialize the list of DeliveryFee class
-	 */
-	void init() {
-		this.listDeliveryFee1.add(this.deliveryFee1);
-		this.listDeliveryFee1.add(this.deliveryFee2);
-		this.listDeliveryFee1.add(this.deliveryFee3);
-		this.listDeliveryFee1.add(this.deliveryFee4);
-	}
 	
 	@Test
 	// test if the calculation of different flat fees are correct
 	public void testFlatFees() {
-		init();
+		this.listDeliveryFee1.add(this.deliveryFee1);
+		this.listDeliveryFee1.add(this.deliveryFee2);
+		this.listDeliveryFee1.add(this.deliveryFee3);
+		this.listDeliveryFee1.add(this.deliveryFee4);
 		Estimate estimate = new Estimate(0f, 750f, Frequency.Weekday, false, Frequency.Weekday, Frequency.Weekday, service, user);
 		// test no frequency are added on the base price
 		assertEquals(0f, estimate.getFees(this.listDeliveryFee1));
