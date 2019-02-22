@@ -20,6 +20,12 @@ public class SubscriptionDiscount {
     private float basePrice;
 
     public float getDiscount(Frequency frequency, boolean flat, float flatAmount, float basePrice) {
+        if (flatAmount < 0) {
+            throw new RuntimeException("Flat amount cannot be negative.");
+        }
+        if (basePrice < 0) {
+            throw new RuntimeException("Base price cannot be negative.");
+        }
         if (flat) {
             return flatAmount;
         } else {
