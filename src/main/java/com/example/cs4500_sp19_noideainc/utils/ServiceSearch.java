@@ -22,7 +22,7 @@ public class ServiceSearch {
     ArrayList<User> result = new ArrayList<User>();
 
     for(User u : users) {
-      //retires user answer and initializes rank to 0
+      //retrieves user answer and initializes rank to 0
       List<ServiceAnswer> answers = u.getServiceAnswers();
       int rank = 0;
       //loops through each search questions

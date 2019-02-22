@@ -20,33 +20,66 @@ public class ServiceSearchTest {
 	private ServiceQuestion q1;
 	private ServiceQuestion q2;
 	private ServiceQuestion q3;
-
-	@Test
-	public void testBase() {
-		yardWork = new Service();
-		q1 = new ServiceQuestion();
-		q2 = new ServiceQuestion();
-		q3 = new ServiceQuestion();
-		SearchCriteria criteria = new SearchCriteria();
-		User prov1 = new User();
-		User prov2 = new User();
-		User prov3 = new User();
-		ArrayList<Service> servlist = new ArrayList<Service>();
-		servlist.add(yardWork);
-		prov1.setServices(servlist);
-		prov2.setServices(servlist);
-		prov3.setServices(servlist);
-		ServiceAnswer ans1 = new ServiceAnswer();
-		ServiceAnswer ans2 = new ServiceAnswer();
-		ServiceAnswer ans3 = new ServiceAnswer();
-		ArrayList<User> output = new ArrayList<User>();
-		assertEquals(output.equals(output), true);
-		// fail("Not yet implemented");
-
-	}
+	//david bowie
+	private User prov1;
+	//charlie sheen
+	private User prov2;
+	//freddie mercury
+	private User prov3;
 
 	@Test
 	public void test1() {
+		System.out.println(yardWork);
+		System.out.println("Service: " + yardWork.getTitle());
+		for (User p : yardWork.getProviders()) {
+			System.out.println();
+			System.out.println("Provider: " + p.getFirstName() + " " + p.getLastName());
+			for (ServiceAnswer a : p.getServiceAnswers()) {
+				System.out.println("Question: " + a.getServiceQuestion().getTitle());
+				System.out.println("Answer: " + a.getChoiceAnswer() + " " + a.getMinRangeAnswer() + ", "
+						+ a.getMaxRangeAnswer() + " " + a.getTrueFalseAnswer());
+			}
+		}
+
+		/*
+		 * // Creates Criteria SearchCriteria criteria = new SearchCriteria();
+		 * ArrayList<SearchPredicate> searchCriteriaAns = new
+		 * ArrayList<SearchPredicate>(); // Creates Answer for Criteria ServiceAnswer
+		 * searchAns1 = new ServiceAnswer(); searchAns1.setMinRangeAnswer(2);
+		 * searchAns1.setMaxRangeAnswer(4); SearchPredicate pred1 = new
+		 * SearchPredicate(q1, searchAns1); ServiceAnswer searchAns2 = new
+		 * ServiceAnswer(); searchAns2.setChoiceAnswer(1); SearchPredicate pred2 = new
+		 * SearchPredicate(q2, searchAns2); ServiceAnswer searchAns3 = new
+		 * ServiceAnswer(); searchAns3.setTrueFalseAnswer(false); SearchPredicate pred3
+		 * = new SearchPredicate(q3, searchAns3); // Adds answer to criteria
+		 * searchCriteriaAns.add(pred1); searchCriteriaAns.add(pred2);
+		 * searchCriteriaAns.add(pred3); criteria.setCriteria(searchCriteriaAns);
+		 * 
+		 */
+		SearchCriteria yardCriteria = new SearchCriteria();
+		ArrayList<SearchPredicate> searchCriteriaAns = new ArrayList<SearchPredicate>();
+		ServiceAnswer noTools = new ServiceAnswer();
+		noTools.setTrueFalseAnswer(true);
+		SearchPredicate q3Pred = new SearchPredicate(q3, noTools);
+		searchCriteriaAns.add(q3Pred);
+		yardCriteria.setCriteria(searchCriteriaAns);
+
+		System.out.println("RESULT: ");
+		for (User u : ServiceSearch.searchForProviders(yardWork, yardCriteria)) {
+			System.out.println(u.getFirstName() + " " + u.getLastName());
+		}
+		
+		ArrayList<User> output = new ArrayList<User>();
+		output.add(prov1);
+		output.add(prov3);
+		// does test
+		 assertEquals(ServiceSearch.searchForProviders(yardWork, yardCriteria).equals(output), true);
+		// fail("Not yet implemented");
+
+	}
+	
+	@Test
+	public void test2() {
 		System.out.println(yardWork);
 		System.out.println("Service: " + yardWork.getTitle());
 		for (User p : yardWork.getProviders()) {
@@ -116,9 +149,9 @@ public class ServiceSearchTest {
 		q3.setType(QuestionType.TRUE_FALSE);
 
 		// YARD WORK PROVIDERS
-		User prov1 = new User();
-		User prov2 = new User();
-		User prov3 = new User();
+		prov1 = new User();
+		prov2 = new User();
+		prov3 = new User();
 		// add YARD WORK to providers' list of services
 		ArrayList<Service> servlist = new ArrayList<Service>();
 		servlist.add(this.yardWork);
