@@ -6,7 +6,7 @@ import org.junit.Test;
 import com.example.cs4500_sp19_noideainc.models.SubscriptionDiscount;
 import com.example.cs4500_sp19_noideainc.models.Frequency;
 
-public class TsetDiscount {
+public class TestDiscount {
 
 	SubscriptionDiscount TestServiceSub = new SubscriptionDiscount();
 
