@@ -214,9 +214,14 @@ public class ServiceSearchTest {
 		ArrayList<SearchPredicate> searchCriteriaAns = new ArrayList<SearchPredicate>();
 		ServiceAnswer noTools = new ServiceAnswer();
 		noTools.setTrueFalseAnswer(true);
-		SearchPredicate q1Pred = new SearchPredicate(q1, noTools);
-		searchCriteriaAns.add(q1Pred);
+		SearchPredicate q3Pred = new SearchPredicate(q3, noTools);
+		searchCriteriaAns.add(q3Pred);
 		yardCriteria.setCriteria(searchCriteriaAns);
+		
+		System.out.println("RESULT: ");
+		for(User u: ServiceSearch.searchForProviders(service, yardCriteria)) {
+			System.out.println(u.getFirstName() + " " + u.getLastName());
+		}
 		// does test
 		//assertEquals(ServiceSearch.searchForProviders(service, criteria).equals(output), true);
 		// fail("Not yet implemented");
