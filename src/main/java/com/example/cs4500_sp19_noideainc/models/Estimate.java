@@ -1,4 +1,3 @@
-
 package com.example.cs4500_sp19_noideainc.models;
 
 import java.util.List;
@@ -68,19 +67,37 @@ public class Estimate {
      * 
      * @param listDeliveryFree: a list of DeliveryFee information, get related frequency information in this list
      */
-    public float getFees(List<DeliveryFee> listDeliveryFree) {
-    	float finalEstimate = 0;
+    public float getFees(List<DeliveryFee> listDeliveryFree) throws Exception {
+    	float calculation = 0f;
 
     	// consider the the delivery frequency 
     	DeliveryFee getDeliveryFee = this.getFrequencyValue(listDeliveryFree, this.deliveryFrequency);
-    	if (getDeliveryFee.isFlat()) {
-    		finalEstimate = getDeliveryFee.getFee();
+    	
+    	if (getDeliveryFee != null) {
+    		if (getDeliveryFee.isFlat()) {
+        		calculation = getDeliveryFee.getFee();
+        		if (calculation < 0) {
+        			throw new IllegalArgumentException("invalid flat fee");
+        		}
+        		// we design that the delivery fee cannot be greater than the five times of the base fee
+        		if (calculation > this.basePrice * 5) {
+        			throw new IllegalArgumentException("too high flat fee");
+        		}
+        	} else {
+        		if (getDeliveryFee.getFee() < 0) {
+        			throw new IllegalArgumentException("invalid percentage fee");
+        		}
+        		// we design that the delivery fee cannot be greater than the five times of the base fee
+        		if (getDeliveryFee.getFee() > 5) {
+        			throw new IllegalArgumentException("too high percentage fee");
+        		}
+        		calculation = this.basePrice * getDeliveryFee.getFee();
+        	}
     	} else {
-    		finalEstimate = this.basePrice * getDeliveryFee.getFee();
+    		throw new IllegalArgumentException("Invalid given list of deliveryFees, cannot find related frequecny in the list");
     	}
     	
-    	
-    	return finalEstimate;
+    	return calculation;
     }
     
     // find related DeliveryFee base on the given Frequency (Enum) in the list of deliverFees class
