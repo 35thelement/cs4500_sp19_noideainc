@@ -81,8 +81,7 @@ public class ServiceSearch {
       }
     }
 
-    Collections.sort(resutltsToInt, new UserComparator());
-
+    System.out.println(resutltsToInt);
     for (int j = 0; j < resutltsToInt.size(); j++) {
 
       User toAdd = resutltsToInt.get(j).getTheUser();
