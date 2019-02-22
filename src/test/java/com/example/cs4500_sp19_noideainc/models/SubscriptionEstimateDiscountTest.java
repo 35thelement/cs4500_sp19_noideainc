@@ -66,7 +66,6 @@ public class SubscriptionEstimateDiscountTest {
         assertEquals(0.7f, actual, 0.01f);
     }
 
-
     @Test
     public void testWeekend() {
         float actual = TestServiceSub.getDiscount(Frequency.Weekend, false, 5, 10.0f);
