@@ -26,6 +26,8 @@ public class ServiceAnswer {
     @ManyToOne
     @JsonIgnore
     private User provider;
+
+
     public Integer getId() {
         return id;
     }

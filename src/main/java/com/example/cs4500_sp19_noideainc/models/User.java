@@ -32,6 +32,18 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "SERVICE_ID", referencedColumnName = "ID"))
     private List<Service> services;
 
+    public User() {
+    }
+
+    public User(Integer id, String username, String password, String firstName, String lastName) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public List<Service> getServices() {
         return services;
     }
@@ -48,17 +60,7 @@ public class User {
         this.frequentlyAskedAnswers = frequentlyAskedAnswers;
     }
 
-    public User() {
-    }
 
-    public User(Integer id, String username, String password, String firstName, String lastName) {
-        super();
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 
     public String getUsername() {
         return username;
@@ -115,4 +117,12 @@ public class User {
     public void setMyReviewsOfOthers(List<Review> myReviewsOfOthers) {
         this.myReviewsOfOthers = myReviewsOfOthers;
     }
+
+  public List<ServiceAnswer> getServiceAnswers() {
+    return serviceAnswers;
+  }
+
+  public void setServiceAnswers(List<ServiceAnswer> serviceAnswers) {
+    this.serviceAnswers = serviceAnswers;
+  }
 }
