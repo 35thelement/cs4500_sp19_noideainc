@@ -93,6 +93,14 @@ public class ServiceSearch {
     return result;
   }
 
+  /**
+   * Helper method to check if things are in range of each other.
+   * @param min1 minimum to check.
+   * @param min2 minimum to check against.
+   * @param max1 maximum to check.
+   * @param max2 max to check against.
+   * @return a boolean showing whether the integers are in range.
+   */
   private static boolean findRange(int min1, int min2, int max1, int max2) {
 
     return (min1 >= min2) && (max1 <= max2);
