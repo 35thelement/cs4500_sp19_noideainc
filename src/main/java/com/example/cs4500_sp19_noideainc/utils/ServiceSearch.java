@@ -22,13 +22,51 @@ public class ServiceSearch {
     ArrayList<User> result = new ArrayList<User>();
 
     for(User u : users) {
+      //retrieves user answer and initializes rank to 0
       List<ServiceAnswer> answers = u.getServiceAnswers();
-
       int rank = 0;
-
-
+      //loops through each search questions
+      for(int k = 0; k < preds.size(); k++) {
+    	  //retrieves criteria question and answer
+    	  ServiceQuestion question = preds.get(k).getQuestion();
+    	  ServiceAnswer critAnswer = preds.get(k).getAnswer(); 
+    	  // goes through each user answer to see if it matches the question
+    	  for(ServiceAnswer userAnswer : u.getServiceAnswers()) {
+    		  //if it does retrieve the proper answer and compare 
+    		  if(userAnswer.getServiceQuestion().getId() == question.getId()) {
+    			  QuestionType type = question.getType();
+    			  switch(type) {
+    	            case RANGE:
+    	              if (findRange(userAnswer.getMinRangeAnswer(), critAnswer.getMinRangeAnswer(),
+    	            		  		userAnswer.getMaxRangeAnswer(), critAnswer.getMaxRangeAnswer())) {
+    	                rank++;
+    	              }
+    	              break;
+    	            case TRUE_FALSE:
+    	              if (userAnswer.getTrueFalseAnswer() == critAnswer.getTrueFalseAnswer()) {
+    	                rank++;
+    	              }
+    	              break;
+    	            case MULTIPLE_CHOICE:
+    	              if (userAnswer.getChoiceAnswer() == critAnswer.getChoiceAnswer()) {
+    	               rank++;
+    	               break;
+    	              }
+    	          }
+    		  }
+    	  }
+      }
+      //once all the questions have been checked the user and rank are added
+      //if there are no matching criteria the user is not added
+      UserToInt addToList = new UserToInt(u, rank);
+      if(addToList.getRank() > 0 ) {
+    	  resutltsToInt.add(addToList);
+      }
+    }
+      
+      /*
       for(int i = 0; i < answers.size(); i++){
-
+    	//Gets each users answers   
         ServiceAnswer s = answers.get(i);
         int minUser = s.getMinRangeAnswer();
         int maxUser = s.getMaxRangeAnswer();
@@ -58,7 +96,7 @@ public class ServiceSearch {
               }
               break;
             case TRUE_FALSE:
-              if (boolsCrit && boolsUser) {
+              if (boolsCrit == boolsUser) {
                 rank++;
               }
               break;
@@ -71,18 +109,16 @@ public class ServiceSearch {
         }
 
       }
-      UserToInt addToList = new UserToInt(u, rank);
-      resutltsToInt.add(addToList);
-    }
+      */
+      
 
-    for(UserToInt uI : resutltsToInt) {
-      if (uI.getRank() == 0) {
-        resutltsToInt.remove(uI);
-      }
-    }
+    //for(UserToInt uI : resutltsToInt) {
+    //  if (uI.getRank() == 0) {
+    //    resutltsToInt.remove(uI);
+    //  }
+    //}
 
     Collections.sort(resutltsToInt, new UserComparator());
-
     for (int j = 0; j < resutltsToInt.size(); j++) {
 
       User toAdd = resutltsToInt.get(j).getTheUser();
@@ -103,7 +139,7 @@ public class ServiceSearch {
    */
   private static boolean findRange(int min1, int min2, int max1, int max2) {
 
-    return (min1 >= min2) && (max1 <= max2);
+    return (min1 <= min2) && (max1 >= max2);
 
   }
 
