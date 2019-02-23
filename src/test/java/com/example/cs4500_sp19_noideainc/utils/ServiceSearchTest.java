@@ -114,8 +114,101 @@ public class ServiceSearchTest {
 
 	}
 	
+	//Test that providers are ordered correctly when more than 1 provider matches the search criteria
+	@Test
+	public void test_yardwork_search_tools_true_acres_4() {
+		SearchCriteria yardCriteria = new SearchCriteria();
+		ArrayList<SearchPredicate> searchCriterians = new ArrayList<SearchPredicate>();
+		
+		ServiceAnswer acres = new ServiceAnswer();
+		acres.setMinRangeAnswer(4);
+		acres.setMaxRangeAnswer(4);
+		SearchPredicate q1Pred = new SearchPredicate(q1, acres);
+		
+		ServiceAnswer tools = new ServiceAnswer();
+		tools.setTrueFalseAnswer(true);
+		SearchPredicate q3Pred = new SearchPredicate(q3, tools);
+		
+		searchCriterians.add(q1Pred);
+		searchCriterians.add(q3Pred);
+		
+		yardCriteria.setCriteria(searchCriterians);
+		
+		ArrayList<User> output = new ArrayList<User>();
+		output.add(prov1);
+		output.add(prov2);
+		output.add(prov3);
+		
+		assertEquals(ServiceSearch.searchForProviders(yardWork, yardCriteria), output);
+		
+		
+	}
+	
+	//Test that false is returned if the providers are out of order, even if all the correct providers are present
+		@Test
+		public void test_yardwork_search_tools_true_acres_4_incorrect_order() {
+			SearchCriteria yardCriteria = new SearchCriteria();
+			ArrayList<SearchPredicate> searchCriterians = new ArrayList<SearchPredicate>();
+			
+			ServiceAnswer acres = new ServiceAnswer();
+			acres.setMinRangeAnswer(4);
+			acres.setMaxRangeAnswer(4);
+			SearchPredicate q1Pred = new SearchPredicate(q1, acres);
+			
+			ServiceAnswer tools = new ServiceAnswer();
+			tools.setTrueFalseAnswer(true);
+			SearchPredicate q3Pred = new SearchPredicate(q3, tools);
+			
+			searchCriterians.add(q1Pred);
+			searchCriterians.add(q3Pred);
+			
+			yardCriteria.setCriteria(searchCriterians);
+			
+			ArrayList<User> output = new ArrayList<User>();
+			output.add(prov2);
+			output.add(prov1);
+			output.add(prov3);
+			
+			assertEquals(ServiceSearch.searchForProviders(yardWork, yardCriteria).equals(output), false);
+			
+			
+		}
+	
 
+	@Test
+	public void test_yardwork_search_range_one_million() {
+		init();
+		System.out.println(yardWork);
+		System.out.println("Service: " + yardWork.getTitle());
+		for (User p : yardWork.getProviders()) {
+			System.out.println();
+			System.out.println("Provider: " + p.getFirstName() + " " + p.getLastName());
+			for (ServiceAnswer a : p.getServiceAnswers()) {
+				System.out.println("Question: " + a.getServiceQuestion().getTitle());
+				System.out.println("Answer: " + a.getChoiceAnswer() + " " + a.getMinRangeAnswer() + ", "
+						+ a.getMaxRangeAnswer() + " " + a.getTrueFalseAnswer());
+			}
+		}
+		
+		SearchCriteria yardCriteria = new SearchCriteria();
+		ArrayList<SearchPredicate> searchCriteriaAns = new ArrayList<SearchPredicate>();
+		ServiceAnswer acres = new ServiceAnswer();
+		acres.setMinRangeAnswer(1000000);
+		acres.setMaxRangeAnswer(1000000);
+		SearchPredicate q1Pred = new SearchPredicate(q1, acres);
+		searchCriteriaAns.add(q1Pred);
+		yardCriteria.setCriteria(searchCriteriaAns);
 
+		System.out.println("RESULT: ");
+		for (User u : ServiceSearch.searchForProviders(yardWork, yardCriteria)) {
+			System.out.println(u.getFirstName() + " " + u.getLastName());
+		}
+		// does test
+		ArrayList<User> output = new ArrayList<User>();
+		assertEquals(ServiceSearch.searchForProviders(yardWork, yardCriteria), output);
+		// fail("Not yet implemented");
+
+	}
 	
 	
 
