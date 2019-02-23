@@ -280,4 +280,33 @@ public class DeliveryFeeEstimateTest {
 		assertEquals(2744.4998f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
 		listWeekendDeliveryFee.remove(0);
 	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	// Tests big weekends percentage fees that exceed the fee limit (bigger than five times the base price)
+	public void testInvalidBigWeekendsPercentageFees() throws Exception {
+		List<DeliveryFee> listWeekendDeliveryFee = new ArrayList<DeliveryFee>();
+		
+		DeliveryFee weekendPercentageInvalidBigFee = new DeliveryFee(5.01f, Frequency.Weekend, false);
+		listWeekendDeliveryFee.add(weekendPercentageInvalidBigFee);
+		
+		Estimate estimate = new Estimate(0f, 900f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Weekend, service, user);
+
+		assertEquals(4509f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+		listWeekendDeliveryFee.remove(0);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	// Tests throwing an exception if delivery frequency other than Weekend is inputed
+	public void testRandomFrequencyForWeekendsFees() throws Exception {
+		List<DeliveryFee> listWeekendDeliveryFee = new ArrayList<DeliveryFee>();
+		// Emergency fee cannot be used to calculate an estimate for a weekend fee
+		DeliveryFee dailyPercentageInvalidBigFee = new DeliveryFee(0.55f, Frequency.Daily, false);
+		listWeekendDeliveryFee.add(dailyPercentageInvalidBigFee);
+
+		Estimate estimate = new Estimate(0f, 900f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Weekend, service, user);
+
+		assertEquals(300f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+	}
 }
