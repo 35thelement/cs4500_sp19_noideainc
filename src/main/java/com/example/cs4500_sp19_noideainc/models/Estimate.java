@@ -69,6 +69,16 @@ public class Estimate {
      */
     public float getFees(List<DeliveryFee> listDeliveryFree) throws Exception {
     	float calculation = 0f;
+    	
+    	// check if the listDeliveryFree is invalid
+    	if (listDeliveryFree == null) {
+    		throw new IllegalArgumentException("invalid listDeliveryFree");
+    	}
+    	
+    	// check the base price
+    	if (this.basePrice < 0) {
+    		throw new IllegalArgumentException("invalid base fee");
+    	}
 
     	// consider the the delivery frequency 
     	DeliveryFee getDeliveryFee = this.getFrequencyValue(listDeliveryFree, this.deliveryFrequency);
