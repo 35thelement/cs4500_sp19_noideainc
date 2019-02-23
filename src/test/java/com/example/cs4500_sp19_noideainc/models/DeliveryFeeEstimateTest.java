@@ -309,4 +309,31 @@ public class DeliveryFeeEstimateTest {
 
 		assertEquals(300f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
 	}
+	
+	@Test (expected = NullPointerException.class)
+	// Tests throwing an exception if delivery frequency is null (for Weekend frequency)
+	public void testNullFrequencyForWeekendsFees() throws Exception {
+		List<DeliveryFee> listWeekendDeliveryFee = new ArrayList<DeliveryFee>();
+		// null frequency cannot be used to calculate an estimate for a weekend fee
+		DeliveryFee nullPercentageInvalidBigFee = new DeliveryFee(0.4f, null, false);
+		listWeekendDeliveryFee.add(nullPercentageInvalidBigFee);
+
+		Estimate estimate = new Estimate(0f, 950f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Weekend, service, user);
+
+		assertEquals(380f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	// Tests throwing an exception for a negative delivery fee (for weekend frequency)
+	public void testNegativeWeekendsPercentageFees() throws Exception {
+		List<DeliveryFee> listWeekendDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee weekendsPercentageFee = new DeliveryFee(-0.9f, Frequency.Weekend, false);
+		listWeekendDeliveryFee.add(weekendsPercentageFee);
+		
+		Estimate estimate = new Estimate(0f, 115000f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Weekend, service, user);
+
+		assertEquals(-103500f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+	}
 }
