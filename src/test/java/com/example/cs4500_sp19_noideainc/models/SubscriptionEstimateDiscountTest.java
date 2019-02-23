@@ -65,4 +65,22 @@ public class SubscriptionEstimateDiscountTest {
         float actual = TestServiceSub.getDiscount(Frequency.Weekday, false, 5, 10.0f);
         assertEquals(0.7f, actual, 0.01f);
     }
+
+    @Test
+    public void testWeekend() {
+        float actual = TestServiceSub.getDiscount(Frequency.Weekend, false, 5, 10.0f);
+        assertEquals(0.4f, actual, 0.01f);
+    }
+
+    @Test
+    public void testEmergency() {
+        float actual = TestServiceSub.getDiscount(Frequency.Emergency, false, 5, 10.0f);
+        assertEquals(-0.5f, actual, 0.01f);
+    }
+
+    @Test
+    public void testHoliday() {
+        float actual = TestServiceSub.getDiscount(Frequency.Holiday, false, 5, 10.0f);
+        assertEquals(-2.5f, actual, 0.01f);
+    }
 }

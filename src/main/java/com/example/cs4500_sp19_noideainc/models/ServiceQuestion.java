@@ -23,6 +23,8 @@ public class ServiceQuestion {
   private String choices;
   @OneToMany(mappedBy="serviceQuestion")
   private List<ServiceAnswer> serviceAnswers;
+
+
   public Integer getId() {
     return id;
   }

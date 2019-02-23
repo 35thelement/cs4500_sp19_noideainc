@@ -75,6 +75,7 @@ public class DeliveryFeeEstimateTest {
 		listDeliveryFee.add(weekdayFlat);
 		listDeliveryFee.add(WeekendFlat);
 		listDeliveryFee.add(HolidayFlat);
+
 		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, Frequency.Weekday, service, user);
 		assertEquals(4.555f, estimate.getFees(listDeliveryFee));
 		
@@ -113,6 +114,7 @@ public class DeliveryFeeEstimateTest {
 		DeliveryFee weekendFlat2 = new DeliveryFee(0.00001f, Frequency.Weekend, true);
 		listDeliveryFee.add(weekdayFlat1);
 		listDeliveryFee.add(weekendFlat2);
+
 		Estimate estimate = new Estimate(0f, 500f, baseFrequency, false, subscriptionFrequency, Frequency.Weekday, service, user);
 		assertEquals(0.555f, estimate.getFees(listDeliveryFee));
 		
