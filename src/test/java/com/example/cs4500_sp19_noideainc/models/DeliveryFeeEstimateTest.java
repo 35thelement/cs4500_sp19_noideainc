@@ -233,4 +233,51 @@ public class DeliveryFeeEstimateTest {
 
 		assertEquals(-1250f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
 	}
+	
+	@Test
+	// Tests regular (not too big) weekends delivery fees (both flat and percentage)
+	public void testRegularlWeekendsFees() throws Exception {
+		List<DeliveryFee> listWeekendDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee weekendFlatFee1 = new DeliveryFee(400f, Frequency.Weekend, true);
+		DeliveryFee weekendFlatFee2 = new DeliveryFee(300f, Frequency.Weekend, true);
+		DeliveryFee weekendPercentageFee1 = new DeliveryFee(0.4f, Frequency.Weekend, false);
+		listWeekendDeliveryFee.add(weekendFlatFee1);
+		listWeekendDeliveryFee.add(weekendFlatFee2);
+		listWeekendDeliveryFee.add(weekendPercentageFee1);
+
+		// Base price here is 800. Since our team does not deal with discounts,
+		// we will keep base frequency and subscription frequency as weekday for now.
+		Estimate estimate = new Estimate(0, 800f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Weekend, service, user);
+
+		// Weekend fees
+		assertEquals(400f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+		listWeekendDeliveryFee.remove(0);
+		assertEquals(300f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+		listWeekendDeliveryFee.remove(0);
+		assertEquals(320f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+		listWeekendDeliveryFee.remove(0);
+	}
+	
+	@Test
+	// Tests big weekends percentage fees that are below the fee limit (five times the base price)
+	public void testBigWeekendsPercentageFees() throws Exception {
+		List<DeliveryFee> listWeekendDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee weekendPercentageBigFee = new DeliveryFee(2.5f, Frequency.Weekend, false);
+		DeliveryFee weekendPercentageBigFee1 = new DeliveryFee(5, Frequency.Weekend, false);
+		DeliveryFee weekendPercentageBigFee2 = new DeliveryFee(4.99f, Frequency.Weekend, false);
+		listWeekendDeliveryFee.add(weekendPercentageBigFee);
+		listWeekendDeliveryFee.add(weekendPercentageBigFee1);
+		listWeekendDeliveryFee.add(weekendPercentageBigFee2);
+		
+		Estimate estimate = new Estimate(0f, 550f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Weekend, service, user);
+
+		assertEquals(1375f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+		listWeekendDeliveryFee.remove(0);
+		assertEquals(2750f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+		listWeekendDeliveryFee.remove(0);
+		assertEquals(2744.4998f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
+		listWeekendDeliveryFee.remove(0);
+	}
 }
