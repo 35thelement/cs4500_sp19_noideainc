@@ -206,12 +206,14 @@ public class DeliveryFeeEstimateTest {
 	public void testRandomFrequencyForHolidaysFees() throws Exception {
 		List<DeliveryFee> listHolidayDeliveryFee = new ArrayList<DeliveryFee>();
 		// Emergency fee cannot be used to calculate an estimate for a holiday fee
-		DeliveryFee emergencyPercentageInvalidBigFee = new DeliveryFee(0.75f, Frequency.Emergency, false);
+		DeliveryFee emergencyPercentageInvalidBigFee = new DeliveryFee(300f, Frequency.Emergency, false);
 		listHolidayDeliveryFee.add(emergencyPercentageInvalidBigFee);
 		
 		Estimate estimate = new Estimate(0f, 900f, baseFrequency, false, 
 				subscriptionFrequency, Frequency.Holiday, service, user);
 		
-		assertEquals(675f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
+		assertEquals(300f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
 	}
+	
+	
 }
