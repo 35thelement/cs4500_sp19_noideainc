@@ -114,6 +114,36 @@ public class ServiceSearchTest {
 
 	}
 	
+	//Test that providers are ordered correctly when more than 1 provider matches the search criteria
+	@Test
+	public void test_yardwork_search_tools_true_acres_4() {
+		SearchCriteria yardCriteria = new SearchCriteria();
+		ArrayList<SearchPredicate> searchCriterians = new ArrayList<SearchPredicate>();
+		
+		ServiceAnswer acres = new ServiceAnswer();
+		acres.setMinRangeAnswer(4);
+		acres.setMaxRangeAnswer(4);
+		SearchPredicate q1Pred = new SearchPredicate(q1, acres);
+		
+		ServiceAnswer tools = new ServiceAnswer();
+		tools.setTrueFalseAnswer(true);
+		SearchPredicate q3Pred = new SearchPredicate(q3, tools);
+		
+		searchCriterians.add(q1Pred);
+		searchCriterians.add(q3Pred);
+		
+		yardCriteria.setCriteria(searchCriterians);
+		
+		ArrayList<User> output = new ArrayList<User>();
+		output.add(prov1);
+		output.add(prov2);
+		output.add(prov3);
+		
+		assertEquals(ServiceSearch.searchForProviders(yardWork, yardCriteria), output);
+		
+		
+	}
+	
 
 
 	
