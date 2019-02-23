@@ -145,7 +145,40 @@ public class ServiceSearchTest {
 	}
 	
 
+	@Test
+	public void test_yardwork_search_range_one_million() {
+		init();
+		System.out.println(yardWork);
+		System.out.println("Service: " + yardWork.getTitle());
+		for (User p : yardWork.getProviders()) {
+			System.out.println();
+			System.out.println("Provider: " + p.getFirstName() + " " + p.getLastName());
+			for (ServiceAnswer a : p.getServiceAnswers()) {
+				System.out.println("Question: " + a.getServiceQuestion().getTitle());
+				System.out.println("Answer: " + a.getChoiceAnswer() + " " + a.getMinRangeAnswer() + ", "
+						+ a.getMaxRangeAnswer() + " " + a.getTrueFalseAnswer());
+			}
+		}
+		
+		SearchCriteria yardCriteria = new SearchCriteria();
+		ArrayList<SearchPredicate> searchCriteriaAns = new ArrayList<SearchPredicate>();
+		ServiceAnswer acres = new ServiceAnswer();
+		acres.setMinRangeAnswer(1000000);
+		acres.setMaxRangeAnswer(1000000);
+		SearchPredicate q1Pred = new SearchPredicate(q1, acres);
+		searchCriteriaAns.add(q1Pred);
+		yardCriteria.setCriteria(searchCriteriaAns);
 
+		System.out.println("RESULT: ");
+		for (User u : ServiceSearch.searchForProviders(yardWork, yardCriteria)) {
+			System.out.println(u.getFirstName() + " " + u.getLastName());
+		}
+		// does test
+		ArrayList<User> output = new ArrayList<User>();
+		assertEquals(ServiceSearch.searchForProviders(yardWork, yardCriteria), output);
+		// fail("Not yet implemented");
+
+	}
 	
 	
 
