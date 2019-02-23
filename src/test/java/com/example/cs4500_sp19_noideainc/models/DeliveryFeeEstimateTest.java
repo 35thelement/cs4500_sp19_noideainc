@@ -220,4 +220,17 @@ public class DeliveryFeeEstimateTest {
 
 		assertEquals(617.5f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
 	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	// Tests throwing an exception for a negative delivery fee (for holiday frequency)
+	public void testNegativeHolidaysPercentageFees() throws Exception {
+		List<DeliveryFee> listHolidayDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee holidaysPercentageFee = new DeliveryFee(-0.25f, Frequency.Weekend, false);
+		listHolidayDeliveryFee.add(holidaysPercentageFee);
+		
+		Estimate estimate = new Estimate(0f, 5000f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Weekend, service, user);
+
+		assertEquals(-1250f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
+	}
 }
