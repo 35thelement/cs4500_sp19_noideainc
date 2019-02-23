@@ -24,17 +24,6 @@ public class DeliveryFeeEstimateTest {
 	private final DeliveryFee holidayFlat = new DeliveryFee(150f, Frequency.Holiday, true);
 	private final DeliveryFee EmergencyFlat = new DeliveryFee(225f, Frequency.Emergency, true);
 
-	// Delivery fee objects for testing holidays fees
-	// This includes both flat fees and percentage fees.
-	private final DeliveryFee holidayPercentageFee1 = new DeliveryFee(0f, Frequency.Holiday, false);
-	private final DeliveryFee holidayPercentageFee2 = new DeliveryFee(0.5f, Frequency.Holiday, false);
-	private final DeliveryFee holidayFlatFee1 = new DeliveryFee(500f, Frequency.Holiday, true);
-
-	private final DeliveryFee weekendFlatFee1 = new DeliveryFee(400f, Frequency.Weekend, true);
-	private final DeliveryFee weekendFlatFee2 = new DeliveryFee(300f, Frequency.Weekend, true);
-	private final DeliveryFee weekendPercentageFee1 = new DeliveryFee(0.4f, Frequency.Weekend, false);
-
-
 	@Test
 	// Test regular situations for the calculation of different flat fees
 	public void testRegularFlatFees() throws Exception {
@@ -153,9 +142,12 @@ public class DeliveryFeeEstimateTest {
 	public void testRegularlHolidaysFees() throws Exception {
 		// add various holiday delivery fees to the list
 		List<DeliveryFee> listHolidayDeliveryFee = new ArrayList<DeliveryFee>();
-		listHolidayDeliveryFee.add(this.holidayPercentageFee1);
-		listHolidayDeliveryFee.add(this.holidayPercentageFee2);
-		listHolidayDeliveryFee.add(this.holidayFlatFee1);
+		DeliveryFee holidayPercentageFee1 = new DeliveryFee(0f, Frequency.Holiday, false);
+		DeliveryFee holidayPercentageFee2 = new DeliveryFee(0.5f, Frequency.Holiday, false);
+		DeliveryFee holidayFlatFee1 = new DeliveryFee(500f, Frequency.Holiday, true);
+		listHolidayDeliveryFee.add(holidayPercentageFee1);
+		listHolidayDeliveryFee.add(holidayPercentageFee2);
+		listHolidayDeliveryFee.add(holidayFlatFee1);
 
 		// Base price here is 800. Since our team does not deal with discounts,
 		// we will keep base frequency and subscription frequency as weekday for now.
