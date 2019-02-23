@@ -77,6 +77,47 @@ public class ServiceSearchTest {
 		assertEquals(ServiceSearch.searchForProviders(yardWork, yardCriteria), output);
 
 	}
+	@Test
+	public void test_yardwork_search_range_4() {
+		init();
+		System.out.println(yardWork);
+		System.out.println("Service: " + yardWork.getTitle());
+		for (User p : yardWork.getProviders()) {
+			System.out.println();
+			System.out.println("Provider: " + p.getFirstName() + " " + p.getLastName());
+			for (ServiceAnswer a : p.getServiceAnswers()) {
+				System.out.println("Question: " + a.getServiceQuestion().getTitle());
+				System.out.println("Answer: " + a.getChoiceAnswer() + " " + a.getMinRangeAnswer() + ", "
+						+ a.getMaxRangeAnswer() + " " + a.getTrueFalseAnswer());
+			}
+		}
+		
+		SearchCriteria yardCriteria = new SearchCriteria();
+		ArrayList<SearchPredicate> searchCriteriaAns = new ArrayList<SearchPredicate>();
+		ServiceAnswer acres = new ServiceAnswer();
+		acres.setMinRangeAnswer(4);
+		acres.setMaxRangeAnswer(4);
+		SearchPredicate q1Pred = new SearchPredicate(q1, acres);
+		searchCriteriaAns.add(q1Pred);
+		yardCriteria.setCriteria(searchCriteriaAns);
+
+		System.out.println("RESULT: ");
+		for (User u : ServiceSearch.searchForProviders(yardWork, yardCriteria)) {
+			System.out.println(u.getFirstName() + " " + u.getLastName());
+		}
+		// does test
+		ArrayList<User> output = new ArrayList<User>();
+		output.add(prov1);
+		output.add(prov2);
+		assertEquals(ServiceSearch.searchForProviders(yardWork, yardCriteria), output);
+		// fail("Not yet implemented");
+
+	}
+	
+
+
+	
+	
 
 	// Does all test setup before each test case
 	@BeforeEach
@@ -92,13 +133,16 @@ public class ServiceSearchTest {
 		q1.setTitle("Acres");
 		q1.setQuestion("How many acres is the property?");
 		q1.setType(QuestionType.RANGE);
+		q1.setId(1);
 		q2.setTitle("Availability");
 		q2.setQuestion("What days are you available");
 		q2.setType(QuestionType.MULTIPLE_CHOICE);
 		q2.setChoices("weekdays, weekends, both");
+		q2.setId(2);
 		q3.setTitle("Tools");
 		q3.setQuestion("Will you provide you're own tools");
 		q3.setType(QuestionType.TRUE_FALSE);
+		q3.setId(3);
 
 		// YARD WORK PROVIDERS
 		prov1 = new User();
