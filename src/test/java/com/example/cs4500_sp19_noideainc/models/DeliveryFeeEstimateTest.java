@@ -206,4 +206,18 @@ public class DeliveryFeeEstimateTest {
 		
 		assertEquals(300f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
 	}
+	
+	@Test (expected = NullPointerException.class)
+	// Tests throwing an exception if delivery frequency is null
+	public void testNullFrequencyForHolidaysFees() throws Exception {
+		List<DeliveryFee> listHolidayDeliveryFee = new ArrayList<DeliveryFee>();
+		// null frequency cannot be used to calculate an estimate for a holiday fee
+		DeliveryFee nullPercentageInvalidBigFee = new DeliveryFee(0.65f, null, false);
+		listHolidayDeliveryFee.add(nullPercentageInvalidBigFee);
+
+		Estimate estimate = new Estimate(0f, 950f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Holiday, service, user);
+
+		assertEquals(617.5f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
+	}
 }
