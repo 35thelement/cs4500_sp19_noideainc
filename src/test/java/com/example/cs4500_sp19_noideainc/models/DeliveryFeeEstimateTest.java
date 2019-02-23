@@ -179,12 +179,25 @@ public class DeliveryFeeEstimateTest {
 		listHolidayDeliveryFee.add(holidayPercentageBigFee);
 		listHolidayDeliveryFee.add(holidayPercentageBigFee1);
 		
-		Estimate estimate = new Estimate(30f, 850f, baseFrequency, false, 
+		Estimate estimate = new Estimate(0f, 850f, baseFrequency, false, 
 				subscriptionFrequency, Frequency.Holiday, service, user);
 		
 		assertEquals(2550f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
 		listHolidayDeliveryFee.remove(0);
 		assertEquals(4250f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
 		listHolidayDeliveryFee.remove(0);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	// Tests big holiday percentage fees that exceed the fee limit (bigger than five times the base price)
+	public void testInvalidBigHolidaysPercentageFees() throws Exception {
+		List<DeliveryFee> listHolidayDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee holidayPercentageInvalidBigFee = new DeliveryFee(5.01f, Frequency.Holiday, false);
+		listHolidayDeliveryFee.add(holidayPercentageInvalidBigFee);
+		
+		Estimate estimate = new Estimate(0f, 900f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Holiday, service, user);
+		
+		assertEquals(4509f, estimate.getFees(listHolidayDeliveryFee), 0.0001f);
 	}
 }
