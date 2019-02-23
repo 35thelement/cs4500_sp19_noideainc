@@ -144,6 +144,36 @@ public class ServiceSearchTest {
 		
 	}
 	
+	//Test that false is returned if the providers are out of order, even if all the correct providers are present
+		@Test
+		public void test_yardwork_search_tools_true_acres_4_incorrect_order() {
+			SearchCriteria yardCriteria = new SearchCriteria();
+			ArrayList<SearchPredicate> searchCriterians = new ArrayList<SearchPredicate>();
+			
+			ServiceAnswer acres = new ServiceAnswer();
+			acres.setMinRangeAnswer(4);
+			acres.setMaxRangeAnswer(4);
+			SearchPredicate q1Pred = new SearchPredicate(q1, acres);
+			
+			ServiceAnswer tools = new ServiceAnswer();
+			tools.setTrueFalseAnswer(true);
+			SearchPredicate q3Pred = new SearchPredicate(q3, tools);
+			
+			searchCriterians.add(q1Pred);
+			searchCriterians.add(q3Pred);
+			
+			yardCriteria.setCriteria(searchCriterians);
+			
+			ArrayList<User> output = new ArrayList<User>();
+			output.add(prov2);
+			output.add(prov1);
+			output.add(prov3);
+			
+			assertEquals(ServiceSearch.searchForProviders(yardWork, yardCriteria).equals(output), false);
+			
+			
+		}
+	
 
 	@Test
 	public void test_yardwork_search_range_one_million() {
