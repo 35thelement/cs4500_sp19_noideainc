@@ -52,7 +52,7 @@ public class DeliveryFeeEstimateTest {
 
 	@Test
 	// Test positive result of get fees
-	public void testAllPositiveFlatFees() throws Exception {
+	public void testPositiveFlatFees() throws Exception {
 		// a list of deliveryFees
 		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
 		DeliveryFee weekdayFlat1 = new DeliveryFee(15f, Frequency.Weekday, true);
