@@ -409,20 +409,20 @@ public class DeliveryFeeEstimateTest {
 	// Tests regular weekdays delivery fees (both flat and percentage)
 	public void testRegularlWeekdaysFees() throws Exception {
 		// add various weekday delivery fees to the list
-		List<DeliveryFee> listWeekdayDeliveryFee = new ArrayList<DeliveryFee>();
+		List<DeliveryFee> listWeekdayDeliveryFeePercentage = new ArrayList<DeliveryFee>();
+		List<DeliveryFee> listWeekdayDeliveryFeeFlat = new ArrayList<DeliveryFee>();
 		DeliveryFee weekdayPercentageFee = new DeliveryFee(0f, Frequency.Weekday, false);
 		DeliveryFee weekdayFlatFee = new DeliveryFee(2.0f, Frequency.Weekday, true);
-		listWeekdayDeliveryFee.add(weekdayPercentageFee);
-		listWeekdayDeliveryFee.add(weekdayFlatFee);
+		listWeekdayDeliveryFeePercentage.add(weekdayPercentageFee);
+		listWeekdayDeliveryFeeFlat.add(weekdayFlatFee);
 
 		// Base price here is 800. Since our team does not deal with discounts,
 		// we will keep base frequency and subscription frequency as weekday for now.
 		Estimate estimate = new Estimate(0, 800f, baseFrequency, false, 
 				subscriptionFrequency, Frequency.Weekday, service, user);
 
-		assertEquals(0, estimate.getFees(listWeekdayDeliveryFee), 0.0001f);
-		listWeekdayDeliveryFee.remove(0);
-		assertEquals(2.0f, estimate.getFees(listWeekdayDeliveryFee), 0.0001f);
+		assertEquals(0, estimate.getFees(listWeekdayDeliveryFeePercentage), 0.0001f);
+		assertEquals(2.0f, estimate.getFees(listWeekdayDeliveryFeeFlat), 0.0001f);
 	}
 
 	@Test (expected = IllegalArgumentException.class)
