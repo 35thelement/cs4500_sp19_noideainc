@@ -52,7 +52,7 @@ public class DeliveryFeeEstimateTest {
 
 	@Test
 	// Test positive result of get fees
-	public void testAllFlatFees() throws Exception {
+	public void testPositiveFlatFees() throws Exception {
 		// a list of deliveryFees
 		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
 		DeliveryFee weekdayFlat1 = new DeliveryFee(15f, Frequency.Weekday, true);
@@ -553,5 +553,51 @@ public class DeliveryFeeEstimateTest {
 		assertEquals(-1250f, estimate.getFees(listEmergencyDeliveryFee), 0.0001f);
 	}
 	
+	@Test
+	// Tests regular Emergency delivery fees (both flat and percentage)
+	public void testRegularlPercentageFees() throws Exception {
+		// add various Emergency delivery fees to the list
+		List<DeliveryFee> listRegularlPercentageFees = new ArrayList<DeliveryFee>();
+		DeliveryFee emergency = new DeliveryFee(0.6f, Frequency.Emergency, false);
+		DeliveryFee weekend = new DeliveryFee(0.3f, Frequency.Weekend, false);
+		listRegularlPercentageFees.add(emergency);
+		listRegularlPercentageFees.add(weekend);
+
+		// Base prices here are 800 and 600. Since our team does not deal with discounts,
+		// we will keep base frequency and subscription frequency as weekday for now.
+		Estimate estimateEmergency = new Estimate(0, 800f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Emergency, service, user);
+		Estimate estimateWeekend = new Estimate(0, 600f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Weekend, service, user);
+
+		assertEquals(480f, estimateEmergency.getFees(listRegularlPercentageFees), 0.0001f);
+		assertEquals(180f, estimateWeekend.getFees(listRegularlPercentageFees), 0.0001f);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	// Tests throwing an exception for a negative percentage fee
+	public void testNegativePercentageFees() throws Exception {
+		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee percentageFee = new DeliveryFee(-0.58f, Frequency.Emergency, false);
+		listDeliveryFee.add(percentageFee);
+
+		Estimate estimate = new Estimate(0f, 5000f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Emergency, service, user);
+
+		assertEquals(-1250f, estimate.getFees(listDeliveryFee), 0.0001f);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	// Tests big percentage fees that exceed the fee limit (bigger than five times the base price)
+	public void testInvalidBigPercentageFees() throws Exception {
+		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
+		DeliveryFee PercentageInvalidBigFee = new DeliveryFee(6.0f, Frequency.Emergency, false);
+		listDeliveryFee.add(PercentageInvalidBigFee);
+
+		Estimate estimate = new Estimate(0f, 900f, baseFrequency, false, 
+				subscriptionFrequency, Frequency.Emergency, service, user);
+
+		assertEquals(5400f, estimate.getFees(listDeliveryFee), 0.0001f);
+	}
 
 }
