@@ -211,17 +211,17 @@ public class DeliveryFeeEstimateTest {
 		List<DeliveryFee> listDeliveryFees = new ArrayList<DeliveryFee>();
 		List<DeliveryFee> listHolidayDeliveryFee1 = new ArrayList<DeliveryFee>();
 		List<DeliveryFee> listHolidayDeliveryFee2 = new ArrayList<DeliveryFee>();
-		
+
 		DeliveryFee holidayPercentageFee1 = new DeliveryFee(0f, Frequency.Holiday, false);
 		DeliveryFee holidayPercentageFee2 = new DeliveryFee(0.5f, Frequency.Holiday, false);
 		DeliveryFee holidayFlatFee1 = new DeliveryFee(500f, Frequency.Holiday, true);
 		DeliveryFee weekendPercentageFee1 = new DeliveryFee(0.1f, Frequency.Weekend, false);
-		
+
 		// This list also contains a weekend fee just to test that this weekend fee will have
 		// no effects on the estimate calculation for holiday fee
 		listDeliveryFees.add(holidayPercentageFee1);
 		listDeliveryFees.add(weekendPercentageFee1);
-		
+
 		listHolidayDeliveryFee1.add(holidayPercentageFee2);
 		listHolidayDeliveryFee2.add(holidayFlatFee1);
 
@@ -240,10 +240,10 @@ public class DeliveryFeeEstimateTest {
 	public void testBigHolidaysPercentageFees() throws Exception {
 		List<DeliveryFee> listHolidayDeliveryFee = new ArrayList<DeliveryFee>();
 		List<DeliveryFee> listHolidayDeliveryFee1 = new ArrayList<DeliveryFee>();
-		
+
 		DeliveryFee holidayPercentageBigFee = new DeliveryFee(3, Frequency.Holiday, false);
 		DeliveryFee holidayPercentageBigFee1 = new DeliveryFee(5, Frequency.Holiday, false);
-		
+
 		listHolidayDeliveryFee.add(holidayPercentageBigFee);
 		listHolidayDeliveryFee1.add(holidayPercentageBigFee1);
 
@@ -271,7 +271,7 @@ public class DeliveryFeeEstimateTest {
 	// Tests throwing an exception if holiday frequency is not provided
 	public void testNoHolidayFrequency() throws Exception {
 		List<DeliveryFee> listDeliveryFee = new ArrayList<DeliveryFee>();
-		
+
 		// This will throw an error since we are testing holiday frequency but it is not in the list.
 		// Emergency fee cannot be used to calculate an estimate for a holiday fee
 		DeliveryFee emergencyFlatInvalidBigFee = new DeliveryFee(300f, Frequency.Emergency, false);
@@ -316,17 +316,17 @@ public class DeliveryFeeEstimateTest {
 		List<DeliveryFee> listDeliveryFees = new ArrayList<DeliveryFee>();
 		List<DeliveryFee> listWeekendDeliveryFee1 = new ArrayList<DeliveryFee>();
 		List<DeliveryFee> listWeekendDeliveryFee2 = new ArrayList<DeliveryFee>();
-		
+
 		DeliveryFee weekendFlatFee1 = new DeliveryFee(400f, Frequency.Weekend, true);
 		DeliveryFee weekendFlatFee2 = new DeliveryFee(300f, Frequency.Weekend, true);
 		DeliveryFee weekendPercentageFee1 = new DeliveryFee(0.4f, Frequency.Weekend, false);
 		DeliveryFee emergencyPercentageFee1 = new DeliveryFee(0.46f, Frequency.Emergency, false);
-		
+
 		// This list also contains an emergency fee just to test that this emergency fee will have
-	    // no effects on the estimate calculation for weekend fee
+		// no effects on the estimate calculation for weekend fee
 		listDeliveryFees.add(weekendFlatFee1);
 		listDeliveryFees.add(emergencyPercentageFee1);
-		
+
 		listWeekendDeliveryFee1.add(weekendFlatFee2);
 		listWeekendDeliveryFee2.add(weekendPercentageFee1);
 
@@ -345,11 +345,11 @@ public class DeliveryFeeEstimateTest {
 		List<DeliveryFee> listWeekendDeliveryFee = new ArrayList<DeliveryFee>();
 		List<DeliveryFee> listWeekendDeliveryFee1 = new ArrayList<DeliveryFee>();
 		List<DeliveryFee> listWeekendDeliveryFee2 = new ArrayList<DeliveryFee>();
-		
+
 		DeliveryFee weekendPercentageBigFee = new DeliveryFee(2.5f, Frequency.Weekend, false);
 		DeliveryFee weekendPercentageBigFee1 = new DeliveryFee(5, Frequency.Weekend, false);
 		DeliveryFee weekendPercentageBigFee2 = new DeliveryFee(4.99f, Frequency.Weekend, false);
-		
+
 		listWeekendDeliveryFee.add(weekendPercentageBigFee);
 		listWeekendDeliveryFee1.add(weekendPercentageBigFee1);
 		listWeekendDeliveryFee2.add(weekendPercentageBigFee2);
@@ -361,15 +361,15 @@ public class DeliveryFeeEstimateTest {
 		assertEquals(2750f, estimate.getFees(listWeekendDeliveryFee1), 0.0001f);
 		assertEquals(2744.4998f, estimate.getFees(listWeekendDeliveryFee2), 0.0001f);
 	}
-	
+
 	@Test (expected = IllegalArgumentException.class)
 	// Tests big weekends percentage fees that exceed the fee limit (bigger than five times the base price)
 	public void testInvalidBigWeekendsPercentageFees() throws Exception {
 		List<DeliveryFee> listWeekendDeliveryFee = new ArrayList<DeliveryFee>();
-		
+
 		DeliveryFee weekendPercentageInvalidBigFee = new DeliveryFee(5.01f, Frequency.Weekend, false);
 		listWeekendDeliveryFee.add(weekendPercentageInvalidBigFee);
-		
+
 		Estimate estimate = new Estimate(0f, 900f, baseFrequency, false, 
 				subscriptionFrequency, Frequency.Weekend, service, user);
 
@@ -380,14 +380,14 @@ public class DeliveryFeeEstimateTest {
 	// Tests throwing an exception if weekend frequency is not provided
 	public void testNoWeekendFrequency() throws Exception {
 		List<DeliveryFee> listDeliveryFees = new ArrayList<DeliveryFee>();
-		
+
 		// These two delivery fees will be in the list but have no effects on the estimate calculation since 
 		// none of these are weekend frequency
 		DeliveryFee emergencyPercentageInvalidBigFee = new DeliveryFee(0.6f, Frequency.Emergency, false);
 		DeliveryFee holidayPercentageInvalidBigFee = new DeliveryFee(0.75f, Frequency.Holiday, false);
 		// Daily fee cannot be used to calculate an estimate for a weekend fee
 		DeliveryFee dailyPercentageInvalidBigFee = new DeliveryFee(0.55f, Frequency.Daily, false);
-		
+
 		listDeliveryFees.add(emergencyPercentageInvalidBigFee);
 		listDeliveryFees.add(holidayPercentageInvalidBigFee);
 		listDeliveryFees.add(dailyPercentageInvalidBigFee);
@@ -403,13 +403,13 @@ public class DeliveryFeeEstimateTest {
 	public void testNullFrequencyForWeekendsFees() throws Exception {
 		List<DeliveryFee> listWeekendDeliveryFee = new ArrayList<DeliveryFee>();
 		List<DeliveryFee> listHolidayDeliveryFee = new ArrayList<DeliveryFee>();
-		
+
 		// null frequency cannot be used to calculate an estimate for a weekend fee
 		DeliveryFee nullPercentageInvalidBigFee = new DeliveryFee(0.4f, null, false);
 		// This will be in the list but has no effects on the estimate calculation since it is not a
 		// weekend frequency
 		DeliveryFee holidayPercentageInvalidBigFee = new DeliveryFee(0.45f, Frequency.Holiday, false);
-		
+
 		listWeekendDeliveryFee.add(nullPercentageInvalidBigFee);
 		listHolidayDeliveryFee.add(holidayPercentageInvalidBigFee);
 
@@ -431,8 +431,8 @@ public class DeliveryFeeEstimateTest {
 
 		assertEquals(-103500f, estimate.getFees(listWeekendDeliveryFee), 0.0001f);
 	}
-	
-	
+
+
 	@Test
 	// Tests regular weekdays delivery fees (both flat and percentage)
 	public void testRegularlWeekdaysFees() throws Exception {
@@ -506,7 +506,7 @@ public class DeliveryFeeEstimateTest {
 
 		assertEquals(-1250f, estimate.getFees(listWeekdayDeliveryFee), 0.0001f);
 	}
-	
+
 	@Test
 	// Tests regular Emergency delivery fees (both flat and percentage)
 	public void testRegularlEmergencyFees() throws Exception {
@@ -580,7 +580,7 @@ public class DeliveryFeeEstimateTest {
 
 		assertEquals(-1250f, estimate.getFees(listEmergencyDeliveryFee), 0.0001f);
 	}
-	
+
 	@Test
 	// Tests regular Emergency delivery fees (both flat and percentage)
 	public void testRegularlPercentageFees() throws Exception {
@@ -601,7 +601,7 @@ public class DeliveryFeeEstimateTest {
 		assertEquals(480f, estimateEmergency.getFees(listRegularlPercentageFees), 0.0001f);
 		assertEquals(180f, estimateWeekend.getFees(listRegularlPercentageFees), 0.0001f);
 	}
-	
+
 	@Test (expected = IllegalArgumentException.class)
 	// Tests throwing an exception for a negative percentage fee
 	public void testNegativePercentageFees() throws Exception {
@@ -614,7 +614,7 @@ public class DeliveryFeeEstimateTest {
 
 		assertEquals(-1250f, estimate.getFees(listDeliveryFee), 0.0001f);
 	}
-	
+
 	@Test (expected = IllegalArgumentException.class)
 	// Tests big percentage fees that exceed the fee limit (bigger than five times the base price)
 	public void testInvalidBigPercentageFees() throws Exception {
