@@ -5,6 +5,8 @@ import com.example.cs4500_sp19_noideainc.models.ServiceAnswer;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,7 @@ public class ServiceQuestion {
   private Integer id;
   private String title;
   private String question;
+  @Enumerated(EnumType.STRING)
   private QuestionType type;
   private String choices;
   @OneToMany(mappedBy="serviceQuestion")
