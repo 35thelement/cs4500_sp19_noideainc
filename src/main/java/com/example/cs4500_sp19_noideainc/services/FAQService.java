@@ -3,6 +3,9 @@ package com.example.cs4500_sp19_noideainc.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cs4500_sp19_noideainc.models.FrequentlyAskedAnswer;
 import com.example.cs4500_sp19_noideainc.models.FrequentlyAskedQuestion;
 import com.example.cs4500_sp19_noideainc.repositories.FAQRepository;
+import com.example.cs4500_sp19_noideainc.repositories.PagedFAQRepository;
 
 
 
@@ -23,6 +28,23 @@ import com.example.cs4500_sp19_noideainc.repositories.FAQRepository;
 public class FAQService {
 	@Autowired
 	FAQRepository faqRepository;
+	@Autowired
+    PagedFAQRepository pagedRepository;
+	
+	@GetMapping("/api/quotes/paged")
+    public Page<FrequentlyAskedQuestion> findPagedFAQs(
+            @RequestParam(name="page", required=false) Integer page,
+            @RequestParam(name="count", required=false) Integer count) {
+        if(page == null) {
+            page = 0;
+        }
+        if(count == null) {
+            count = 10;
+        }
+        Pageable p = PageRequest.of(page, count);
+        return pagedRepository.findAll(p);
+    }
+	
 	@GetMapping("/api/faqs")
 	public List<FrequentlyAskedQuestion> findAllFrequentlyAskedQuestions() {
 		return faqRepository.findAllFrequentlyAskedQuestions();
