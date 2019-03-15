@@ -25,5 +25,10 @@ public interface FAQRepository extends CrudRepository<FrequentlyAskedQuestion, I
 	@Query(value="SELECT frequentlyAskedAnswer FROM FrequentlyAskedAnswer frequentlyAskedAnswer WHERE frequentlyAskedAnswer.frequentlyAskedQuestion.id=:FAQid")
 	public List<FrequentlyAskedAnswer> findAllFrequentlyAskedAnswersByFAQId(@Param("FAQid") Integer FAQid);
 	
+	// find filtered FAQ by title and question
+	@Query("SELECT faq FROM FrequentlyAskedQuestion faq WHERE faq.title LIKE %:title% AND faq.question LIKE %:question%")
+	public List<FrequentlyAskedQuestion> filterFAQs(
+	       @Param("title") String title,
+	       @Param("question") String question);
 }
 
