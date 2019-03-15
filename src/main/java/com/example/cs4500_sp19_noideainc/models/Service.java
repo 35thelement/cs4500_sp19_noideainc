@@ -30,6 +30,13 @@ public class Service {
     @ManyToMany(mappedBy = "services")
     private List<ServiceCategory> serviceCategories;
 
+    public Service() {}
+
+    public Service(Integer id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
     public List<ServiceCategory> getServiceCategories() {
         return serviceCategories;
     }
