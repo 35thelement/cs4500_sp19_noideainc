@@ -36,6 +36,13 @@ public class FrequentlyAskedAnswer {
     @Transient
     private String question;
 
+    public FrequentlyAskedAnswer() {}
+
+    public FrequentlyAskedAnswer(Integer id, String answer) {
+        this.id = id;
+        this.answer = answer;
+    }
+
   /**
    * Getter method for question .
    * @return String - the question.
