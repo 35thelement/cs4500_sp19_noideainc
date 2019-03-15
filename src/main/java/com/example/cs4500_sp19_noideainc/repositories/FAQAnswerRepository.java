@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.example.cs4500_sp19_noideainc.models.FrequentlyAskedAnswer;
+import com.example.cs4500_sp19_noideainc.models.FrequentlyAskedQuestion;
 
 //This is the repository for FrequentlyAskedAnswer class, which 
 //will implement all database operations related the FrequentlyAskedAnswer Data Model
@@ -20,5 +21,8 @@ public interface FAQAnswerRepository extends CrudRepository<FrequentlyAskedAnswe
 	@Query(value="SELECT frequentlyAskedAnswer FROM FrequentlyAskedAnswer frequentlyAskedAnswer WHERE frequentlyAskedAnswer.id=:id")
 	public FrequentlyAskedAnswer findFrequentlyAskedAnswerById(@Param("id") Integer id);
 	
-	
+	// find filtered FAQ Answer by answer
+	@Query("SELECT faa FROM FrequentlyAskedAnswer faa WHERE faa.answer LIKE %:answer%")
+	public List<FrequentlyAskedAnswer> filterFAAs(
+		   @Param("answer") String answer);
 }
