@@ -20,6 +20,7 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
+    private String description;
     @ManyToMany
     @JsonIgnore
     @JoinTable(
@@ -29,6 +30,15 @@ public class Service {
     private List<User> providers;
     @ManyToMany(mappedBy = "services")
     private List<ServiceCategory> serviceCategories;
+    
+    public Service() {}
+
+    public Service(Integer id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.setDescription(description);
+        
+    }
 
     public Service() {}
 
@@ -68,4 +78,12 @@ public class Service {
     public void setTitle(String title) {
         this.title = title;
     }
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
