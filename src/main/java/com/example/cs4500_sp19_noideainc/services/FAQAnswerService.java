@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cs4500_sp19_noideainc.models.FrequentlyAskedAnswer;
+import com.example.cs4500_sp19_noideainc.models.FrequentlyAskedQuestion;
 import com.example.cs4500_sp19_noideainc.repositories.FAQAnswerRepository;
 
 
@@ -47,4 +49,13 @@ public class FAQAnswerService {
 			@PathVariable("answerId") Integer id) {
 		repository.deleteById(id);
 	}
+	
+	@GetMapping("/api/faq-answers/filtered")
+    public List<FrequentlyAskedAnswer> filterFAAs(
+            @RequestParam(name="answer", required=false) String answer) {
+        if(answer != null) {
+            return repository.filterFAAs(answer);
+        }
+        return repository.findAllFrequentlyAskedAnswers();
+    }
 }
