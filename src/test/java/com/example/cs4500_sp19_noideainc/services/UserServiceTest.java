@@ -64,7 +64,7 @@ public class UserServiceTest {
 
 
         when(userService.createUser(nate)).thenReturn(sam);
-        MvcResult result = this.mockMvc
+        this.mockMvc
                 .perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(nateMapper.writeValueAsString(nate)))
