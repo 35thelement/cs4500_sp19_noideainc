@@ -27,6 +27,16 @@ public class ServiceCategory {
             joinColumns=@JoinColumn(name="CATEGORY_ID", referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="SERVICE_ID", referencedColumnName="ID"))
     private List<Service> services;
+
+    public ServiceCategory() {
+        // do nothing
+    }
+
+    public ServiceCategory(int id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
     public Integer getId() {
         return id;
     }
