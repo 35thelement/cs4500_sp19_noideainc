@@ -120,7 +120,57 @@ public class Estimate {
     	}
     	return null;
     }
+    //get Discount amount
+    public float getDiscount(List<SubscriptionDiscount> listSubscriptionDiscount) throws Exception {
+    	float currentDiscount = 0f;
+    	// check if the listSubscriptionDiscount is invalid
+    	if (listSubscriptionDiscount == null) {
+    		throw new IllegalArgumentException("invalid listSubscriptionDiscount");
+    	}
+    	// check the base price
+    	if (this.basePrice < 0) {
+    		throw new IllegalArgumentException("invalid base price");
+    	}
 
+    	// consider subscription frequency
+    	SubscriptionDiscount getSubscriptionDiscount = this.getDiscountFrequencyValue(listSubscriptionDiscount, this.subscriptionFrequency);
+    	if (getSubscriptionDiscount != null) {
+    		if (getSubscriptionDiscount.isFlat()) {
+        		currentDiscount = getSubscriptionDiscount.getDiscount();
+        		if (currentDiscount < 0) {
+        			throw new IllegalArgumentException("invalid flat discount");
+        		}
+        		// flat discount cannot be greater than base price
+        		if (currentDiscount > this.basePrice) {
+        			throw new IllegalArgumentException("too high flat discount");
+        		}
+        	} else {
+        		if (getSubscriptionDiscount.getDiscount() < 0) {
+        			throw new IllegalArgumentException("invalid discount");
+        		}
+        		// discount cannot be greater than 100
+        		if (getSubscriptionDiscount.getDiscount() > 100) {
+        			throw new IllegalArgumentException("too high discount");
+        		}
+        		currentDiscount = this.basePrice * getSubscriptionDiscount.getDiscount();
+        	}
+    	}
+    	
+    	return currentDiscount;
+    }
+        		
+    // find related SubscriptionDiscount base on the given Frequency (Enum) in the list of SubscriptionDiscount class
+    private SubscriptionDiscount getDiscountFrequencyValue(List<SubscriptionDiscount> ListSubscriptionDiscount, Frequency frequency) {
+    	for (int i = 0; i < ListSubscriptionDiscount.size(); i++) {
+    		SubscriptionDiscount current = ListSubscriptionDiscount.get(i);
+    		if (current.getFrequency().equals(frequency)) {
+    			return current;
+    		}
+    	}
+    	return null;
+    }
+    
+    
 	public float getEstimate() {
 		// this.estimate = this.basePrice + this.getFees() - this.getDiscount()
 		return estimate;
