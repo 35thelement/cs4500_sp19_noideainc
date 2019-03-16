@@ -77,4 +77,14 @@ public class FAQService {
 			@PathVariable("faqId") Integer id) {
 		return faqRepository.findAllFrequentlyAskedAnswersByFAQId(id);
 	}
+	
+	@GetMapping("/api/faqs/filtered")
+    public List<FrequentlyAskedQuestion> filterFAQs(
+            @RequestParam(name="title", required=false) String title,
+            @RequestParam(name="question", required=false) String question) {
+        if(question != null && title != null) {
+            return faqRepository.filterFAQs(title, question);
+        }
+        return faqRepository.findAllFrequentlyAskedQuestions();
+    }
 }
