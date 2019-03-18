@@ -31,7 +31,7 @@ public class FAQService {
 	@Autowired
     PagedFAQRepository pagedRepository;
 	
-	@GetMapping("/api/quotes/paged")
+	@GetMapping("/api/faqs/paged")
     public Page<FrequentlyAskedQuestion> findPagedFAQs(
             @RequestParam(name="page", required=false) Integer page,
             @RequestParam(name="count", required=false) Integer count) {
