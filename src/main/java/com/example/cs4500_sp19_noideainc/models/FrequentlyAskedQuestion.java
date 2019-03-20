@@ -19,6 +19,20 @@ public class FrequentlyAskedQuestion {
     private String question;
     @OneToMany(mappedBy="frequentlyAskedQuestion")
     private List<FrequentlyAskedAnswer> answers;
+
+    // default constructor for the FrequentlyAskedQuestion class
+    public FrequentlyAskedQuestion() {
+
+    }
+
+    // the constructor for the FrequentlyAskedQuestion class
+    public FrequentlyAskedQuestion(Integer id, String title, String question, List<FrequentlyAskedAnswer> answers) {
+		this.id = id;
+		this.title = title;
+		this.question = question;
+		this.answers = answers;
+	}
+    
     public List<FrequentlyAskedAnswer> getAnswers() {
         return answers;
     }
