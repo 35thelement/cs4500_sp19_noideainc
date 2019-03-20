@@ -66,4 +66,19 @@ public class FAQServiceTest {
 		    .andExpect(jsonPath("$[*].id", containsInAnyOrder(1, 2, 3)));
 	}
 	
+	@Test
+	// test the web services for the find FAQs by faqId
+	public void testFindFAQById() throws Exception {
+
+		Mockito.when(fAQRepository.findFrequentlyAskedQuestionById(1)).thenReturn(faq1);
+		this.mockMvc
+			.perform(get("/api/faqs/1"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.title", is("background check")))
+			.andExpect(jsonPath("$.question", is("Have you passed a background check?")))
+			.andExpect(jsonPath("$.id", is(1)));
+
+	}
+	
 }
