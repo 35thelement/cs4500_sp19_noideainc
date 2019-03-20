@@ -102,4 +102,23 @@ public class FAQServiceTest {
 			.andExpect(status().isOk());
 	}
 	
+	
+	@Test
+	// test the web services for the update the FAQs
+	public void testUpdateFAQ() throws Exception {
+		ObjectMapper Mapper = new ObjectMapper();
+		FrequentlyAskedQuestion updateFaq2 = new FrequentlyAskedQuestion(2,
+						"new title for the faq2", "How many employees does your company have?", null);
+		faq2.setTitle("new title for the faq2");
+		Mockito.when(fAQRepository.save(faq2)).thenReturn(updateFaq2);
+		Mockito.when(fAQRepository.findFrequentlyAskedQuestionById(2)).thenReturn(updateFaq2);
+		this.mockMvc
+			.perform(put("/api/faqs/2")
+					.contentType(MediaType.APPLICATION_JSON_UTF8)
+					.content(Mapper.writeValueAsString(faq2)))
+			.andExpect(status().isOk())
+			.andDo(print())
+			.andReturn();
+	}
+
 }
