@@ -1,4 +1,4 @@
-package com.example.cs4500_sp19_noideainc.models;
+package com.example.cs4500_sp19_noideainc.services;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
