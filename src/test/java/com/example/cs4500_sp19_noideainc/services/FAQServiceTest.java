@@ -81,4 +81,25 @@ public class FAQServiceTest {
 
 	}
 	
+	@Test
+	// test the web services for the create a new FAQs
+	public void testCreateFAQ() throws Exception {
+		ObjectMapper Mapper = new ObjectMapper();
+		// new faq does not have ID
+		FrequentlyAskedQuestion newFaq = new FrequentlyAskedQuestion(1, "company's age",
+						"Have you passed a background check?", null);
+		String jsonString = Mapper.writeValueAsString(newFaq);
+		System.out.println("here!!!");
+		System.out.println(jsonString);
+		when(fAQRepository.existsById(1)).thenReturn(false);
+		Mockito.when(fAQRepository.save(newFaq)).thenReturn(newFaq);
+		this.mockMvc
+			.perform(post("/api/faqs/")
+					.contentType(MediaType.APPLICATION_JSON_UTF8)
+					.accept(MediaType.APPLICATION_JSON)
+					.content(jsonString))
+			.andDo(print())
+			.andExpect(status().isOk());
+	}
+	
 }
