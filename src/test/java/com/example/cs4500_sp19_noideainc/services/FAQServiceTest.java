@@ -120,5 +120,16 @@ public class FAQServiceTest {
 			.andDo(print())
 			.andReturn();
 	}
+	
+	@Test
+	// test the web services for the delete the FAQs
+	public void testDeleteFAQ() throws Exception {
+		doNothing().when(fAQRepository).deleteById(3);
+		this.mockMvc
+			.perform(delete("/api/faqs/3")
+					.accept(MediaType.APPLICATION_JSON_UTF8))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+            .andDo(print());
+	}
 
 }
