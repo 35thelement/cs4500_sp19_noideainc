@@ -39,8 +39,6 @@ import com.example.cs4500_sp19_noideainc.repositories.FAQRepository;
 import com.example.cs4500_sp19_noideainc.repositories.PagedFAQRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.minidev.json.JSONObject;
-
 @RunWith(SpringRunner.class)
 @WebMvcTest(FAQService.class)
 @AutoConfigureMockMvc
