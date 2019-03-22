@@ -108,6 +108,21 @@ public class FAQServiceTest {
 		    .andExpect(jsonPath("$[*].id", containsInAnyOrder(1, 11, 12)));
 	}
 	
+	@Test
+	// test the web services for the filtering FAQs
+	public void testfilterFAQsReturnAll() throws Exception {
+		List<FrequentlyAskedQuestion> faqList = Arrays.asList(faq1, faq2, faq11, faq12);
+		Mockito.when(fAQRepository.findAllFrequentlyAskedQuestions()).thenReturn(faqList);
+		this.mockMvc
+			.perform(MockMvcRequestBuilders.get("/api/faqs/filtered"))
+		    .andDo(print())
+		    .andExpect(status().isOk())
+		    .andExpect(jsonPath("$", hasSize(4)))
+		    .andExpect(jsonPath("$[*].title", containsInAnyOrder("background check", "security check", "food check", "number of employees")))
+		    .andExpect(jsonPath("$[*].question", containsInAnyOrder("Have you passed a background check?", "How many employees does your company have?", 
+		    		"Have you passed a security check?", "Have you passed a food check?")))
+		    .andExpect(jsonPath("$[*].id", containsInAnyOrder(1, 2, 11, 12)));
+	}
 	
 	@Test
 	// test the web services for the find FAQs by faqId
