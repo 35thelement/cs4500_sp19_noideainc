@@ -4,5 +4,6 @@ CREATE TABLE `service_questions` (
   `title` varchar (255) DEFAULT NULL,
   `question` varchar(255) DEFAULT NULL,
   `question_type` varchar(255) DEFAULT NULL,
+  `choices` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
