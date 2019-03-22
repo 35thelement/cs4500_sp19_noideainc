@@ -12,7 +12,6 @@ import com.example.cs4500_sp19_noideainc.models.ServiceAnswer;
 import com.example.cs4500_sp19_noideainc.models.ServiceQuestion;
 import com.example.cs4500_sp19_noideainc.models.User;
 import com.example.cs4500_sp19_noideainc.utils.ServiceSearch;
-import com.example.cs4500_sp19_noideainc.models.QuestionType;
 
 public class ServiceSearchTest {
 
@@ -225,16 +224,16 @@ public class ServiceSearchTest {
 		// updating YARD WORK questions
 		q1.setTitle("Acres");
 		q1.setQuestion("How many acres is the property?");
-		q1.setType(QuestionType.RANGE);
+		q1.setType("RANGE");
 		q1.setId(1);
 		q2.setTitle("Availability");
 		q2.setQuestion("What days are you available");
-		q2.setType(QuestionType.MULTIPLE_CHOICE);
+		q2.setType("MULTIPLE_CHOICE");
 		q2.setChoices("weekdays, weekends, both");
 		q2.setId(2);
 		q3.setTitle("Tools");
 		q3.setQuestion("Will you provide you're own tools");
-		q3.setType(QuestionType.TRUE_FALSE);
+		q3.setType("TRUE_FALSE");
 		q3.setId(3);
 
 		// YARD WORK PROVIDERS
