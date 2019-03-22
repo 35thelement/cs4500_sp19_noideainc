@@ -70,6 +70,10 @@ public class FAQServiceTest {
 			"Are there free swags?", null);
 	private FrequentlyAskedQuestion faq10 = new FrequentlyAskedQuestion(10, "location",
 			"Where are you located?", null);
+	private FrequentlyAskedQuestion faq11 = new FrequentlyAskedQuestion(11, "security check",
+			"Have you passed a security check?", null);
+	private FrequentlyAskedQuestion faq12 = new FrequentlyAskedQuestion(12, "food check",
+			"Have you passed a food check?", null);
 
 	@Test
 	// test the web services for the find all FAQs
@@ -87,6 +91,23 @@ public class FAQServiceTest {
 		    		"How many employees does your company have?", "Have you passed a background check?")))
 		    .andExpect(jsonPath("$[*].id", containsInAnyOrder(1, 2, 3)));
 	}
+	
+	@Test
+	// test the web services for the filtering FAQs
+	public void testfilterFAQs() throws Exception {
+		List<FrequentlyAskedQuestion> faqList = Arrays.asList(faq1, faq11, faq12);
+		Mockito.when(fAQRepository.filterFAQs("check", "have")).thenReturn(faqList);
+		this.mockMvc
+			.perform(MockMvcRequestBuilders.get("/api/faqs/filtered/?title=check&question=have"))
+		    .andDo(print())
+		    .andExpect(status().isOk())
+		    .andExpect(jsonPath("$", hasSize(3)))
+		    .andExpect(jsonPath("$[*].title", containsInAnyOrder("background check", "security check", "food check")))
+		    .andExpect(jsonPath("$[*].question", containsInAnyOrder("Have you passed a background check?",
+		    		"Have you passed a security check?", "Have you passed a food check?")))
+		    .andExpect(jsonPath("$[*].id", containsInAnyOrder(1, 11, 12)));
+	}
+	
 	
 	@Test
 	// test the web services for the find FAQs by faqId
