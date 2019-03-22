@@ -1,6 +1,4 @@
 package com.example.cs4500_sp19_noideainc.utils;
-
-import com.example.cs4500_sp19_noideainc.models.QuestionType;
 import com.example.cs4500_sp19_noideainc.models.Service;
 import com.example.cs4500_sp19_noideainc.models.ServiceAnswer;
 import com.example.cs4500_sp19_noideainc.models.ServiceQuestion;
@@ -34,20 +32,20 @@ public class ServiceSearch {
     	  for(ServiceAnswer userAnswer : u.getServiceAnswers()) {
     		  //if it does retrieve the proper answer and compare 
     		  if(userAnswer.getServiceQuestion().getId() == question.getId()) {
-    			  QuestionType type = question.getType();
+    			  String type = question.getType();
     			  switch(type) {
-    	            case RANGE:
+    	            case "RANGE":
     	              if (findRange(userAnswer.getMinRangeAnswer(), critAnswer.getMinRangeAnswer(),
     	            		  		userAnswer.getMaxRangeAnswer(), critAnswer.getMaxRangeAnswer())) {
     	                rank++;
     	              }
     	              break;
-    	            case TRUE_FALSE:
+    	            case "TRUE_FALSE":
     	              if (userAnswer.getTrueFalseAnswer() == critAnswer.getTrueFalseAnswer()) {
     	                rank++;
     	              }
     	              break;
-    	            case MULTIPLE_CHOICE:
+    	            case "MULTIPLE_CHOICE":
     	              if (userAnswer.getChoiceAnswer() == critAnswer.getChoiceAnswer()) {
     	               rank++;
     	               break;

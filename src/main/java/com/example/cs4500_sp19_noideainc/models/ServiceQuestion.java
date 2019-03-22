@@ -21,8 +21,7 @@ public class ServiceQuestion {
   private Integer id;
   private String title;
   private String question;
-  @Enumerated(EnumType.STRING)
-  private QuestionType type;
+  private String type;
   private String choices;
   @OneToMany(mappedBy="serviceQuestion")
   private List<ServiceAnswer> serviceAnswers;
@@ -46,10 +45,10 @@ public class ServiceQuestion {
   public void setQuestion(String question) {
     this.question = question;
   }
-  public QuestionType getType() {
+  public String getType() {
     return type;
   }
-  public void setType(QuestionType type) {
+  public void setType(String type) {
     this.type = type;
   }
   public String getChoices() {
