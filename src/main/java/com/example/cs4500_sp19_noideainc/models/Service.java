@@ -32,6 +32,7 @@ public class Service {
     @ManyToMany(mappedBy = "services")
     private List<ServiceCategory> serviceCategories;
     @OneToMany(mappedBy = "service")
+    @JsonIgnore
     private List<ServiceQuestion> serviceQuestions;
     
     public Service() {}
