@@ -15,4 +15,7 @@ public interface ServiceQuestionRepository
   @Query(value="SELECT entity FROM ServiceQuestion entity WHERE id=:id")
   public ServiceQuestion findServiceQuestionById(
           @Param("id") Integer id);
+  @Query(value="SELECT entity FROM ServiceQuestion entity WHERE service_id=:service_id")
+  public List<ServiceQuestion> findServiceQuestionsByServiceId(
+		  @Param("service_id") Integer service_id);
 }

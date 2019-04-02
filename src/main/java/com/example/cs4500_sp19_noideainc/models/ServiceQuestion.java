@@ -1,6 +1,7 @@
 package com.example.cs4500_sp19_noideainc.models;
 
 import com.example.cs4500_sp19_noideainc.models.ServiceAnswer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,6 +28,10 @@ public class ServiceQuestion {
   private String choices;
   @OneToMany(mappedBy="serviceQuestion")
   private List<ServiceAnswer> serviceAnswers;
+  @ManyToOne
+  @JoinColumn
+  private Service service;
+  
 
 
   public Integer getId() {
@@ -56,5 +63,11 @@ public class ServiceQuestion {
   }
   public void setChoices(String choices) {
     this.choices = choices;
+  }
+  public Service getService() {
+	  return service;
+  }
+  public void setService(Service service) {
+	  this.service = service;
   }
 }

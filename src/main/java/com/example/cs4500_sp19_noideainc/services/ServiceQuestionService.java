@@ -25,6 +25,12 @@ public class ServiceQuestionService {
     return questionRepository.findServiceQuestionById(questionId);
   }
   
+  @GetMapping("/api/service-questions/service/{serviceId}")
+  public List<ServiceQuestion> findServiceQuestionByServiceId(
+          @PathVariable("serviceId") Integer serviceId) {
+    return questionRepository.findServiceQuestionsByServiceId(serviceId);
+  }
+  
   @PostMapping("/api/service-questions")
   public ServiceQuestion createServiceQuestion(@RequestBody ServiceQuestion serviceQuestion) {
 	  return questionRepository.save(serviceQuestion);
