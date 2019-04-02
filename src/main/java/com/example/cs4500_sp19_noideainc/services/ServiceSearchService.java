@@ -60,12 +60,12 @@ public class ServiceSearchService {
 			//this is to factor in for min max answers
 			if(criteriaStringList.get(i).contains("-r")) {
 				qIDsRange.add(i);
-				String temp = criteriaStringList.get(i).substring(2, criteriaStringList.get(i).length()-1);
-				ArrayList<String> tempRangeList = new ArrayList<String>(Arrays.asList(temp.split("-")));
+				String temp = criteriaStringList.get(i).substring(2, criteriaStringList.get(i).length());
+				ArrayList<String> tempRangeList = new ArrayList<String>(Arrays.asList(temp.split("_")));
 				ArrayList<Integer> tempIntRangeList = new ArrayList<Integer>();
 				for(int j =0; j < tempRangeList.size(); j++) {
+					System.out.println(" range answers " + tempRangeList.get(j));
 					tempIntRangeList.add(Integer.parseInt(tempRangeList.get(j)));
-					System.out.println(tempRangeList.get(j));
 				}
 				critRANGE.add(tempIntRangeList);
 				System.out.println("RANGE");
@@ -96,28 +96,30 @@ public class ServiceSearchService {
             case TRUE_FALSE:
             //may want to change this to remove the question if -1
               if(crits.get(i) == -1) {
-            	  tempAnswer.setTrueFalseAnswer(false);
+            	  
+            	  //crits.remove(i);
+            	  //qIDs.remove(i);
               }
               else {
             	  tempAnswer.setTrueFalseAnswer(true);
+                  tempPred= new SearchPredicate(tempQuestion,tempAnswer);
+                  searchPreds.add(tempPred);
               }
               //adds the predicate to the list
-               tempPred= new SearchPredicate(tempQuestion,tempAnswer);
-               searchPreds.add(tempPred);
 
               break;
             case MULTIPLE_CHOICE:
             	//could cause an error
             	if(crits.get(i)== -1) {
-            		crits.remove(i);
-            		qIDs.remove(i);
+            		//crits.remove(i);
+            		//qIDs.remove(i);
             	}
             	else {
             		tempAnswer.setChoiceAnswer(crits.get(i));
+          			tempPred = new SearchPredicate(tempQuestion,tempAnswer);
+          			searchPreds.add(tempPred);
             	}
             	//adds predicate to the list
-      			tempPred = new SearchPredicate(tempQuestion,tempAnswer);
-      			searchPreds.add(tempPred);
                break;
               }
           }
