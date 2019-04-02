@@ -70,4 +70,21 @@ public class ServiceAnswer {
     public void setProvider(User provider) {
         this.provider = provider;
     }
+    
+    public String toString() {
+    	String temp = "";
+    	if(!(this.choiceAnswer == null)) {
+    		temp = temp + this.choiceAnswer.toString() + " ";
+    	}
+    	if(!(this.trueFalseAnswer == null)) {
+    		temp = temp + this.trueFalseAnswer.toString() + " ";
+    	}
+    	if(!(this.minRangeAnswer == null)) {
+    		temp = temp + this.minRangeAnswer.toString() + " ";
+    	}
+    	if(!(this.maxRangeAnswer == null)) {
+    		temp = temp + this.maxRangeAnswer.toString() + " ";
+    	}
+    	return temp;
+    }
 }

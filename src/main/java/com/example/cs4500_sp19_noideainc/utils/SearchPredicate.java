@@ -18,7 +18,7 @@ public class SearchPredicate {
    * @param question a service question.
    * @param answer a service answer.
    */
-  SearchPredicate(ServiceQuestion question, ServiceAnswer answer) {
+  public SearchPredicate(ServiceQuestion question, ServiceAnswer answer) {
     this.question = question;
     this.answer = answer;
   }
@@ -51,5 +51,9 @@ public class SearchPredicate {
    */
   public void setAnswer(ServiceAnswer answer) {
     this.answer = answer;
+  }
+  
+  public String toString() {
+	  return "Question: " + question.toString() + " Answer: " + answer.toString();
   }
 }

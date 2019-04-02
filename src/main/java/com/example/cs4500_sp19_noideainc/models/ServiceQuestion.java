@@ -55,4 +55,8 @@ public class ServiceQuestion {
   public void setChoices(String choices) {
     this.choices = choices;
   }
+  
+  public String toString() {
+	  return this.question;
+  }
 }

@@ -12,6 +12,7 @@ import com.example.cs4500_sp19_noideainc.repositories.ServiceQuestionRepository;
 @CrossOrigin(origins="*")
 public class ServiceQuestionService {
   @Autowired
+  
   ServiceQuestionRepository questionRepository;
   
   @GetMapping("/api/service-questions")
