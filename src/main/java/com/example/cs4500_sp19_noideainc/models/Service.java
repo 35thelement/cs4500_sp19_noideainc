@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,6 +31,8 @@ public class Service {
     private List<User> providers;
     @ManyToMany(mappedBy = "services")
     private List<ServiceCategory> serviceCategories;
+    @OneToMany(mappedBy = "service")
+    private List<ServiceQuestion> serviceQuestions;
     
     public Service() {}
 
@@ -37,7 +40,7 @@ public class Service {
         this.id = id;
         this.title = title;
         this.setDescription(description);
-        
+      
     }
 
     public List<ServiceCategory> getServiceCategories() {
@@ -78,5 +81,13 @@ public class Service {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+		
+	public List<ServiceQuestion> getServiceQuestions() {
+		return serviceQuestions;
+	}
+	
+	public void setServiceQuestions(List<ServiceQuestion> serviceQuestions) {
+		this.serviceQuestions = serviceQuestions;
 	}
 }
