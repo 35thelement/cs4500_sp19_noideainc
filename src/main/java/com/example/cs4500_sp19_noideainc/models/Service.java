@@ -82,4 +82,12 @@ public class Service {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+		
+	public List<ServiceQuestion> getServiceQuestions() {
+		return serviceQuestions;
+	}
+	
+	public void setServiceQuestions(List<ServiceQuestion> serviceQuestions) {
+		this.serviceQuestions = serviceQuestions;
+	}
 }

@@ -26,7 +26,7 @@ public class ServiceQuestionService {
   }
   
   @GetMapping("/api/service-questions/service/{serviceId}")
-  public List<ServiceQuestion> findServiceQuestionByServiceId(
+  public List<ServiceQuestion> findServiceQuestionsByServiceId(
           @PathVariable("serviceId") Integer serviceId) {
     return questionRepository.findServiceQuestionsByServiceId(serviceId);
   }
