@@ -15,6 +15,7 @@ public class ServiceSearch {
   public static List<User> searchForProviders(Service service, SearchCriteria criteria) {
 
     List<User> users = service.getProviders();
+    
     List<SearchPredicate> preds = criteria.getCriteria();
     ArrayList<UserToInt> resutltsToInt= new ArrayList<UserToInt>();
     ArrayList<User> result = new ArrayList<User>();
@@ -31,6 +32,9 @@ public class ServiceSearch {
     	  // goes through each user answer to see if it matches the question
     	  for(ServiceAnswer userAnswer : u.getServiceAnswers()) {
     		  //if it does retrieve the proper answer and compare 
+    		  System.out.println(userAnswer.toString());
+    		  System.out.println(userAnswer.getId());
+    		  System.out.println(question.getId());
     		  if(userAnswer.getServiceQuestion().getId() == question.getId()) {
     			  String type = question.getType();
     			  switch(type) {

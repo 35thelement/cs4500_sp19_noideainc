@@ -1,3 +1,4 @@
+
 package com.example.cs4500_sp19_noideainc.utils;
 
 import java.util.List;
@@ -13,6 +14,15 @@ public class SearchCriteria {
 	}
 	public void setCriteria(List<SearchPredicate> criteria) {
 		this.criteria = criteria;
+	}
+	
+	public String toString() {
+		String temp = "";
+		for(int i =0; i < criteria.size(); i++) {
+			temp = temp + " " + Integer.toString(i) + " " +  criteria.get(i).toString() + "\n";
+		}
+		return temp;
+		
 	}
 
 }
