@@ -20,6 +20,7 @@ public class ServiceCategory {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     private String title;
+    private Integer score;
     @ManyToMany
     @JsonIgnore
     @JoinTable(
@@ -55,4 +56,12 @@ public class ServiceCategory {
     public void setServices(List<Service> services) {
         this.services = services;
     }
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
 }
