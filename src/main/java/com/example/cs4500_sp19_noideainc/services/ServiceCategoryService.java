@@ -54,6 +54,16 @@ public class ServiceCategoryService {
         serviceCategory.setServices(serviceUpdates.getServices());
         return serviceCategoryRepository.save(serviceCategory);
     }
+    
+    // update service category score
+    @PutMapping("/api/categories/score/{serviceCategoryId}")
+    public ServiceCategory updateServiceCategoryScore(
+            @PathVariable("serviceCategoryId") Integer id,
+            @RequestBody ServiceCategory serviceUpdates) {
+        ServiceCategory serviceCategory = serviceCategoryRepository.findServiceCategoryById(id);
+        serviceCategory.setScore(serviceUpdates.getScore());
+        return serviceCategoryRepository.save(serviceCategory);
+    }
 
     @DeleteMapping("/api/categories/{serviceCategoryId}")
     public void deleteServiceCategory(
