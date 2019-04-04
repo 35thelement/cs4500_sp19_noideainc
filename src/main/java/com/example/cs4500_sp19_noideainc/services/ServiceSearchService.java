@@ -178,8 +178,16 @@ public class ServiceSearchService {
 
 			
 		}
+	
+	@GetMapping("/api/service-search/{serviceID}//")
+	public List<User> findAllProviders(@PathVariable("serviceID") Integer serviceID) {
+		return serviceRepository.findServiceById(serviceID).getProviders();
 		
+	}
+		
+	
 		
 		
 		
 	}
+

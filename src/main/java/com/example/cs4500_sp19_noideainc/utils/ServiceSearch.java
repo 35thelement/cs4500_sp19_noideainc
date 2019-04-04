@@ -19,6 +19,7 @@ public class ServiceSearch {
     List<SearchPredicate> preds = criteria.getCriteria();
     ArrayList<UserToInt> resutltsToInt= new ArrayList<UserToInt>();
     ArrayList<User> result = new ArrayList<User>();
+    System.out.println("Amount of the users for this service " + users.size());
 
     for(User u : users) {
       //retrieves user answer and initializes rank to 0
@@ -61,7 +62,7 @@ public class ServiceSearch {
       //once all the questions have been checked the user and rank are added
       //if there are no matching criteria the user is not added
       UserToInt addToList = new UserToInt(u, rank);
-      if(addToList.getRank() > 0 ) {
+      if(addToList.getRank() > -1 ) {
     	  resutltsToInt.add(addToList);
       }
     }
