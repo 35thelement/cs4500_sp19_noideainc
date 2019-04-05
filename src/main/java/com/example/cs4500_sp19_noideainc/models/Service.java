@@ -22,6 +22,7 @@ public class Service {
     private Integer id;
     private String title;
     private String description;
+    private Integer score;
     @ManyToMany
     @JsonIgnore
     @JoinTable(
@@ -90,5 +91,13 @@ public class Service {
 	
 	public void setServiceQuestions(List<ServiceQuestion> serviceQuestions) {
 		this.serviceQuestions = serviceQuestions;
+	}
+	
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
 	}
 }
