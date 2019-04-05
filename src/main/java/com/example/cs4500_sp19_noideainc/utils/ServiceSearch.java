@@ -34,16 +34,21 @@ public class ServiceSearch {
     	  for(ServiceAnswer userAnswer : u.getServiceAnswers()) {
     		  //if it does retrieve the proper answer and compare 
     		  System.out.println(userAnswer.toString());
-    		  System.out.println(userAnswer.getId());
+    		  System.out.println("USER QUESTION " + userAnswer.getServiceQuestion().getId());
     		  System.out.println(question.getId());
     		  if(userAnswer.getServiceQuestion().getId() == question.getId()) {
     			  String type = question.getType();
     			  switch(type) {
     	            case "RANGE":
+    	            	System.out.println(userAnswer.getMinRangeAnswer());
+    	            	System.out.println(critAnswer.getMinRangeAnswer());
+    	            	System.out.println(userAnswer.getMaxRangeAnswer());
+    	            	System.out.println(critAnswer.getMaxRangeAnswer());
     	              if (findRange(userAnswer.getMinRangeAnswer(), critAnswer.getMinRangeAnswer(),
     	            		  		userAnswer.getMaxRangeAnswer(), critAnswer.getMaxRangeAnswer())) {
     	                rank++;
     	              }
+    	              System.out.println("RANGEANSWER !!!!");
     	              break;
     	            case "TRUE_FALSE":
     	              if (userAnswer.getTrueFalseAnswer() == critAnswer.getTrueFalseAnswer()) {
@@ -51,6 +56,9 @@ public class ServiceSearch {
     	              }
     	              break;
     	            case "MULTIPLE_CHOICE":
+    	            	
+    	            	System.out.println("USER : " + u.getId() + " : ANSWER " + userAnswer.getChoiceAnswer() );
+    	            	System.out.println("criteria answer :" + critAnswer.getChoiceAnswer());
     	              if (userAnswer.getChoiceAnswer() == critAnswer.getChoiceAnswer()) {
     	               rank++;
     	               break;

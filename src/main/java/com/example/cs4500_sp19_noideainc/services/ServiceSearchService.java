@@ -58,7 +58,7 @@ public class ServiceSearchService {
 			//- is a flag to indicate that this is a list within the list of answers,
 			//this is to factor in for min max answers
 			if(criteriaStringList.get(i).contains("-r")) {
-				qIDsRange.add(i);
+				qIDsRange.add(Integer.parseInt(questionIDsStringList.get(i)));
 				String temp = criteriaStringList.get(i).substring(2, criteriaStringList.get(i).length());
 				ArrayList<String> tempRangeList = new ArrayList<String>(Arrays.asList(temp.split("_")));
 				ArrayList<Integer> tempIntRangeList = new ArrayList<Integer>();
@@ -125,6 +125,7 @@ public class ServiceSearchService {
           }
 		//loops through the range answers which could have a variable amount of answers
 		for(int i = 0; i < qIDsRange.size(); i++) {
+			System.out.println("QIDS :" + qIDsRange.get(i));
 			//initializes min and max
 			Integer min = null;
 			Integer max = null;
@@ -135,6 +136,7 @@ public class ServiceSearchService {
 			SearchPredicate tempPred;
 			//loops through all range answers
 			for(int j =0; j < critRANGE.get(i).size(); j++) {
+				
 				System.out.println(critRANGE.get(i).get(j));
 				//loops through all answers in range answer
 				//if -1 its not selected
@@ -159,6 +161,7 @@ public class ServiceSearchService {
 				tempAnswer.setMinRangeAnswer(min);
 				tempAnswer.setMaxRangeAnswer(max);
 				tempPred = new SearchPredicate(tempQuestion,tempAnswer);
+				System.out.println(tempPred.toString());
       			searchPreds.add(tempPred);
       			//resets all values if added
       			tempAnswer = null;
