@@ -90,4 +90,14 @@ public class ServiceService {
         service.setProviders(providers);
         return serviceRepository.save(service);
     }
+    
+    // update service score
+    @PutMapping("/api/services/score/{serviceId}")
+    public Service updateServiceScore(
+            @PathVariable("serviceId") Integer id,
+            @RequestBody Service serviceUpdates) {
+        Service service = serviceRepository.findServiceById(id);
+        service.setScore(serviceUpdates.getScore());
+        return serviceRepository.save(service);
+    }
 }
