@@ -58,12 +58,16 @@ public class ServiceSearchService {
 			//- is a flag to indicate that this is a list within the list of answers,
 			//this is to factor in for min max answers
 			if(criteriaStringList.get(i).contains("-r")) {
-				qIDsRange.add(Integer.parseInt(questionIDsStringList.get(i)));
 				String temp = criteriaStringList.get(i).substring(2, criteriaStringList.get(i).length());
+				if(temp.length() == 0) {
+					continue;
+				}
+				qIDsRange.add(Integer.parseInt(questionIDsStringList.get(i)));
 				ArrayList<String> tempRangeList = new ArrayList<String>(Arrays.asList(temp.split("_")));
 				ArrayList<Integer> tempIntRangeList = new ArrayList<Integer>();
 				for(int j =0; j < tempRangeList.size(); j++) {
 					System.out.println(" range answers " + tempRangeList.get(j));
+					
 					tempIntRangeList.add(Integer.parseInt(tempRangeList.get(j)));
 				}
 				critRANGE.add(tempIntRangeList);
