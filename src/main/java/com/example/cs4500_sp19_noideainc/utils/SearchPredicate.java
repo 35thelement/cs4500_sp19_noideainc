@@ -54,6 +54,7 @@ public class SearchPredicate {
   }
   
   public String toString() {
+	  System.out.println(question.toString());
 	  return "Question: " + question.toString() + " Answer: " + answer.toString();
   }
 }

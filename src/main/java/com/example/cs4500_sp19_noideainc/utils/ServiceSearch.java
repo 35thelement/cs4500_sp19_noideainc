@@ -19,6 +19,7 @@ public class ServiceSearch {
     List<SearchPredicate> preds = criteria.getCriteria();
     ArrayList<UserToInt> resutltsToInt= new ArrayList<UserToInt>();
     ArrayList<User> result = new ArrayList<User>();
+    System.out.println("Amount of the users for this service " + users.size());
 
     for(User u : users) {
       //retrieves user answer and initializes rank to 0
@@ -33,16 +34,21 @@ public class ServiceSearch {
     	  for(ServiceAnswer userAnswer : u.getServiceAnswers()) {
     		  //if it does retrieve the proper answer and compare 
     		  System.out.println(userAnswer.toString());
-    		  System.out.println(userAnswer.getId());
+    		  System.out.println("USER QUESTION " + userAnswer.getServiceQuestion().getId());
     		  System.out.println(question.getId());
     		  if(userAnswer.getServiceQuestion().getId() == question.getId()) {
     			  String type = question.getType();
     			  switch(type) {
     	            case "RANGE":
+    	            	System.out.println(userAnswer.getMinRangeAnswer());
+    	            	System.out.println(critAnswer.getMinRangeAnswer());
+    	            	System.out.println(userAnswer.getMaxRangeAnswer());
+    	            	System.out.println(critAnswer.getMaxRangeAnswer());
     	              if (findRange(userAnswer.getMinRangeAnswer(), critAnswer.getMinRangeAnswer(),
     	            		  		userAnswer.getMaxRangeAnswer(), critAnswer.getMaxRangeAnswer())) {
     	                rank++;
     	              }
+    	              System.out.println("RANGEANSWER !!!!");
     	              break;
     	            case "TRUE_FALSE":
     	              if (userAnswer.getTrueFalseAnswer() == critAnswer.getTrueFalseAnswer()) {
@@ -50,6 +56,9 @@ public class ServiceSearch {
     	              }
     	              break;
     	            case "MULTIPLE_CHOICE":
+    	            	
+    	            	System.out.println("USER : " + u.getId() + " : ANSWER " + userAnswer.getChoiceAnswer() );
+    	            	System.out.println("criteria answer :" + critAnswer.getChoiceAnswer());
     	              if (userAnswer.getChoiceAnswer() == critAnswer.getChoiceAnswer()) {
     	               rank++;
     	               break;
@@ -61,7 +70,7 @@ public class ServiceSearch {
       //once all the questions have been checked the user and rank are added
       //if there are no matching criteria the user is not added
       UserToInt addToList = new UserToInt(u, rank);
-      if(addToList.getRank() > 0 ) {
+      if(addToList.getRank() > -1 ) {
     	  resutltsToInt.add(addToList);
       }
     }
