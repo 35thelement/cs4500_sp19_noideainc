@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.cs4500_sp19_noideainc.models.ServiceCategory;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceCategoryRepository;
 import com.example.cs4500_sp19_noideainc.repositories.PagedServiceCategoryRepository;
+import com.example.cs4500_sp19_noideainc.models.Service;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -39,7 +40,15 @@ public class ServiceCategoryService {
             @PathVariable("serviceCategoryId") Integer id) {
         return serviceCategoryRepository.findServiceCategoryById(id);
     }
-
+    
+    @GetMapping("/api/{serviceCategoryName}")
+    public List<Service> findAllServicesByCategoryName(
+            @PathVariable("serviceCategoryName") String name) {
+    	ServiceCategory sc = serviceCategoryRepository.findAllServicseByCategoryName(name);
+    	List<Service> services = sc.getServices();	
+        return services;
+    }
+    
     @PostMapping("/api/categories")
     public ServiceCategory createServiceCategory(@RequestBody ServiceCategory serviceCategory) {
         return serviceCategoryRepository.save(serviceCategory);

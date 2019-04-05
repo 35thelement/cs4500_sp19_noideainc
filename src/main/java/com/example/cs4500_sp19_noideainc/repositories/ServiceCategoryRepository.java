@@ -14,4 +14,6 @@ public interface ServiceCategoryRepository extends CrudRepository<ServiceCategor
 	public List<ServiceCategory> findAllServiceCategories();
 	@Query(value="SELECT serviceCategory FROM ServiceCategory serviceCategory WHERE serviceCategory.id=:id")
 	public ServiceCategory findServiceCategoryById(@Param("id") Integer id);
+	@Query(value="SELECT serviceCategory FROM ServiceCategory serviceCategory WHERE serviceCategory.title=:name")
+	public ServiceCategory findAllServicseByCategoryName(@Param("name") String name);
 }
