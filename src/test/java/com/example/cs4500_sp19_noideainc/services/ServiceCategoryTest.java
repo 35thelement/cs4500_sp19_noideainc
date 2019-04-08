@@ -16,6 +16,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -36,8 +37,8 @@ public class ServiceCategoryTest {
     private MockMvc mockMvc;
     @MockBean
     private ServiceCategoryService service;
-    //@MockBean
-    //private ServiceCategoryRepository repository;
+    @MockBean
+    private ServiceCategoryRepository ServiceCategoryRepository;
     //@MockBean
     //private PagedServiceCategoryRepository pagedRepository;
 
@@ -105,5 +106,27 @@ public class ServiceCategoryTest {
         this.mockMvc
                 .perform(delete("/api/categories/1"))
                 .andExpect(status().isOk());
+    }
+    
+    // write test for updateServiceCategoryScore method in the ServiceCategoryService
+    @Test
+    public void testUpdateScoreForServiceCategory() throws Exception {
+    	ObjectMapper Mapper = new ObjectMapper();
+    	ServiceCategory updateTest = new ServiceCategory(5, "test update");
+    	updateTest.setScore(10);
+    	// change the score
+    	updateTest.setScore(11);
+    	ServiceCategory updateTestChange = new ServiceCategory(5, "test update");
+    	updateTest.setScore(11);
+    	Mockito.when(ServiceCategoryRepository.save(updateTest)).thenReturn(updateTestChange);
+    	Mockito.when(ServiceCategoryRepository.findServiceCategoryById(5)).thenReturn(updateTestChange);
+    	when(service.updateServiceCategoryScore(5, updateTest)).thenReturn(updateTestChange);
+    	this.mockMvc
+    		.perform(put("/api/categories/score/5")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(Mapper.writeValueAsString(updateTest)))
+    		.andExpect(status().isOk())
+    		.andReturn();
+    	
     }
 }
