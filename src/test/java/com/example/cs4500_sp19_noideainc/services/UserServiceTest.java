@@ -45,11 +45,11 @@ public class UserServiceTest {
 
     @Test
     public void testFindUserById() throws Exception {
-        when(userRepository.findUserById(123)).thenReturn(nate);
+        when(userRepository.findUserById(128)).thenReturn(nate);
         this.mockMvc
-                .perform(get("/api/users/123"))
+                .perform(get("/api/users/128"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(123)))
+                .andExpect(jsonPath("$.id", is(128)))
                 .andExpect(jsonPath("$.username", is("nate")))
                 .andExpect(jsonPath("$.password", is("password")))
                 .andExpect(jsonPath("$.firstName", is("Nate")))
@@ -82,14 +82,14 @@ public class UserServiceTest {
     public void testUpdateUser() throws Exception {
         ObjectMapper nateMapper = new ObjectMapper();
 
-        User theCoolerNate = new User(123, "cooler_nate", "passwd", "Nathan", "Johnson");
-        String coolJSON = "{\"id\":123,\"username\":\"cooler_nate\",\"password\":\"passwd\",\"firstName\":\"Nathan\",\"lastName\":\"Johnson\"}";
+        User theCoolerNate = new User(128, "cooler_nate", "passwd", "Nathan", "Johnson");
+        String coolJSON = "{\"id\":128,\"username\":\"cooler_nate\",\"password\":\"passwd\",\"firstName\":\"Nathan\",\"lastName\":\"Johnson\"}";
 
 
         when(userRepository.save(nate)).thenReturn(theCoolerNate);
-        when(userRepository.findUserById(123)).thenReturn(theCoolerNate);
+        when(userRepository.findUserById(128)).thenReturn(theCoolerNate);
         this.mockMvc
-                .perform(put("/api/users/123")
+                .perform(put("/api/users/128")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(coolJSON))
                 .andExpect(status().isOk());
@@ -97,9 +97,9 @@ public class UserServiceTest {
 
     @Test
     public void testDeleteUser() throws Exception {
-        doNothing().when(userRepository).deleteById(123);
+        doNothing().when(userRepository).deleteById(128);
         this.mockMvc
-                .perform(delete("/api/users/123")
+                .perform(delete("/api/users/128")
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andDo(print());
