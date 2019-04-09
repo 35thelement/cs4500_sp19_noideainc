@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users", 
+@Table(name = "users",
 uniqueConstraints=@UniqueConstraint(columnNames={"email"}))
 public class User {
     @Id
@@ -17,6 +17,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private Integer rating;
     private String email;
     @OneToMany(mappedBy = "provider")
     private List<ServiceAnswer> serviceAnswers;
@@ -110,6 +111,11 @@ public class User {
 
     public void setReviewsOfMe(List<Review> reviewsOfMe) {
         this.reviewsOfMe = reviewsOfMe;
+        int r = 0;
+        for (int i = 0; i < reviewsOfMe.size(); i++) {
+            r += reviewsOfMe.get(i).getRating();
+            r = r / reviewsOfMe.size();
+        }
     }
 
     public List<Review> getMyReviewsOfOthers() {
@@ -131,7 +137,7 @@ public class User {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
