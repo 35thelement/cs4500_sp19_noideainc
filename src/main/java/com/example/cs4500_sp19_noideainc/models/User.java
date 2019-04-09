@@ -13,19 +13,31 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private UserType userType;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
     private String email;
-    @OneToMany(mappedBy = "provider")
-    private List<ServiceAnswer> serviceAnswers;
     @OneToMany(mappedBy = "reviewer")
     private List<Review> reviewsOfMe;
     @OneToMany(mappedBy = "reviewed")
     private List<Review> myReviewsOfOthers;
     @OneToMany(mappedBy = "user")
     private List<FrequentlyAskedAnswer> frequentlyAskedAnswers;
+
+    /*Provider Fields*/
+    private String businessName;
+    private Integer yearFounded;
+    private Integer numOfEmployees;
+    private Address businessAddress;
+    private String businessEmail;
+    private List<PaymentMethod> paymentMethods;
+    private String facebook;
+    private String instagram;
+    private String twitter;
+    @OneToMany(mappedBy = "provider")
+    private List<ServiceAnswer> serviceAnswers;
     @ManyToMany
     @JsonIgnore
     @JoinTable(
@@ -120,13 +132,13 @@ public class User {
         this.myReviewsOfOthers = myReviewsOfOthers;
     }
 
-  public List<ServiceAnswer> getServiceAnswers() {
-    return serviceAnswers;
-  }
+    public List<ServiceAnswer> getServiceAnswers() {
+        return serviceAnswers;
+    }
 
-  public void setServiceAnswers(List<ServiceAnswer> serviceAnswers) {
-    this.serviceAnswers = serviceAnswers;
-  }
+    public void setServiceAnswers(List<ServiceAnswer> serviceAnswers) {
+        this.serviceAnswers = serviceAnswers;
+    }
 
 	public String getEmail() {
 		return email;
@@ -135,4 +147,84 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public Integer getYearFounded() {
+        return yearFounded;
+    }
+
+    public void setYearFounded(Integer yearFounded) {
+        this.yearFounded = yearFounded;
+    }
+
+    public Integer getNumOfEmployees() {
+        return numOfEmployees;
+    }
+
+    public void setNumOfEmployees(Integer numOfEmployees) {
+        this.numOfEmployees = numOfEmployees;
+    }
+
+    public String getBusinessEmail() {
+        return businessEmail;
+    }
+
+    public void setBusinessEmail(String businessEmail) {
+        this.businessEmail = businessEmail;
+    }
+
+    public Address getBusinessAddress() {
+        return businessAddress;
+    }
+
+    public void setBusinessAddress(Address businessAddress) {
+        this.businessAddress = businessAddress;
+    }
+
+    public List<PaymentMethod> getPaymentMethods() {
+        return paymentMethods;
+    }
+
+    public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
+        this.paymentMethods = paymentMethods;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public void setInstagram(String instagram) {
+        this.instagram = instagram;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
 }
