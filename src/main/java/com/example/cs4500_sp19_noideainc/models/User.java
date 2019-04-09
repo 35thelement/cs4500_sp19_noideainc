@@ -7,7 +7,8 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", 
+uniqueConstraints=@UniqueConstraint(columnNames={"email"}))
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +17,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private String email;
     @OneToMany(mappedBy = "provider")
     private List<ServiceAnswer> serviceAnswers;
     @OneToMany(mappedBy = "reviewer")
@@ -125,4 +127,12 @@ public class User {
   public void setServiceAnswers(List<ServiceAnswer> serviceAnswers) {
     this.serviceAnswers = serviceAnswers;
   }
+
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
