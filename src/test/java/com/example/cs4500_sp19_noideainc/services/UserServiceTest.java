@@ -80,10 +80,20 @@ public class UserServiceTest {
 
     @Test
     public void testUpdateUser() throws Exception {
-        ObjectMapper nateMapper = new ObjectMapper();
-
         User theCoolerNate = new User(128, "cooler_nate", "passwd", "Nathan", "Johnson");
-        String coolJSON = "{\"id\":128,\"username\":\"cooler_nate\",\"password\":\"passwd\",\"firstName\":\"Nathan\",\"lastName\":\"Johnson\"}";
+        theCoolerNate.setEmail("nate@gmail.com");
+        Review review = new Review(1, "title", "review", 4, theCoolerNate, theCoolerNate);
+        theCoolerNate.setReviewsOfMe(Arrays.asList(review));
+        theCoolerNate.setMyReviewsOfOthers(Arrays.asList(review));
+        String coolJSON = "{" +
+                "\"id\":128," +
+                "\"username\":\"cooler_nate\"," +
+                "\"password\":\"passwd\"," +
+                "\"firstName\":\"Nathan\"," +
+                "\"lastName\":\"Johnson\"," +
+                "\"email\":\"nate@gmail.com\"," +
+                "\"reviewsOfMe\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4}]," +
+                "\"myReviewsOfOthers\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4}]}";
 
 
         when(userRepository.save(nate)).thenReturn(theCoolerNate);

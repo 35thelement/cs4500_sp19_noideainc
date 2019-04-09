@@ -111,10 +111,12 @@ public class User {
 
     public void setReviewsOfMe(List<Review> reviewsOfMe) {
         this.reviewsOfMe = reviewsOfMe;
-        int r = 0;
-        for (int i = 0; i < reviewsOfMe.size(); i++) {
-            r += reviewsOfMe.get(i).getRating();
-            r = r / reviewsOfMe.size();
+        if (!reviewsOfMe.isEmpty()) {
+            int r = 0;
+            for (int i = 0; i < reviewsOfMe.size(); i++) {
+                r += reviewsOfMe.get(i).getRating();
+            }
+            this.rating = r / reviewsOfMe.size();
         }
     }
 
