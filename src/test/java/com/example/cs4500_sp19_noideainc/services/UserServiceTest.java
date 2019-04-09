@@ -38,7 +38,8 @@ public class UserServiceTest {
     @MockBean
     private ServiceRepository serviceRepository;
 
-    private User nate = new User(123, "nate", "password", "Nate", "Jones");
+    private User nate = new User(128, "nate", "password", "Nate", "Jones");
+    private String nateJSON = "{\"id\":128,\"username\":\"nate\",\"password\":\"password\",\"firstName\":\"Nate\",\"lastName\":\"Jones\"}";
     private User sam = new User(234, "sam", "password", "Sam", "Smith");
     private Service service = new Service(1, "landscaping", "making your yard look fancy");
 
@@ -67,14 +68,12 @@ public class UserServiceTest {
 
     @Test
     public void testCreateUser() throws Exception {
-        ObjectMapper nateMapper = new ObjectMapper();
-
 
         when(userRepository.save(nate)).thenReturn(sam);
         this.mockMvc
                 .perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(nateMapper.writeValueAsString(nate)))
+                        .content(nateJSON))
                 .andExpect(status().isOk())
                 .andReturn();
     }
@@ -84,13 +83,15 @@ public class UserServiceTest {
         ObjectMapper nateMapper = new ObjectMapper();
 
         User theCoolerNate = new User(123, "cooler_nate", "passwd", "Nathan", "Johnson");
+        String coolJSON = "{\"id\":123,\"username\":\"cooler_nate\",\"password\":\"passwd\",\"firstName\":\"Nathan\",\"lastName\":\"Johnson\"}";
+
 
         when(userRepository.save(nate)).thenReturn(theCoolerNate);
         when(userRepository.findUserById(123)).thenReturn(theCoolerNate);
         this.mockMvc
                 .perform(put("/api/users/123")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(nateMapper.writeValueAsString(nate)))
+                        .content(coolJSON))
                 .andExpect(status().isOk());
     }
 
