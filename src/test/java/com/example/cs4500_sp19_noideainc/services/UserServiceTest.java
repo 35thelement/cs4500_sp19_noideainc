@@ -80,7 +80,7 @@ public class UserServiceTest {
 
     @Test
     public void testUpdateUser() throws Exception {
-        User theCoolerNate = new User(128, "cooler_nate", "passwd", "Nathan", "Johnson");
+        User theCoolerNate = new User(128, UserType.Client, "cooler_nate", "passwd", "Nathan", "Johnson");
         theCoolerNate.setEmail("nate@gmail.com");
         Review review = new Review(1, "title", "review", 4, theCoolerNate, theCoolerNate);
         theCoolerNate.setReviewsOfMe(Arrays.asList(review));
@@ -96,7 +96,7 @@ public class UserServiceTest {
                 "\"reviewsOfMe\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4}]," +
                 "\"myReviewsOfOthers\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4}]}";
 
-        User theCoolerNate = new User(123, UserType.Client, "cooler_nate", "passwd", "Nathan", "Johnson");
+        //User theCoolerNate = new User(123, UserType.Client, "cooler_nate", "passwd", "Nathan", "Johnson");
 
         when(userRepository.save(nate)).thenReturn(theCoolerNate);
         when(userRepository.findUserById(128)).thenReturn(theCoolerNate);
