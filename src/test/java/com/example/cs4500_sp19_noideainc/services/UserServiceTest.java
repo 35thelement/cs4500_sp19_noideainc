@@ -38,8 +38,8 @@ public class UserServiceTest {
     @MockBean
     private ServiceRepository serviceRepository;
 
-    private User nate = new User(123, "nate", "password", "Nate", "Jones");
-    private User sam = new User(234, "sam", "password", "Sam", "Smith");
+    private User nate = new User(123, UserType.Client, "nate", "password", "Nate", "Jones");
+    private User sam = new User(234, UserType.Client, "sam", "password", "Sam", "Smith");
     private Service service = new Service(1, "landscaping", "making your yard look fancy");
 
     @Test
@@ -83,7 +83,7 @@ public class UserServiceTest {
     public void testUpdateUser() throws Exception {
         ObjectMapper nateMapper = new ObjectMapper();
 
-        User theCoolerNate = new User(123, "cooler_nate", "passwd", "Nathan", "Johnson");
+        User theCoolerNate = new User(123, UserType.Client, "cooler_nate", "passwd", "Nathan", "Johnson");
 
         when(userRepository.save(nate)).thenReturn(theCoolerNate);
         when(userRepository.findUserById(123)).thenReturn(theCoolerNate);

@@ -59,6 +59,16 @@ public class UserService {
         user.setPassword(userUpdates.getPassword());
         user.setServices(userUpdates.getServices());
         user.setFrequentlyAskedAnswers(user.getFrequentlyAskedAnswers());
+        user.setBusinessName(userUpdates.getBusinessName());
+        user.setYearFounded(userUpdates.getYearFounded());
+        user.setNumOfEmployees(userUpdates.getNumOfEmployees());
+        user.setBusinessAddress(userUpdates.getBusinessAddress());
+        user.setBusinessEmail(userUpdates.getBusinessEmail());
+        user.setPaymentMethods(userUpdates.getPaymentMethods());
+        user.setFacebook(userUpdates.getFacebook());
+        user.setInstagram(userUpdates.getInstagram());
+        user.setTwitter(userUpdates.getTwitter());
+        user.setUserType(userUpdates.getUserType());
         return userRepository.save(user);
     }
 

@@ -7,8 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users", 
-uniqueConstraints=@UniqueConstraint(columnNames={"email"}))
+@Table(name = "users", uniqueConstraints=@UniqueConstraint(columnNames={"email"}))
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +25,14 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<FrequentlyAskedAnswer> frequentlyAskedAnswers;
 
-    /*Provider Fields*/
+    /*Provider fields*/
     private String businessName;
     private Integer yearFounded;
     private Integer numOfEmployees;
+    @OneToOne(mappedBy = "resident")
     private Address businessAddress;
     private String businessEmail;
+    @OneToMany(mappedBy = "establishment")
     private List<PaymentMethod> paymentMethods;
     private String facebook;
     private String instagram;
@@ -49,13 +50,34 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String username, String password, String firstName, String lastName) {
+    public User(Integer id, UserType userType, String username, String password, String firstName, String lastName) {
         super();
         this.id = id;
+        this.userType = userType;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public User(Integer id, UserType userType, String username, String password, String firstName,
+                String lastName, String email, String businessName, Integer yearFounded, Integer numOfEmployees,
+                String businessEmail, String facebook, String instagram, String twitter) {
+        super();
+        this.id = id;
+        this.userType = userType;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.businessName = businessName;
+        this.yearFounded = yearFounded;
+        this.numOfEmployees = numOfEmployees;
+        this.businessEmail = businessEmail;
+        this.facebook = facebook;
+        this.instagram = instagram;
+        this.twitter = twitter;
     }
 
     public List<Service> getServices() {
