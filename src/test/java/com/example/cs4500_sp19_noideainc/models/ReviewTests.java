@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class ReviewTests {
-    private User dante = new User(1, "dante", "password", "Dante", "Sparda");
-    private User vergil = new User(2, "vergil", "password", "Vergil", "Sparda");
+    private User dante = new User(1, UserType.Client, "dante", "password", "Dante", "Sparda");
+    private User vergil = new User(2, UserType.Client, "vergil", "password", "Vergil", "Sparda");
 
     private Review review = new Review();
 

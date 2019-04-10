@@ -21,7 +21,6 @@ public class Address {
     private String state;
     private String zip;
     @OneToOne
-    @PrimaryKeyJoinColumn(name="resident_id", referencedColumnName="id")
     @JsonIgnore
     private User resident;
 
