@@ -17,6 +17,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private Integer rating;
     private String email;
     @OneToMany(mappedBy = "reviewer")
     private List<Review> reviewsOfMe;
@@ -144,6 +145,13 @@ public class User {
 
     public void setReviewsOfMe(List<Review> reviewsOfMe) {
         this.reviewsOfMe = reviewsOfMe;
+        if (!reviewsOfMe.isEmpty()) {
+            int r = 0;
+            for (int i = 0; i < reviewsOfMe.size(); i++) {
+                r += reviewsOfMe.get(i).getRating();
+            }
+            this.rating = r / reviewsOfMe.size();
+        }
     }
 
     public List<Review> getMyReviewsOfOthers() {
@@ -165,7 +173,7 @@ public class User {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
