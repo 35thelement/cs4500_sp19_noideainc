@@ -13,4 +13,6 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
     public List<Address> findAllAddresses();
     @Query(value="SELECT address FROM Address address WHERE address.id=:id")
     public Address findAddressById(@Param("id") Integer id);
+    @Query(value="SELECT address FROM Address address WHERE address.resident.id=:id")
+    public Address findAddressByUserId(@Param("id") Integer id);
 }

@@ -1,0 +1,2 @@
+INSERT INTO addresses (city, state, street, zip, resident_id) VALUES ('Boston', 'MA', 'Huntington', '02115', 231);
+INSERT INTO addresses (city, state, street, zip, resident_id) VALUES ('Cambridge', 'MA', 'Harvard', '02138', 450);
