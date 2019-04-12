@@ -2,6 +2,7 @@ package com.example.cs4500_sp19_noideainc.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -16,6 +17,8 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private String email;
+    private Date birthDay;
     @OneToMany(mappedBy = "provider")
     private List<ServiceAnswer> serviceAnswers;
     @OneToMany(mappedBy = "reviewer")
@@ -59,8 +62,6 @@ public class User {
     public void setFrequentlyAskedAnswers(List<FrequentlyAskedAnswer> frequentlyAskedAnswers) {
         this.frequentlyAskedAnswers = frequentlyAskedAnswers;
     }
-
-
 
     public String getUsername() {
         return username;
@@ -124,5 +125,21 @@ public class User {
 
   public void setServiceAnswers(List<ServiceAnswer> serviceAnswers) {
     this.serviceAnswers = serviceAnswers;
+  }
+  
+  public String getEmail() {
+	  return this.email;
+  }
+  
+  public void setEmail(String email) {
+	  this.email = email;
+  }
+  
+  public Date getBirthday() {
+	  return this.birthDay;
+  }
+  
+  public void setBirthday(Date birthdate) {
+	  this.birthDay = birthdate;
   }
 }
