@@ -61,6 +61,30 @@ public class UserService {
         user.setFrequentlyAskedAnswers(user.getFrequentlyAskedAnswers());
         return userRepository.save(user);
     }
+    
+    @PutMapping("/api/user/profile/{userId}")
+	public User updateProfile(@PathVariable("userId") Integer id, @RequestBody User userUpdates) {
+    	User user = userRepository.findUserById(id);
+    	user.setUsername(userUpdates.getUsername());
+        user.setFirstName(userUpdates.getFirstName());
+        user.setLastName(userUpdates.getLastName());
+        user.setPassword(userUpdates.getPassword());
+    	user.setBirthday(userUpdates.getBirthday());
+    	
+    	return userRepository.save(user);
+//		if (data.iterator().hasNext()) {
+//			User user = data.iterator().next();
+//			user.setEmail(newUser.getEmail());
+//			user.setDateOfBirth(newUser.getDateOfBirth());
+//			user.setPhone(newUser.getPhone());
+//			user.setRole(newUser.getRole());
+//			repository.save(user);
+//			return user;
+//		}
+//		return null;
+	}
+    
+    
 
     @DeleteMapping("/api/users/{userId}")
     public void deleteUser(@PathVariable("userId") Integer id) {
