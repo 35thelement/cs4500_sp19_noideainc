@@ -38,6 +38,8 @@ public class User {
     private String facebook;
     private String instagram;
     private String twitter;
+    private int hires;
+    private boolean backgroundChecked;
     @OneToMany(mappedBy = "provider")
     private List<ServiceAnswer> serviceAnswers;
     @ManyToMany
@@ -63,7 +65,7 @@ public class User {
 
     public User(Integer id, UserType userType, String username, String password, String firstName,
                 String lastName, String email, String businessName, Integer yearFounded, Integer numOfEmployees,
-                String businessEmail, String facebook, String instagram, String twitter) {
+                String businessEmail, String facebook, String instagram, String twitter, int hires, boolean backgroundChecked) {
         super();
         this.id = id;
         this.userType = userType;
@@ -79,6 +81,8 @@ public class User {
         this.facebook = facebook;
         this.instagram = instagram;
         this.twitter = twitter;
+        this.hires = hires;
+        this.backgroundChecked = backgroundChecked;
     }
 
     public List<Service> getServices() {
@@ -257,4 +261,12 @@ public class User {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
+    public int getHires() { return this.hires; }
+
+    public void setHires(int hires) { this.hires = hires; }
+
+    public boolean getBackgroundChecked() { return this.backgroundChecked; }
+
+    public void setBackgroundChecked(boolean backgroundChecked) { this.backgroundChecked = backgroundChecked; }
 }
