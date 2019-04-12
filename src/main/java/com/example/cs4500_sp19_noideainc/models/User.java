@@ -8,25 +8,41 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints=@UniqueConstraint(columnNames={"email"}))
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private UserType userType;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
-    private String email;
     private Date birthDay;
     @OneToMany(mappedBy = "provider")
-    private List<ServiceAnswer> serviceAnswers;
+    private Integer rating;
+    private String email;
     @OneToMany(mappedBy = "reviewer")
     private List<Review> reviewsOfMe;
     @OneToMany(mappedBy = "reviewed")
     private List<Review> myReviewsOfOthers;
     @OneToMany(mappedBy = "user")
     private List<FrequentlyAskedAnswer> frequentlyAskedAnswers;
+
+    /*Provider fields*/
+    private String businessName;
+    private Integer yearFounded;
+    private Integer numOfEmployees;
+    @OneToOne(mappedBy = "resident")
+    private Address businessAddress;
+    private String businessEmail;
+    @OneToMany(mappedBy = "establishment")
+    private List<PaymentMethod> paymentMethods;
+    private String facebook;
+    private String instagram;
+    private String twitter;
+    @OneToMany(mappedBy = "provider")
+    private List<ServiceAnswer> serviceAnswers;
     @ManyToMany
     @JsonIgnore
     @JoinTable(
@@ -38,13 +54,34 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String username, String password, String firstName, String lastName) {
+    public User(Integer id, UserType userType, String username, String password, String firstName, String lastName) {
         super();
         this.id = id;
+        this.userType = userType;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public User(Integer id, UserType userType, String username, String password, String firstName,
+                String lastName, String email, String businessName, Integer yearFounded, Integer numOfEmployees,
+                String businessEmail, String facebook, String instagram, String twitter) {
+        super();
+        this.id = id;
+        this.userType = userType;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.businessName = businessName;
+        this.yearFounded = yearFounded;
+        this.numOfEmployees = numOfEmployees;
+        this.businessEmail = businessEmail;
+        this.facebook = facebook;
+        this.instagram = instagram;
+        this.twitter = twitter;
     }
 
     public List<Service> getServices() {
@@ -109,6 +146,13 @@ public class User {
 
     public void setReviewsOfMe(List<Review> reviewsOfMe) {
         this.reviewsOfMe = reviewsOfMe;
+        if (!reviewsOfMe.isEmpty()) {
+            int r = 0;
+            for (int i = 0; i < reviewsOfMe.size(); i++) {
+                r += reviewsOfMe.get(i).getRating();
+            }
+            this.rating = r / reviewsOfMe.size();
+        }
     }
 
     public List<Review> getMyReviewsOfOthers() {
@@ -119,27 +163,108 @@ public class User {
         this.myReviewsOfOthers = myReviewsOfOthers;
     }
 
-  public List<ServiceAnswer> getServiceAnswers() {
-    return serviceAnswers;
-  }
+    public List<ServiceAnswer> getServiceAnswers() {
+        return serviceAnswers;
+    }
 
-  public void setServiceAnswers(List<ServiceAnswer> serviceAnswers) {
-    this.serviceAnswers = serviceAnswers;
-  }
-  
-  public String getEmail() {
-	  return this.email;
-  }
-  
-  public void setEmail(String email) {
-	  this.email = email;
-  }
-  
-  public Date getBirthday() {
-	  return this.birthDay;
-  }
-  
-  public void setBirthday(Date birthdate) {
-	  this.birthDay = birthdate;
-  }
+    public void setServiceAnswers(List<ServiceAnswer> serviceAnswers) {
+        this.serviceAnswers = serviceAnswers;
+    }
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public Integer getYearFounded() {
+        return yearFounded;
+    }
+
+    public void setYearFounded(Integer yearFounded) {
+        this.yearFounded = yearFounded;
+    }
+
+    public Integer getNumOfEmployees() {
+        return numOfEmployees;
+    }
+
+    public void setNumOfEmployees(Integer numOfEmployees) {
+        this.numOfEmployees = numOfEmployees;
+    }
+
+    public String getBusinessEmail() {
+        return businessEmail;
+    }
+
+    public void setBusinessEmail(String businessEmail) {
+        this.businessEmail = businessEmail;
+    }
+
+    public Address getBusinessAddress() {
+        return businessAddress;
+    }
+
+    public void setBusinessAddress(Address businessAddress) {
+        this.businessAddress = businessAddress;
+    }
+
+    public List<PaymentMethod> getPaymentMethods() {
+        return paymentMethods;
+    }
+
+    public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
+        this.paymentMethods = paymentMethods;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public void setInstagram(String instagram) {
+        this.instagram = instagram;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+    
+    public Date getBirthday() {
+  	  return this.birthDay;
+    }
+    
+    public void setBirthday(Date birthdate) {
+  	  this.birthDay = birthdate;
+    }
+
 }

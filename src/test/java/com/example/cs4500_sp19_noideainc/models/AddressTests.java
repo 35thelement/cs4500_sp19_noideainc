@@ -19,7 +19,7 @@ public class AddressTests {
         address.setId(212);
         address.setStreet("35 West Street");
 
-        User steve = new User(2, "steve", "password", "Steve", "Harrison");
+        User steve = new User(2, UserType.Client, "steve", "password", "Steve", "Harrison");
         address.setResident(steve);
 
         assertEquals(212, address.getId().intValue());
