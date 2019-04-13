@@ -3,7 +3,6 @@ package com.example.cs4500_sp19_noideainc.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -19,6 +18,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private Integer rating;
     private String birthday = "";
     private String email;
     @OneToMany(mappedBy = "reviewer")
@@ -156,7 +156,7 @@ public class User {
             for (int i = 0; i < reviewsOfMe.size(); i++) {
                 r += reviewsOfMe.get(i).getRating();
             }
-//            this.rating = r / reviewsOfMe.size();
+            this.rating = r / reviewsOfMe.size();
         }
     }
 
@@ -222,8 +222,6 @@ public class User {
     
     public void setAddresses(List<Address> addresses) {
     	this.addresses = addresses;
-    	System.out.println("in set addresses:");
-    	System.out.println(this.addresses.get(0).getStreet());
     }
 
     public List<PaymentMethod> getPaymentMethods() {
@@ -275,10 +273,10 @@ public class User {
     public void setBackgroundChecked(boolean backgroundChecked) { this.backgroundChecked = backgroundChecked; }
     
 	public String getBirthday() {
-    	return this.birthday;
+		return this.birthday;
     }
       
-    public void setBirthday(String birthday) {
+	public void setBirthday(String birthday) {
     	this.birthday = birthday;
     }
 }

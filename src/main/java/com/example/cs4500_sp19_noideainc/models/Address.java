@@ -42,12 +42,7 @@ public class Address {
         return this.street;
     }
     public void setStreet(String street) {
-    	System.out.println("IN SET STREET:");
-    	System.out.println(street);
         this.street = street;
-        System.out.println("after setting street");
-        System.out.println(this.street);
-        		
     }
     public String getCity() {
         return this.city;

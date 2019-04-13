@@ -1,6 +1,5 @@
 package com.example.cs4500_sp19_noideainc.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.example.cs4500_sp19_noideainc.models.Address;
@@ -82,9 +81,8 @@ public class UserService {
         user.setBusinessName(userUpdates.getBusinessName());
         user.setYearFounded(userUpdates.getYearFounded());
         user.setNumOfEmployees(userUpdates.getNumOfEmployees());
-       // user.setBusinessAddress(userUpdates.getBusinessAddress());
         user.setAddresses(userUpdates.getAddresses());
-//        user.setBusinessEmail(userUpdates.getBusinessEmail());
+        user.setBusinessEmail(userUpdates.getBusinessEmail());
         user.setPaymentMethods(userUpdates.getPaymentMethods());
         user.setFacebook(userUpdates.getFacebook());
         user.setInstagram(userUpdates.getInstagram());
@@ -95,16 +93,11 @@ public class UserService {
     
     @PutMapping("/api/profile/{userId}")
 	public User updateProfile(@PathVariable("userId") Integer id, @RequestBody User userUpdates) {
-    	System.out.println("IN update profile");
     	User user = userRepository.findUserById(id);
         user.setFirstName(userUpdates.getFirstName());
         user.setLastName(userUpdates.getLastName());
     	user.setBirthday(userUpdates.getBirthday());
-    	System.out.println(userUpdates.getAddresses().get(0).getStreet());
     	user.setAddresses(userUpdates.getAddresses());
-
-    	System.out.println("checking address");
-    	System.out.println(user.getAddresses().get(0).getStreet());
     	
     	return userRepository.save(user);
 	}
