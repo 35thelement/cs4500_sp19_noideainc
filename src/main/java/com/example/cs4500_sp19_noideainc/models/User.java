@@ -19,7 +19,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private String birthday;
+    private String birthday = "";
     private String email;
     @OneToMany(mappedBy = "reviewer")
     private List<Review> reviewsOfMe;
@@ -65,7 +65,6 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthday = null;
     }
 
     public User(Integer id, UserType userType, String username, String password, String firstName,
@@ -88,7 +87,6 @@ public class User {
         this.twitter = twitter;
         this.hires = hires;
         this.backgroundChecked = backgroundChecked;
-        this.birthday = null;
     }
 
     public List<Service> getServices() {
