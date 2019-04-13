@@ -25,15 +25,11 @@ public class Address {
     private Integer addressType;
     //  @ManyToOne
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "resident_id", updatable = true)
+    @JoinColumn(name = "resident_id")
     @JsonIgnore
     private User resident;
 
     public Address() {
-    	this.street = "";
-    	this.city = "";
-    	this.state = "";
-    	this.zip = "";
     }
 
     public Integer getId() {
