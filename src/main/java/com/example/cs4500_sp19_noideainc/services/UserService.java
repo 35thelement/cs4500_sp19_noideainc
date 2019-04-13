@@ -1,5 +1,6 @@
 package com.example.cs4500_sp19_noideainc.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.cs4500_sp19_noideainc.models.Address;
@@ -81,8 +82,9 @@ public class UserService {
         user.setBusinessName(userUpdates.getBusinessName());
         user.setYearFounded(userUpdates.getYearFounded());
         user.setNumOfEmployees(userUpdates.getNumOfEmployees());
-        user.setBusinessAddress(userUpdates.getBusinessAddress());
-        user.setBusinessEmail(userUpdates.getBusinessEmail());
+       // user.setBusinessAddress(userUpdates.getBusinessAddress());
+        user.setAddresses(userUpdates.getAddresses());
+//        user.setBusinessEmail(userUpdates.getBusinessEmail());
         user.setPaymentMethods(userUpdates.getPaymentMethods());
         user.setFacebook(userUpdates.getFacebook());
         user.setInstagram(userUpdates.getInstagram());
@@ -91,29 +93,21 @@ public class UserService {
         return userRepository.save(user);
     }
     
-    @PutMapping("/api/user/profile/{userId}")
+    @PutMapping("/api/profile/{userId}")
 	public User updateProfile(@PathVariable("userId") Integer id, @RequestBody User userUpdates) {
+    	System.out.println("IN update profile");
     	User user = userRepository.findUserById(id);
-    	user.setUsername(userUpdates.getUsername());
         user.setFirstName(userUpdates.getFirstName());
         user.setLastName(userUpdates.getLastName());
-        user.setPassword(userUpdates.getPassword());
     	user.setBirthday(userUpdates.getBirthday());
+    	System.out.println(userUpdates.getAddresses().get(0).getStreet());
+    	user.setAddresses(userUpdates.getAddresses());
+
+    	System.out.println("checking address");
+    	System.out.println(user.getAddresses().get(0).getStreet());
     	
     	return userRepository.save(user);
-//		if (data.iterator().hasNext()) {
-//			User user = data.iterator().next();
-//			user.setEmail(newUser.getEmail());
-//			user.setDateOfBirth(newUser.getDateOfBirth());
-//			user.setPhone(newUser.getPhone());
-//			user.setRole(newUser.getRole());
-//			repository.save(user);
-//			return user;
-//		}
-//		return null;
 	}
-    
-    
 
     @DeleteMapping("/api/users/{userId}")
     public void deleteUser(@PathVariable("userId") Integer id) {
