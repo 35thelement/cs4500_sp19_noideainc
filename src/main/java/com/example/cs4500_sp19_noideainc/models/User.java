@@ -2,6 +2,7 @@ package com.example.cs4500_sp19_noideainc.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +19,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private Date birthDay;
-    @OneToMany(mappedBy = "provider")
-    private Integer rating;
+    private String birthday;
     private String email;
     @OneToMany(mappedBy = "reviewer")
     private List<Review> reviewsOfMe;
@@ -33,8 +32,10 @@ public class User {
     private String businessName;
     private Integer yearFounded;
     private Integer numOfEmployees;
-    @OneToOne(mappedBy = "resident")
-    private Address businessAddress;
+//    @OneToMany(mappedBy = "resident")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "resident_id")
+    private List<Address> addresses = new ArrayList<Address>();
     private String businessEmail;
     @OneToMany(mappedBy = "establishment")
     private List<PaymentMethod> paymentMethods;
@@ -62,6 +63,7 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.birthday = null;
     }
 
     public User(Integer id, UserType userType, String username, String password, String firstName,
@@ -82,6 +84,7 @@ public class User {
         this.facebook = facebook;
         this.instagram = instagram;
         this.twitter = twitter;
+        this.birthday = null;
     }
 
     public List<Service> getServices() {
@@ -151,7 +154,7 @@ public class User {
             for (int i = 0; i < reviewsOfMe.size(); i++) {
                 r += reviewsOfMe.get(i).getRating();
             }
-            this.rating = r / reviewsOfMe.size();
+//            this.rating = r / reviewsOfMe.size();
         }
     }
 
@@ -210,13 +213,15 @@ public class User {
     public void setBusinessEmail(String businessEmail) {
         this.businessEmail = businessEmail;
     }
-
-    public Address getBusinessAddress() {
-        return businessAddress;
+    
+    public List<Address> getAddresses() {
+    	return this.addresses;
     }
-
-    public void setBusinessAddress(Address businessAddress) {
-        this.businessAddress = businessAddress;
+    
+    public void setAddresses(List<Address> addresses) {
+    	this.addresses = addresses;
+    	System.out.println("in set addresses:");
+    	System.out.println(this.addresses.get(0).getStreet());
     }
 
     public List<PaymentMethod> getPaymentMethods() {
@@ -259,12 +264,12 @@ public class User {
         this.userType = userType;
     }
     
-    public Date getBirthday() {
-  	  return this.birthDay;
+    public String getBirthday() {
+  	  return this.birthday;
     }
     
-    public void setBirthday(Date birthdate) {
-  	  this.birthDay = birthdate;
+    public void setBirthday(String birthday) {
+  	  this.birthday = birthday;
     }
 
 }
