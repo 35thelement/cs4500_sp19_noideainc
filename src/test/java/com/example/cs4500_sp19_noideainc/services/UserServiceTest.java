@@ -82,7 +82,7 @@ public class UserServiceTest {
     public void testUpdateUser() throws Exception {
         User theCoolerNate = new User(128, UserType.Client, "cooler_nate", "passwd", "Nathan", "Johnson");
         theCoolerNate.setEmail("nate@gmail.com");
-        Review review = new Review(1, "title", "review", 4, theCoolerNate, theCoolerNate);
+        Review review = new Review(1, "title", "review", 4, theCoolerNate, theCoolerNate, "Thank you", "Nate");
         theCoolerNate.setReviewsOfMe(Arrays.asList(review));
         theCoolerNate.setMyReviewsOfOthers(Arrays.asList(review));
         String coolJSON = "{" +
@@ -93,8 +93,8 @@ public class UserServiceTest {
                 "\"firstName\":\"Nathan\"," +
                 "\"lastName\":\"Johnson\"," +
                 "\"email\":\"nate@gmail.com\"," +
-                "\"reviewsOfMe\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4}]," +
-                "\"myReviewsOfOthers\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4}]}";
+                "\"reviewsOfMe\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4, \"reviewerName\": \"Nate\", \"reply\": \"Thank you\"}]," +
+                "\"myReviewsOfOthers\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4, \"reviewerName\": \"Nate\", \"reply\": \"Thank you\"}]}";
 
         //User theCoolerNate = new User(123, UserType.Client, "cooler_nate", "passwd", "Nathan", "Johnson");
 
