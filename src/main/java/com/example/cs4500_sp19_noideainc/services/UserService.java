@@ -81,7 +81,7 @@ public class UserService {
         user.setBusinessName(userUpdates.getBusinessName());
         user.setYearFounded(userUpdates.getYearFounded());
         user.setNumOfEmployees(userUpdates.getNumOfEmployees());
-        user.setBusinessAddress(userUpdates.getBusinessAddress());
+        user.setAddresses(userUpdates.getAddresses());
         user.setBusinessEmail(userUpdates.getBusinessEmail());
         user.setPaymentMethods(userUpdates.getPaymentMethods());
         user.setFacebook(userUpdates.getFacebook());
@@ -90,6 +90,17 @@ public class UserService {
         user.setUserType(userUpdates.getUserType());
         return userRepository.save(user);
     }
+    
+    @PutMapping("/api/profile/{userId}")
+	public User updateProfile(@PathVariable("userId") Integer id, @RequestBody User userUpdates) {
+    	User user = userRepository.findUserById(id);
+        user.setFirstName(userUpdates.getFirstName());
+        user.setLastName(userUpdates.getLastName());
+    	user.setBirthday(userUpdates.getBirthday());
+    	user.setAddresses(userUpdates.getAddresses());
+    	
+    	return userRepository.save(user);
+	}
 
     @DeleteMapping("/api/users/{userId}")
     public void deleteUser(@PathVariable("userId") Integer id) {

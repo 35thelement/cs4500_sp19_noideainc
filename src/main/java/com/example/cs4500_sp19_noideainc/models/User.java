@@ -2,6 +2,7 @@ package com.example.cs4500_sp19_noideainc.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class User {
     private String firstName;
     private String lastName;
     private Integer rating;
+    private String birthday = "";
     private String email;
     @OneToMany(mappedBy = "reviewer")
     private List<Review> reviewsOfMe;
@@ -30,8 +32,10 @@ public class User {
     private String businessName;
     private Integer yearFounded;
     private Integer numOfEmployees;
-    @OneToOne(mappedBy = "resident")
-    private Address businessAddress;
+//    @OneToMany(mappedBy = "resident")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "resident_id")
+    private List<Address> addresses = new ArrayList<Address>();
     private String businessEmail;
     @OneToMany(mappedBy = "establishment")
     private List<PaymentMethod> paymentMethods;
@@ -100,8 +104,6 @@ public class User {
     public void setFrequentlyAskedAnswers(List<FrequentlyAskedAnswer> frequentlyAskedAnswers) {
         this.frequentlyAskedAnswers = frequentlyAskedAnswers;
     }
-
-
 
     public String getUsername() {
         return username;
@@ -213,13 +215,13 @@ public class User {
     public void setBusinessEmail(String businessEmail) {
         this.businessEmail = businessEmail;
     }
-
-    public Address getBusinessAddress() {
-        return businessAddress;
+    
+    public List<Address> getAddresses() {
+    	return this.addresses;
     }
-
-    public void setBusinessAddress(Address businessAddress) {
-        this.businessAddress = businessAddress;
+    
+    public void setAddresses(List<Address> addresses) {
+    	this.addresses = addresses;
     }
 
     public List<PaymentMethod> getPaymentMethods() {
@@ -269,4 +271,12 @@ public class User {
     public boolean getBackgroundChecked() { return this.backgroundChecked; }
 
     public void setBackgroundChecked(boolean backgroundChecked) { this.backgroundChecked = backgroundChecked; }
+    
+	public String getBirthday() {
+		return this.birthday;
+    }
+      
+	public void setBirthday(String birthday) {
+    	this.birthday = birthday;
+    }
 }
