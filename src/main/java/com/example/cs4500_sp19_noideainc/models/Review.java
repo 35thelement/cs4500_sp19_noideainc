@@ -19,6 +19,8 @@ public class Review {
     private String title;
     private String review;
     private Integer rating;
+    private String reply;
+    private String reviewerName;
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "reviewer_id", referencedColumnName = "id")
     @JsonIgnore
@@ -31,13 +33,15 @@ public class Review {
     public Review() {
     }
 
-    public Review(Integer id, String title, String review, Integer rating, User reviewer, User reviewed) {
+    public Review(Integer id, String title, String review, Integer rating, User reviewer, User reviewed, String reply, String reviewerName) {
         this.id = id;
         this.title = title;
         this.review = review;
         this.rating = rating;
         this.reviewer = reviewer;
         this.reviewed = reviewed;
+        this.reviewerName = reviewerName;
+        this.reply = reply;
     }
 
     public Integer getId() {
@@ -87,4 +91,12 @@ public class Review {
     public void setReviewed(User reviewed) {
         this.reviewed = reviewed;
     }
+
+    public String getReviewerName() { return this.reviewerName; }
+
+    public void setReviewerName(String reviewerName) { this.reviewerName = reviewerName; }
+
+    public String getReply() { return this.reply; }
+
+    public void setReply(String reply) { this.reply = reply; }
 }
