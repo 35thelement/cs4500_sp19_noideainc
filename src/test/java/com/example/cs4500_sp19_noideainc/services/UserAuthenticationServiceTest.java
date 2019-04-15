@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.HashMap;
 
+import com.example.cs4500_sp19_noideainc.models.UserType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,21 +34,20 @@ public class UserAuthenticationServiceTest {
 	@MockBean
 	private UserRepository userRepository;
 	
-	private User nate = new User(123, "nate", "password", "Nate", "Jones");
-    private User sam = new User(234, "sam", "password", "Sam", "Smith");
+	private User nate = new User(123, UserType.Client, "nate", "password", "Nate", "Jones");
+	private String nateJSON = "{\"id\":123,\"userType\":\"Client\",\"username\":\"nate\",\"email\":\"nate@gmail.com\",\"password\":\"password\",\"firstName\":\"Nate\",\"lastName\":\"Jones\"}";
+    private User sam = new User(234, UserType.Client, "sam", "password", "Sam", "Smith");
     
     @Test
     public void testLogin() throws Exception {
     	nate.setEmail("nate@gmail.com");
-    	ObjectMapper Mapper = new ObjectMapper();
-    	String jsonString = Mapper.writeValueAsString(nate);
         when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(nate);
         // when log in successfully, it will return the user object
         this.mockMvc
 		.perform(post("/api/login/")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaType.APPLICATION_JSON)
-				.content(jsonString))
+				.content(nateJSON))
 		.andDo(print())
 		.andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(123)))
