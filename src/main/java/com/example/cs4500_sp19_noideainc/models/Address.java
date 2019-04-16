@@ -1,11 +1,12 @@
 package com.example.cs4500_sp19_noideainc.models;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,10 +21,16 @@ public class Address {
     private String city;
     private String state;
     private String zip;
-    @OneToOne
-    @PrimaryKeyJoinColumn(name="resident_id", referencedColumnName="id")
+    // 0 for home address, 1 for business address
+    private Integer addressType;
+    //  @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "resident_id")
     @JsonIgnore
     private User resident;
+
+    public Address() {
+    }
 
     public Integer getId() {
         return id;
@@ -60,5 +67,11 @@ public class Address {
     }
     public void setResident(User resident) {
         this.resident = resident;
+    }
+    public Integer getAddressType() {
+    	return this.addressType;
+    }
+    public void setAddressType(Integer addressType) {
+    	this.addressType = addressType;
     }
 }
