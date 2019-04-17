@@ -37,7 +37,7 @@ public class UserAuthenticationServiceTest {
 
 	private User nate = new User(123, UserType.Client, "nate", "password", "Nate", "Jones");
 	private String nateJSON = "{\"id\":123,\"userType\":\"Client\",\"username\":\"nate\",\"email\":\"nate@gmail.com\",\"password\":\"password\",\"firstName\":\"Nate\",\"lastName\":\"Jones\"}";
-  private User sam = new User(234, UserType.Client, "sam", "password1", "Sam", "Smith");
+	private User sam = new User(234, UserType.Client, "sam", "password1", "Sam", "Smith");
 
     
     @Test
@@ -64,14 +64,13 @@ public class UserAuthenticationServiceTest {
     public void testLoginFail1() throws Exception {
     	nate.setEmail("nate@gmail.com");
     	ObjectMapper Mapper = new ObjectMapper();
-    	String jsonString = Mapper.writeValueAsString(nate);
         when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(null);
         // when cannot find this user by email, it will return null
         this.mockMvc
 		.perform(post("/api/login/")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaType.APPLICATION_JSON)
-				.content(jsonString))
+				.content(nateJSON))
 		.andDo(print())
 		.andExpect(status().isOk());
     }
@@ -80,14 +79,13 @@ public class UserAuthenticationServiceTest {
     public void testLoginFail2() throws Exception {
     	nate.setEmail("nate@gmail.com");
     	ObjectMapper Mapper = new ObjectMapper();
-    	String jsonString = Mapper.writeValueAsString(nate);
         when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(sam);
         // when password does not match the email, it will return null
         this.mockMvc
 		.perform(post("/api/login/")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaType.APPLICATION_JSON)
-				.content(jsonString))
+				.content(nateJSON))
 		.andDo(print())
 		.andExpect(status().isOk());
     }
