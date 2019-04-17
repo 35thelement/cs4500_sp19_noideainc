@@ -34,9 +34,11 @@ public class UserAuthenticationServiceTest {
 	@MockBean
 	private UserRepository userRepository;
 	
+
 	private User nate = new User(123, UserType.Client, "nate", "password", "Nate", "Jones");
 	private String nateJSON = "{\"id\":123,\"userType\":\"Client\",\"username\":\"nate\",\"email\":\"nate@gmail.com\",\"password\":\"password\",\"firstName\":\"Nate\",\"lastName\":\"Jones\"}";
-    private User sam = new User(234, UserType.Client, "sam", "password", "Sam", "Smith");
+  private User sam = new User(234, UserType.Client, "sam", "password1", "Sam", "Smith");
+
     
     @Test
     public void testLogin() throws Exception {
@@ -56,6 +58,38 @@ public class UserAuthenticationServiceTest {
         .andExpect(jsonPath("$.email", is("nate@gmail.com")))
         .andExpect(jsonPath("$.firstName", is("Nate")))
         .andExpect(jsonPath("$.lastName", is("Jones")));
+    }
+    
+    @Test
+    public void testLoginFail1() throws Exception {
+    	nate.setEmail("nate@gmail.com");
+    	ObjectMapper Mapper = new ObjectMapper();
+    	String jsonString = Mapper.writeValueAsString(nate);
+        when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(null);
+        // when cannot find this user by email, it will return null
+        this.mockMvc
+		.perform(post("/api/login/")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(jsonString))
+		.andDo(print())
+		.andExpect(status().isOk());
+    }
+    
+    @Test
+    public void testLoginFail2() throws Exception {
+    	nate.setEmail("nate@gmail.com");
+    	ObjectMapper Mapper = new ObjectMapper();
+    	String jsonString = Mapper.writeValueAsString(nate);
+        when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(sam);
+        // when password does not match the email, it will return null
+        this.mockMvc
+		.perform(post("/api/login/")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(jsonString))
+		.andDo(print())
+		.andExpect(status().isOk());
     }
     
     @Test
@@ -83,7 +117,7 @@ public class UserAuthenticationServiceTest {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.id", is(234)))
         .andExpect(jsonPath("$.username", is("sam")))
-        .andExpect(jsonPath("$.password", is("password")))
+        .andExpect(jsonPath("$.password", is("password1")))
         .andExpect(jsonPath("$.email", is("sam@gmail.com")))
         .andExpect(jsonPath("$.firstName", is("Sam")))
         .andExpect(jsonPath("$.lastName", is("Smith")));
