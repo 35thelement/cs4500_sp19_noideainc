@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.cs4500_sp19_noideainc.models.User;
 import com.example.cs4500_sp19_noideainc.repositories.UserRepository;
+import com.example.cs4500_sp19_noideainc.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
@@ -33,6 +34,8 @@ public class UserAuthenticationServiceTest {
 	private MockMvc mockMvc;
 	@MockBean
 	private UserRepository userRepository;
+	@MockBean
+	private UserService userService;
 	
 
 	private User nate = new User(123, UserType.Client, "nate", "password", "Nate", "Jones");
