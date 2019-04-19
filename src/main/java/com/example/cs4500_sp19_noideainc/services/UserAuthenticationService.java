@@ -38,14 +38,13 @@ public class UserAuthenticationService {
 	
 
 	@PostMapping("/api/register")
-    public User register(@RequestBody User user, HttpSession session) {    	
+    public User register(@RequestBody User user, HttpSession session) throws Exception {    	
     	User findUser = userRepository.findByUserEmail(user.getEmail());
 		if (findUser == null) {
 			session.setAttribute("currentUser", user);
 			return userRepository.save(user);
 		} else {
-			throw new ResponseStatusException(
-					HttpStatus.NOT_FOUND, "Email duplicate");
+			throw new Exception("Email duplicate");
 		}
     }
   
