@@ -22,17 +22,17 @@ public class UserAuthenticationService {
     UserRepository userRepository;
 	
 	@PostMapping("/api/login")
-	public User login(@RequestBody User credentials, HttpSession session) {
+	public User login(@RequestBody User credentials, HttpSession session) throws Exception {
 		//System.out.println(session);
 		User findUser = userRepository.findByUserEmail(credentials.getEmail());
 		if (findUser == null) {
-			return null;
+			throw new Exception("cannot find the user by given email");
 		}
 		if (credentials.getPassword().equals(findUser.getPassword())) {
 			session.setAttribute("currentUser", findUser);
 			return findUser;
 		} else {
-			return null;
+			throw new Exception("password does not match the user's email");
 		}
 	}
 	
