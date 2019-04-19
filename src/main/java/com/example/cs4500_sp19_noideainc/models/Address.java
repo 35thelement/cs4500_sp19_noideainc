@@ -17,13 +17,12 @@ public class Address {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
-    private String street;
-    private String city;
-    private String state;
-    private String zip;
-    // 0 for home address, 1 for business address
-    private Integer addressType;
-    //  @ManyToOne
+    private String street = "";
+    private String city = "";
+    private String state = "";
+    private String zip = "";
+    // 0 for home address, 1 for business address. Defaults to home.
+    private Integer addressType = 0;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "resident_id")
     @JsonIgnore
