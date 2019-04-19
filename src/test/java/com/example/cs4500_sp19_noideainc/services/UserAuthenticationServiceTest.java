@@ -13,6 +13,7 @@ import java.util.HashMap;
 import com.example.cs4500_sp19_noideainc.models.UserType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.example.cs4500_sp19_noideainc.models.FrequentlyAskedQuestion;
 import com.example.cs4500_sp19_noideainc.models.User;
 import com.example.cs4500_sp19_noideainc.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +40,8 @@ public class UserAuthenticationServiceTest {
 	private User nate = new User(123, UserType.Client, "nate", "password", "Nate", "Jones");
 	private String nateJSON = "{\"id\":123,\"userType\":\"Client\",\"username\":\"nate\",\"email\":\"nate@gmail.com\",\"password\":\"password\",\"firstName\":\"Nate\",\"lastName\":\"Jones\"}";
 	private User sam = new User(234, UserType.Client, "sam", "password1", "Sam", "Smith");
+	private User lucy = new User(124, UserType.Client, "lucy", "lucy", "Lucy", "Liu");
+	private String lucyJSON = "{\"id\":124,\"userType\":\"Client\",\"username\":\"lucy\",\"email\":\"lucy@gmail.com\",\"password\":\"lucy\",\"firstName\":\"Lucy\",\"lastName\":\"Liu\"}";
 
     
     @Test
@@ -63,7 +67,6 @@ public class UserAuthenticationServiceTest {
 		@Test (expected = Exception.class)
     public void testLoginFail1() throws Exception {
     	nate.setEmail("nate@gmail.com");
-    	ObjectMapper Mapper = new ObjectMapper();
         when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(null);
         // when cannot find this user by email, it will throw error
         this.mockMvc
@@ -78,7 +81,6 @@ public class UserAuthenticationServiceTest {
 		@Test (expected = Exception.class)
     public void testLoginFail2() throws Exception {
     	nate.setEmail("nate@gmail.com");
-    	ObjectMapper Mapper = new ObjectMapper();
         when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(sam);
         // when password does not match the email, it will throw error
         this.mockMvc
@@ -120,5 +122,35 @@ public class UserAuthenticationServiceTest {
         .andExpect(jsonPath("$.firstName", is("Sam")))
         .andExpect(jsonPath("$.lastName", is("Smith")));
     }
+ 
+    
+	@Test
+	// test the user authentication service for successfully creating a new user
+	public void testRegister() throws Exception {
+		lucy.setEmail("lucy@gmail.com");
+		when(userRepository.findByUserEmail("lucy@gmail.com")).thenReturn(null);
+		Mockito.when(userRepository.save(lucy)).thenReturn(lucy);
+		this.mockMvc
+		.perform(post("/api/register/")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(lucyJSON))
+		.andDo(print())
+		.andExpect(status().isOk());
+	}
+	
+	@Test (expected = Exception.class)
+	public void testRegisterFail() throws Exception {
+		nate.setEmail("nate@gmail.com");
+		when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(nate);
+		// when the email is already existed, it will throw error
+		this.mockMvc
+		.perform(post("/api/register/")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(nateJSON))
+		.andDo(print())
+		.andExpect(status().isOk());
+}
 
 }
