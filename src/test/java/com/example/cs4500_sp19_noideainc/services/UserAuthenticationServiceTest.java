@@ -59,13 +59,13 @@ public class UserAuthenticationServiceTest {
         .andExpect(jsonPath("$.firstName", is("Nate")))
         .andExpect(jsonPath("$.lastName", is("Jones")));
     }
-    
-    @Test
+
+		@Test (expected = Exception.class)
     public void testLoginFail1() throws Exception {
     	nate.setEmail("nate@gmail.com");
     	ObjectMapper Mapper = new ObjectMapper();
         when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(null);
-        // when cannot find this user by email, it will return null
+        // when cannot find this user by email, it will throw error
         this.mockMvc
 		.perform(post("/api/login/")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -74,13 +74,13 @@ public class UserAuthenticationServiceTest {
 		.andDo(print())
 		.andExpect(status().isOk());
     }
-    
-    @Test
+
+		@Test (expected = Exception.class)
     public void testLoginFail2() throws Exception {
     	nate.setEmail("nate@gmail.com");
     	ObjectMapper Mapper = new ObjectMapper();
         when(userRepository.findByUserEmail("nate@gmail.com")).thenReturn(sam);
-        // when password does not match the email, it will return null
+        // when password does not match the email, it will throw error
         this.mockMvc
 		.perform(post("/api/login/")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
