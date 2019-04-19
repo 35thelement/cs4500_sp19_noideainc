@@ -20,6 +20,9 @@ import com.example.cs4500_sp19_noideainc.repositories.UserRepository;
 public class UserAuthenticationService {
 	@Autowired
     UserRepository userRepository;
+
+	@Autowired
+	UserService userService;
 	
 	@PostMapping("/api/login")
 	public User login(@RequestBody User credentials, HttpSession session) throws Exception {
@@ -42,7 +45,7 @@ public class UserAuthenticationService {
     	User findUser = userRepository.findByUserEmail(user.getEmail());
 		if (findUser == null) {
 			session.setAttribute("currentUser", user);
-			return userRepository.save(user);
+			return userService.createUser(user);
 		} else {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, "Email duplicate");

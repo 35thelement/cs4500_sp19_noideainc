@@ -12,13 +12,14 @@ public class PaymentMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 16)
     private AvailablePaymentMethods paymentMethod;
     @ManyToOne
     @JsonIgnore
     private User establishment;
 
     public PaymentMethod() {
-        // do nothing
     }
 
     public PaymentMethod(Integer id, AvailablePaymentMethods paymentMethod, User establishment) {

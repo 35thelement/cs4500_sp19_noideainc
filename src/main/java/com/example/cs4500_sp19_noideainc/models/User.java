@@ -13,7 +13,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private UserType userType;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 16)
+    private UserType userType = UserType.Client;
     private String username;
     private String password;
     private String firstName;
@@ -32,8 +34,7 @@ public class User {
     private String businessName;
     private Integer yearFounded;
     private Integer numOfEmployees;
-//    @OneToMany(mappedBy = "resident")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "resident_id")
     private List<Address> addresses = new ArrayList<Address>();
     private String businessEmail;

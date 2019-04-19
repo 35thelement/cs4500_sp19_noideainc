@@ -12,8 +12,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 
 import com.example.cs4500_sp19_noideainc.models.*;
+import com.example.cs4500_sp19_noideainc.repositories.AddressRepository;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceRepository;
 import com.example.cs4500_sp19_noideainc.repositories.UserRepository;
+import com.example.cs4500_sp19_noideainc.repositories.PaymentMethodRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +37,10 @@ public class UserServiceTest {
     private MockMvc mockMvc;
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private AddressRepository addressRepository;
+    @MockBean
+    private PaymentMethodRepository paymentMethodRepository;
     @MockBean
     private ServiceRepository serviceRepository;
 
