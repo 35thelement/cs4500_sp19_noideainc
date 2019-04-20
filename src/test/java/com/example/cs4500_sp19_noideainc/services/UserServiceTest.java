@@ -48,6 +48,7 @@ public class UserServiceTest {
     private String nateJSON = "{\"id\":128,\"userType\":\"Client\",\"username\":\"nate\",\"password\":\"password\",\"firstName\":\"Nate\",\"lastName\":\"Jones\"}";
     private User sam = new User(234, UserType.Client, "sam", "password", "Sam", "Smith");
     private Service service = new Service(1, "landscaping", "making your yard look fancy");
+    private User business = new User(999, UserType.Provider, "uname", "pass", "F", "L", "E", "BN", 1983, 201, "BusinessEmail", "FB", "IG", "TWTR", 48, true);
 
     @Test
     public void testFindUserById() throws Exception {
@@ -100,7 +101,11 @@ public class UserServiceTest {
                 "\"lastName\":\"Johnson\"," +
                 "\"email\":\"nate@gmail.com\"," +
                 "\"reviewsOfMe\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4, \"reviewerName\": \"Nate\", \"reply\": \"Thank you\"}]," +
-                "\"myReviewsOfOthers\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4, \"reviewerName\": \"Nate\", \"reply\": \"Thank you\"}]}";
+                "\"myReviewsOfOthers\": [{\"id\": 1, \"title\": \"title\", \"rating\": 4, \"reviewerName\": \"Nate\", \"reply\": \"Thank you\"}]," +
+                "\"hires\": 4," +
+                "\"backgroundChecked\": true," +
+                "\"paymentMethods\": []," +
+                "\"birthday\": \"9/13/1995\"}";
 
         //User theCoolerNate = new User(123, UserType.Client, "cooler_nate", "passwd", "Nathan", "Johnson");
 
