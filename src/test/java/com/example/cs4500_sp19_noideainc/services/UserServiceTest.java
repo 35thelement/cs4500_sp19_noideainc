@@ -45,11 +45,12 @@ public class UserServiceTest {
     private ServiceRepository serviceRepository;
 
     private User nate = new User(128, UserType.Client, "nate", "password", "Nate", "Jones");
+    private User alice = new User(123, UserType.Client, "alice", "alice", "Alice", "Wonderland");
     private String nateJSON = "{\"id\":128,\"userType\":\"Client\",\"username\":\"nate\",\"password\":\"password\",\"firstName\":\"Nate\",\"lastName\":\"Jones\"}";
     private User sam = new User(234, UserType.Client, "sam", "password", "Sam", "Smith");
     private Service service = new Service(1, "landscaping", "making your yard look fancy");
     private User business = new User(999, UserType.Provider, "uname", "pass", "F", "L", "E", "BN", 1983, 201, "BusinessEmail", "FB", "IG", "TWTR", 48, true);
-
+    
     @Test
     public void testFindUserById() throws Exception {
         when(userRepository.findUserById(128)).thenReturn(nate);
@@ -126,5 +127,27 @@ public class UserServiceTest {
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    public void testFindAddressByUserId() throws Exception {
+    	Address address = new Address();
+
+        address.setState("MA");
+        address.setCity("Boston");
+        address.setZip("02115");
+        address.setId(157);
+        address.setStreet("108 Huntington Ave");
+        address.setResident(alice);
+        
+        when(addressRepository.findAddressByUserId(123)).thenReturn(address);
+        this.mockMvc
+                .perform(get("/api/user_address/123"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(157)))
+                .andExpect(jsonPath("$.state", is("MA")))
+                .andExpect(jsonPath("$.city", is("Boston")))
+                .andExpect(jsonPath("$.zip", is("02115")))
+                .andExpect(jsonPath("$.street", is("108 Huntington Ave")));
     }
 }
