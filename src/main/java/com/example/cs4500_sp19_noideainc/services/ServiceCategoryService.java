@@ -1,5 +1,6 @@
 package com.example.cs4500_sp19_noideainc.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,13 @@ public class ServiceCategoryService {
     public List<Service> findAllServicesByCategoryName(
             @PathVariable("serviceCategoryName") String name) {
     	ServiceCategory sc = serviceCategoryRepository.findAllServicseByCategoryName(name);
-    	List<Service> services = sc.getServices();	
-        return services;
+    	if(sc == null) {
+    		return new ArrayList<Service>();
+    	}
+    	else {
+    		List<Service> services = sc.getServices();	
+    		return services;
+    	}
     }
     
     @PostMapping("/api/categories")
