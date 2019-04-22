@@ -22,7 +22,6 @@ public class ServiceAnswer {
     private Integer minRangeAnswer;
     private Integer choiceAnswer;
     @ManyToOne
-    @JsonIgnore
     @JoinColumn
     private ServiceQuestion serviceQuestion;
     @ManyToOne
