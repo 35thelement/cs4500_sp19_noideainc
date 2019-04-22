@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import com.example.cs4500_sp19_noideainc.models.Address;
 import com.example.cs4500_sp19_noideainc.models.PaymentMethod;
 import com.example.cs4500_sp19_noideainc.models.Service;
+import com.example.cs4500_sp19_noideainc.models.ServiceAnswer;
 import com.example.cs4500_sp19_noideainc.models.User;
 import com.example.cs4500_sp19_noideainc.repositories.AddressRepository;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceRepository;
 import com.example.cs4500_sp19_noideainc.repositories.PaymentMethodRepository;
+import com.example.cs4500_sp19_noideainc.repositories.ServiceAnswerRepository;
 import com.example.cs4500_sp19_noideainc.repositories.UserRepository;
 
 @RestController
@@ -29,6 +31,9 @@ public class UserService {
 
     @Autowired
     PaymentMethodRepository paymentMethodRepository;
+    
+    @Autowired
+    ServiceAnswerRepository serviceAnswerRepository;
 
     @GetMapping("/api/users")
     public List<User> findAllUser() {
@@ -131,6 +136,22 @@ public class UserService {
             }
             user.setPaymentMethods(newpaymentMethods);
         }
+        
+        //Updating service answers
+        ServiceAnswerService answerSvc = new ServiceAnswerService();
+        List<ServiceAnswer> serviceAnswers = user.getServiceAnswers();
+        List<ServiceAnswer> serviceAnswersUpdates = userUpdates.getServiceAnswers();
+        for (int i = 0; i < serviceAnswers.size(); i++) {
+        	ServiceAnswer serviceAnswer = serviceAnswerRepository.findServiceAnswerById(serviceAnswers.get(i).getId());
+        	ServiceAnswer serviceAnswerUpdate = serviceAnswersUpdates.get(i);
+        	
+    		serviceAnswer.setChoiceAnswer(serviceAnswerUpdate.getChoiceAnswer());
+    		serviceAnswer.setMaxRangeAnswer(serviceAnswerUpdate.getMaxRangeAnswer());
+    		serviceAnswer.setMinRangeAnswer(serviceAnswerUpdate.getMinRangeAnswer());
+    		serviceAnswer.setTrueFalseAnswer(serviceAnswerUpdate.getTrueFalseAnswer());
+    		serviceAnswerRepository.save(serviceAnswer);
+        }
+        //user.setServiceAnswers(userUpdates.getServiceAnswers());
 
         return userRepository.save(user);
     }
