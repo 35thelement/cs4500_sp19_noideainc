@@ -113,7 +113,7 @@ public class ServiceServiceTest {
     }
 
    @Test
-   public void testfindAllCategoriesForService() throws Exception {
+   public void testFindAllCategoriesForService() throws Exception {
         petService.setServiceCategories(categories);
 
         when(serviceService.findAllCategoriesForService(petService.getId())).thenReturn(categories);
