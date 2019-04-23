@@ -70,7 +70,8 @@ public class User {
 
     public User(Integer id, UserType userType, String username, String password, String firstName,
                 String lastName, String email, String businessName, Integer yearFounded, Integer numOfEmployees,
-                String businessEmail, String facebook, String instagram, String twitter, int hires, boolean backgroundChecked) {
+                String businessEmail, String facebook, String instagram, String twitter, int hires, boolean backgroundChecked,
+                String birthday, List<Address> addresses) {
         super();
         this.id = id;
         this.userType = userType;
@@ -88,6 +89,8 @@ public class User {
         this.twitter = twitter;
         this.hires = hires;
         this.backgroundChecked = backgroundChecked;
+        this.birthday = birthday;
+        this.addresses = addresses;
     }
 
     public List<Service> getServices() {
