@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -16,7 +15,6 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,7 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.example.cs4500_sp19_noideainc.models.Service;
 import com.example.cs4500_sp19_noideainc.models.ServiceCategory;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceCategoryRepository;
-import com.example.cs4500_sp19_noideainc.repositories.PagedServiceCategoryRepository;
 import com.example.cs4500_sp19_noideainc.services.ServiceCategoryService;
 
 
@@ -48,14 +45,10 @@ public class ServiceCategoryTest {
     private List<ServiceCategory> categories = Arrays.asList(tutoring, plumbing);
     
     private ServiceCategory petting = new ServiceCategory(3, "Pets");
-    private ServiceCategory care = new ServiceCategory(3, "Care");
     private List<ServiceCategory> petCategory = Arrays.asList(petting);
-    private List<ServiceCategory> careCategory = Arrays.asList(care, petting);
     private Service pet1 = new Service(1, "Dog Walking", "in charge your dog");
     private Service pet2 = new Service(2, "Pet Care", "taking care of your pets");
-    private Service care1 = new Service(3, "Hair care", "taking care of your hair");
     private List<Service> petsServices = Arrays.asList(pet1, pet2);
-    private List<Service> careServices = Arrays.asList(pet2, care1);
 
 
     @Test
