@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.example.cs4500_sp19_noideainc.models.*;
 import com.example.cs4500_sp19_noideainc.repositories.*;
@@ -35,6 +36,8 @@ public class UserServiceTest {
     @MockBean
     private UserRepository userRepository;
     @MockBean
+    private UserService userService;
+    @MockBean
     private AddressRepository addressRepository;
     @MockBean
     private PaymentMethodRepository paymentMethodRepository;
@@ -43,6 +46,7 @@ public class UserServiceTest {
     @MockBean
     private ServiceAnswerRepository serviceAnswerRepository;
 
+    private User bob = new User(456, UserType.Client, "bob", "1234", "Bob", "Wonderland");
     private User nate = new User(128, UserType.Client, "nate", "password", "Nate", "Jones");
     private User alice = new User(123, UserType.Client, "alice", "alice", "Alice", "Wonderland");
     private String nateJSON = "{\"id\":128,\"userType\":\"Client\",\"username\":\"nate\",\"password\":\"password\",\"firstName\":\"Nate\",\"lastName\":\"Jones\"}";
@@ -149,4 +153,59 @@ public class UserServiceTest {
                 .andExpect(jsonPath("$.zip", is("02115")))
                 .andExpect(jsonPath("$.street", is("108 Huntington Ave")));
     }
+    
+    @Test
+    public void testUpdateProfile() throws Exception {
+    	User newBob = new User(456, UserType.Provider, "bobby", "1234", "Bobby", "Wonder");
+    	Address homeAddress = new Address();
+    	
+    	homeAddress.setState("NY");
+    	homeAddress.setCity("New Jersey");
+    	homeAddress.setZip("02005");
+    	homeAddress.setId(167);
+    	homeAddress.setStreet("Jersey Street");
+    	homeAddress.setResident(newBob);
+    	Address businessAddress = new Address();
+    	
+    	businessAddress.setState("MA");
+    	businessAddress.setCity("Boston");
+    	businessAddress.setZip("02117");
+    	businessAddress.setId(168);
+    	businessAddress.setStreet("Washington Street");
+    	businessAddress.setResident(newBob);
+        
+    	List<Address> addresses = Arrays.asList(homeAddress, businessAddress);
+
+    	newBob.setBirthday("3/12/1996");
+    	newBob.setAddresses(addresses);
+    	
+    	String bobJSON = "{" +
+                "\"id\":456," +
+                "\"userType\":\"Provider\"," +
+                "\"username\":\"bobby\"," +
+                "\"password\":\"1234\"," +
+                "\"firstName\":\"Bobby\"," +
+                "\"lastName\":\"Wonder\"," +
+                "\"birthday\": \"3/12/1996\"}" + 
+                "\"addresses\": " + addresses.toString();
+    	
+    	when(userRepository.save(bob)).thenReturn(newBob);
+    	when(userRepository.findUserById(456)).thenReturn(newBob);
+    	this.mockMvc
+	        .perform(put("/api/profile/456")
+	        		.contentType(MediaType.APPLICATION_JSON_UTF8)
+	        		.content(bobJSON))
+	        .andExpect(status().isOk())
+	        .andDo(print())
+	        .andReturn();
+    	
+    	when(userService.findUserById(456)).thenReturn(newBob);
+        this.mockMvc
+                .perform(get("/api/users/456"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(456)))
+                .andExpect(jsonPath("$.birthday", is("3/12/1996")))
+                .andExpect(jsonPath("$.addresses", hasSize(2)));
+    }
+    
 }
