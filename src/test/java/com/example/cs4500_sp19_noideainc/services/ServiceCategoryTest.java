@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,9 +24,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.cs4500_sp19_noideainc.models.Service;
 import com.example.cs4500_sp19_noideainc.models.ServiceCategory;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceCategoryRepository;
+import com.example.cs4500_sp19_noideainc.repositories.PagedServiceCategoryRepository;
 import com.example.cs4500_sp19_noideainc.services.ServiceCategoryService;
 
 
@@ -43,12 +45,6 @@ public class ServiceCategoryTest {
     private ServiceCategory tutoring = new ServiceCategory(1, "Tutoring");
     private ServiceCategory plumbing = new ServiceCategory(2, "Plumbing");
     private List<ServiceCategory> categories = Arrays.asList(tutoring, plumbing);
-    
-    private ServiceCategory petting = new ServiceCategory(3, "Pets");
-    private List<ServiceCategory> petCategory = Arrays.asList(petting);
-    private Service pet1 = new Service(1, "Dog Walking", "in charge your dog");
-    private Service pet2 = new Service(2, "Pet Care", "taking care of your pets");
-    private List<Service> petsServices = Arrays.asList(pet1, pet2);
 
 
     @Test
@@ -110,21 +106,6 @@ public class ServiceCategoryTest {
         this.mockMvc
                 .perform(delete("/api/categories/1"))
                 .andExpect(status().isOk());
-    }
-    
-    @Test
-    public void testFindAllServicesByCategoryName() throws Exception {
-    	pet1.setServiceCategories(petCategory);
-    	pet2.setServiceCategories(petCategory);
-        when(service.findAllServicesByCategoryName("Pets")).thenReturn(petsServices);
-        this.mockMvc
-                .perform(get("/api/Pets"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[*].id", containsInAnyOrder(1, 2)))
-                .andExpect(jsonPath("$[*].title", containsInAnyOrder("Dog Walking", "Pet Care")))
-                .andExpect(jsonPath("$[*].description", containsInAnyOrder("in charge your dog", 
-                		"taking care of your pets")));
     }
 
 }
