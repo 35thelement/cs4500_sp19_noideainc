@@ -186,7 +186,7 @@ public class UserServiceTest {
                 "\"password\":\"1234\"," +
                 "\"firstName\":\"Bobby\"," +
                 "\"lastName\":\"Wonder\"," +
-                "\"birthday\": \"03/12/1996\"}" + 
+                "\"birthday\": \"3/12/1996\"}" + 
                 "\"addresses\": " + addresses.toString();
     	
     	when(userRepository.save(bob)).thenReturn(newBob);
@@ -198,6 +198,14 @@ public class UserServiceTest {
 	        .andExpect(status().isOk())
 	        .andDo(print())
 	        .andReturn();
+    	
+    	when(userService.findUserById(456)).thenReturn(newBob);
+        this.mockMvc
+                .perform(get("/api/users/456"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(456)))
+                .andExpect(jsonPath("$.birthday", is("3/12/1996")))
+                .andExpect(jsonPath("$.addresses", hasSize(2)));
     }
     
 }
