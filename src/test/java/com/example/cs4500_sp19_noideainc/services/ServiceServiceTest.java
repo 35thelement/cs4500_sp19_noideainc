@@ -13,7 +13,6 @@ import java.util.List;
 
 import com.example.cs4500_sp19_noideainc.models.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,7 @@ public class ServiceServiceTest {
     private ServiceCategory petting = new ServiceCategory(2, "Pets");
     private ServiceCategory care = new ServiceCategory(3, "Care");
     private Service petService = new Service(2, "Pet Care", "taking care of your pets");
-    private Service careService = new Service(3, "Hair care", "taking care of your hair");
-    private List<ServiceCategory> careCategory = Arrays.asList(care);
     private List<ServiceCategory> categories = Arrays.asList(petting, care);
-    private List<Service> careServices = Arrays.asList(petService, careService);
-    private List<Service> petServices = Arrays.asList(petService);
 
     @Test
     public void testFindServiceById() throws Exception {
@@ -94,26 +89,40 @@ public class ServiceServiceTest {
                 .andExpect(status().isOk());
     }
 
-	@Test
-	public void testUpdateServiceScore() throws Exception {
-		Service pet = new Service(2, "Pet Care", "taking care of your pets");
-		pet.setScore(5);
-		ObjectMapper petMapper = new ObjectMapper();
-		
-		when(serviceService.updateServiceScore(petService.getId(), pet)).thenReturn(petService);
-	    this.mockMvc
-	            .perform(put("/api/services/score/2")
-	                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-	                    .content(petMapper.writeValueAsString(pet)))
-	            .andExpect(status().isOk())
-		        .andDo(print())
-				.andReturn();
-	    
-	    when(serviceService.findServiceById(2)).thenReturn(pet);
-	    this.mockMvc
-	    		.perform(get("/api/services/2"))
-	    		.andExpect(status().isOk())
-	    		.andExpect(jsonPath("$.id", is(2)))
-	    		.andExpect(jsonPath("$.score", is(5)));
-	}
-}
+    @Test
+    public void testUpdateServiceScore() throws Exception {
+        Service pet = new Service(2, "Pet Care", "taking care of your pets");
+        pet.setScore(5);
+        ObjectMapper petMapper = new ObjectMapper();
+
+        when(serviceService.updateServiceScore(petService.getId(), pet)).thenReturn(petService);
+          this.mockMvc
+                  .perform(put("/api/services/score/2")
+                  .contentType(MediaType.APPLICATION_JSON_UTF8)
+                  .content(petMapper.writeValueAsString(pet)))
+                  .andExpect(status().isOk())
+                  .andDo(print())
+                  .andReturn();
+
+        when(serviceService.findServiceById(2)).thenReturn(pet);
+          this.mockMvc
+                  .perform(get("/api/services/2"))
+                  .andExpect(status().isOk())
+                  .andExpect(jsonPath("$.id", is(2)))
+                  .andExpect(jsonPath("$.score", is(5)));
+    }
+
+   @Test
+   public void testfindAllCategoriesForService() throws Exception {
+        petService.setServiceCategories(categories);
+
+        when(serviceService.findAllCategoriesForService(petService.getId())).thenReturn(categories);
+            this.mockMvc
+                    .perform(get("/api/services/" + petService.getId() + "/categories"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(2)))
+                    .andExpect(jsonPath("$[*].id", containsInAnyOrder(2, 3)))
+                    .andExpect(jsonPath("$[*].title", containsInAnyOrder("Pets", "Care")));
+    }
+
+  }
