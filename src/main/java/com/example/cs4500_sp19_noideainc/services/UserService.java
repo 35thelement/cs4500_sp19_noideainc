@@ -31,7 +31,7 @@ public class UserService {
 
     @Autowired
     PaymentMethodRepository paymentMethodRepository;
-    
+
     @Autowired
     ServiceAnswerRepository serviceAnswerRepository;
 
@@ -141,15 +141,17 @@ public class UserService {
         ServiceAnswerService answerSvc = new ServiceAnswerService();
         List<ServiceAnswer> serviceAnswers = user.getServiceAnswers();
         List<ServiceAnswer> serviceAnswersUpdates = userUpdates.getServiceAnswers();
-        for (int i = 0; i < serviceAnswers.size(); i++) {
-        	ServiceAnswer serviceAnswer = serviceAnswerRepository.findServiceAnswerById(serviceAnswers.get(i).getId());
-        	ServiceAnswer serviceAnswerUpdate = serviceAnswersUpdates.get(i);
-        	
-    		serviceAnswer.setChoiceAnswer(serviceAnswerUpdate.getChoiceAnswer());
-    		serviceAnswer.setMaxRangeAnswer(serviceAnswerUpdate.getMaxRangeAnswer());
-    		serviceAnswer.setMinRangeAnswer(serviceAnswerUpdate.getMinRangeAnswer());
-    		serviceAnswer.setTrueFalseAnswer(serviceAnswerUpdate.getTrueFalseAnswer());
-    		serviceAnswerRepository.save(serviceAnswer);
+        if (serviceAnswers != null) {
+            for (int i = 0; i < serviceAnswers.size(); i++) {
+                ServiceAnswer serviceAnswer = serviceAnswerRepository.findServiceAnswerById(serviceAnswers.get(i).getId());
+                ServiceAnswer serviceAnswerUpdate = serviceAnswersUpdates.get(i);
+
+                serviceAnswer.setChoiceAnswer(serviceAnswerUpdate.getChoiceAnswer());
+                serviceAnswer.setMaxRangeAnswer(serviceAnswerUpdate.getMaxRangeAnswer());
+                serviceAnswer.setMinRangeAnswer(serviceAnswerUpdate.getMinRangeAnswer());
+                serviceAnswer.setTrueFalseAnswer(serviceAnswerUpdate.getTrueFalseAnswer());
+                serviceAnswerRepository.save(serviceAnswer);
+            }
         }
         //user.setServiceAnswers(userUpdates.getServiceAnswers());
 
