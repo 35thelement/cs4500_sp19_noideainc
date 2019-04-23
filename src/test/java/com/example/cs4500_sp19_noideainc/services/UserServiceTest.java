@@ -6,15 +6,19 @@ import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.example.cs4500_sp19_noideainc.models.*;
 import com.example.cs4500_sp19_noideainc.repositories.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -25,6 +29,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
 @RunWith(SpringRunner.class)
@@ -35,8 +40,6 @@ public class UserServiceTest {
     private MockMvc mockMvc;
     @MockBean
     private UserRepository userRepository;
-    @MockBean
-    private UserService userService;
     @MockBean
     private AddressRepository addressRepository;
     @MockBean
@@ -52,7 +55,7 @@ public class UserServiceTest {
     private String nateJSON = "{\"id\":128,\"userType\":\"Client\",\"username\":\"nate\",\"password\":\"password\",\"firstName\":\"Nate\",\"lastName\":\"Jones\"}";
     private User sam = new User(234, UserType.Client, "sam", "password", "Sam", "Smith");
     private Service service = new Service(1, "landscaping", "making your yard look fancy");
-    private User business = new User(999, UserType.Provider, "uname", "pass", "F", "L", "E", "BN", 1983, 201, "BusinessEmail", "FB", "IG", "TWTR", 48, true);
+    private User business = new User(999, UserType.Provider, "uname", "pass", "F", "L", "E", "BN", 1983, 201, "BusinessEmail", "FB", "IG", "TWTR", 48, true, "1/2/1995", new ArrayList());
     
     @Test
     public void testFindUserById() throws Exception {
@@ -178,6 +181,9 @@ public class UserServiceTest {
 
     	newBob.setBirthday("3/12/1996");
     	newBob.setAddresses(addresses);
+
+    	ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    	String jsonAddress = ow.writeValueAsString(addresses);
     	
     	String bobJSON = "{" +
                 "\"id\":456," +
@@ -186,8 +192,8 @@ public class UserServiceTest {
                 "\"password\":\"1234\"," +
                 "\"firstName\":\"Bobby\"," +
                 "\"lastName\":\"Wonder\"," +
-                "\"birthday\": \"3/12/1996\"}" + 
-                "\"addresses\": " + addresses.toString();
+                "\"birthday\": \"3/12/1996\"," +
+                "\"addresses\":" + jsonAddress + "}";
     	
     	when(userRepository.save(bob)).thenReturn(newBob);
     	when(userRepository.findUserById(456)).thenReturn(newBob);
@@ -199,7 +205,7 @@ public class UserServiceTest {
 	        .andDo(print())
 	        .andReturn();
     	
-    	when(userService.findUserById(456)).thenReturn(newBob);
+    	when(userRepository.findUserById(456)).thenReturn(newBob);
         this.mockMvc
                 .perform(get("/api/users/456"))
                 .andExpect(status().isOk())
