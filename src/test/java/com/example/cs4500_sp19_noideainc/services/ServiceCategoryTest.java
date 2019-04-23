@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.example.cs4500_sp19_noideainc.models.Service;
 import com.example.cs4500_sp19_noideainc.models.ServiceCategory;
 import com.example.cs4500_sp19_noideainc.repositories.ServiceCategoryRepository;
 import com.example.cs4500_sp19_noideainc.repositories.PagedServiceCategoryRepository;
@@ -45,6 +46,16 @@ public class ServiceCategoryTest {
     private ServiceCategory tutoring = new ServiceCategory(1, "Tutoring");
     private ServiceCategory plumbing = new ServiceCategory(2, "Plumbing");
     private List<ServiceCategory> categories = Arrays.asList(tutoring, plumbing);
+    
+    private ServiceCategory petting = new ServiceCategory(3, "Pets");
+    private ServiceCategory care = new ServiceCategory(3, "Care");
+    private List<ServiceCategory> petCategory = Arrays.asList(petting);
+    private List<ServiceCategory> careCategory = Arrays.asList(care, petting);
+    private Service pet1 = new Service(1, "Dog Walking", "in charge your dog");
+    private Service pet2 = new Service(2, "Pet Care", "taking care of your pets");
+    private Service care1 = new Service(3, "Hair care", "taking care of your hair");
+    private List<Service> petsServices = Arrays.asList(pet1, pet2);
+    private List<Service> careServices = Arrays.asList(pet2, care1);
 
 
     @Test
@@ -106,6 +117,21 @@ public class ServiceCategoryTest {
         this.mockMvc
                 .perform(delete("/api/categories/1"))
                 .andExpect(status().isOk());
+    }
+    
+    @Test
+    public void testFindAllServicesByCategoryName() throws Exception {
+    	pet1.setServiceCategories(petCategory);
+    	pet2.setServiceCategories(petCategory);
+        when(service.findAllServicesByCategoryName("Pets")).thenReturn(petsServices);
+        this.mockMvc
+                .perform(get("/api/Pets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[*].id", containsInAnyOrder(1, 2)))
+                .andExpect(jsonPath("$[*].title", containsInAnyOrder("Dog Walking", "Pet Care")))
+                .andExpect(jsonPath("$[*].description", containsInAnyOrder("in charge your dog", 
+                		"taking care of your pets")));
     }
 
 }
